@@ -13,13 +13,13 @@
 	"license-docs": "CC BY 4.0",
 	"license-translations": "CC BY 4.0",
 	"license-images": "CC BY-NC 4.0",
-	"homepage": "https://github.com/dottgonzo/bootstrap-webcomponents-monorepo",
+	"homepage": "https://github.com/dottgonzo/pagination-component",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/dottgonzo/bootstrap-webcomponents-monorepo.git"
-	},
+		"url": "git+ssh://git@gitlab.com/dottgonzo/pagination-component.git"
+	  },		
 	"bugs": {
-		"url": "https://github.com/dottgonzo/bootstrap-webcomponents-monorepo/issues"
+		"url": "https://github.com/dottgonzo/pagination-component/issues"
 	},
 	"engines": {
 		"node": ">=14.0.0"
