@@ -1,9 +1,9 @@
 {
-	"name": "paginationbootstrap-component",
-	"displayName": "Svelte Boostrap Pagination WebComponent",
-	"description": "Svelte Boostrap Pagination WebComponent",
-	"version": "0.0.2",
-	"main": "dist/paginationbootstrap.js",
+	"name": "videocardbootstrap-component",
+	"displayName": "Svelte WebComponent Boilerplate",
+	"description": "Create your HTML5 Web Component with Svelte. Made your web components with this friendly boilerplate",
+	"version": "0.0.1",
+	"main": "dist/videocardbootstrap.js",
 	"publishConfig": {
 		"access": "public"
 	},
@@ -20,7 +20,15 @@
 		"start": "sirv dist",
 		"dev": "ts-node scripts/debug.ts --enable && ts-node scripts/rmdist.ts && rollup -c -w",
 		"build": "ts-node scripts/rmdist.ts && rollup -c",
-		"docs": "git submodule update --recursive && markserv ./README.md"
+		"release": "ts-node scripts/configs.ts && ts-node scripts/debug.ts --disable && npm run build && ts-node --skip-project scripts/license.ts && ttsc --declaration --emitDeclarationOnly && ts-node scripts/wordpress.ts",
+		"test": "jest app",
+		"docs": "git submodule update --recursive && markserv ./README.md",
+		"lint": "npm run lint-prettify && eslint . --cache --ext .ts,.js",
+		"lint-fix": "npm run lint-prettify && eslint . --cache --ext .ts,.js --fix",
+		"lint-prettify": "prettier --write **/*.{ts,scss,md,json}"
+	},
+	"dependencies": {
+		"moment-with-locales-es6": "^1.0.1"
 	},
 	"devDependencies": {
 		"@rollup/plugin-alias": "^3.1.2",
@@ -74,8 +82,7 @@
 	"keywords": [
 		"svelte",
 		"svelte-webcomponents",
-		"webcomponents",
-		"html5-webcomponents"
+		"webcomponents"
 	],
 	"contributors": []
 }
