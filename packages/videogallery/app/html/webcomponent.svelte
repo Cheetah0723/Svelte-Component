@@ -71,7 +71,7 @@
 			cardItems = JSON.parse(cards);
 			let cc = 0;
 			for (const c of cardItems) {
-				c._id = `${cc.toString()}`;
+				c._id = `${cc.toString() + c.title}`;
 				if (!c.time) {
 					enableDate = false;
 					console.warn("UNABLE TO ACTIVATE SEARCH FILTER FOR THIS CARDS");

@@ -32,6 +32,7 @@
 	export let dateFormat: string;
 	export let primarycolor: string;
 	export let filter: string;
+	export let headers: string;
 
 	if (!linkLabel) {
 		linkLabel = "";
@@ -51,6 +52,7 @@
 	let firstCardData: Date;
 	let lastCardData: Date;
 	let enableDate = true;
+	let tableHeaders: { label: string; name: string }[] = [];
 
 	$: {
 		if (!size) {
@@ -68,11 +70,15 @@
 		}
 
 		try {
+			if (headers) {
+				tableHeaders = JSON.parse(headers);
+			}
+
 			cardItems = JSON.parse(cards);
 			let cc = 0;
 			for (const c of cardItems) {
 				if (!c._id) {
-					c._id = `${cc.toString()}`;
+					c._id = `${cc.toString() + c.title}`;
 				}
 				if (!c.time) {
 					enableDate = false;
@@ -171,7 +177,7 @@
 </script>
 
 <svelte:head>
-	<script defer src="https://cdn.jsdelivr.net/gh/dottgonzo/webcomponent-collection@v0.0.7/dist/paginationbootstrap.js"></script>
+	<script defer src="https://unpkg.com/@htmlbricks/paginationbootstrap-component@0.0.7/release/paginationbootstrap.js"></script>
 </svelte:head>
 
 <div id="webcomponent">
@@ -230,25 +236,24 @@
 				</div>
 			{/if}
 		</div>
-		{#if cardItems && cardItems.length}
+		{#if tableHeaders && tableHeaders.length && cardItems && cardItems.length}
 			<table class="table table-responsive table-striped table-hover align-middle" style="width:100%;text-align: left;">
 				<thead>
 					<tr>
-						<th scope="col">id</th>
-						<th scope="col">title</th>
-						<th scope="col">description</th>
-						<th scope="col">time</th>
-						<th scope="col">thumbnail</th>
+						{#each tableHeaders as th (th.name)}
+							<th scope="col">{th.label}</th>
+						{/each}
 					</tr>
 				</thead>
 				<tbody>
 					{#each cardItems.slice(page * size, (page + 1) * size) as item (item._id)}
 						<tr>
-							<th scope="row">{item._id}</th>
-							<td>{item.title || ""}</td>
-							<td>{item.description || ""}</td>
-							<td>{item.time ? moment(item.time).format("DD MM YYYY") : ""}</td>
-							<td />
+							<th scope="row">{item[tableHeaders[0].name]}</th>
+							{#if tableHeaders.length > 1}
+								{#each tableHeaders.slice(1, tableHeaders.length) as td (td.name)}
+									<td>{item[td.name] || ""}</td>
+								{/each}
+							{/if}
 						</tr>
 					{/each}
 				</tbody>
