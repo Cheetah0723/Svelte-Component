@@ -20,7 +20,6 @@
 		"start": "sirv dist",
 		"dev": "ts-node scripts/debug.ts --enable && ts-node scripts/rmdist.ts && rollup -c -w",
 		"build": "ts-node scripts/rmdist.ts && rollup -c",
-		"prepublish": "PRODUCTION=true npm run build",
 		"copydest": "cp dist/paginationbootstrap.js ./release/ && cp dist/paginationbootstrap.js.map ./release/",
 		"build:release": "PRODUCTION=true npm run build && npm run copydest"
 	},
@@ -79,5 +78,6 @@
 		"webcomponents",
 		"html5-webcomponents"
 	],
-	"contributors": []
+	"contributors": [],
+	"gitHead": "5485d45d8ba3328b315deac087e83f31c8e1e97f"
 }
