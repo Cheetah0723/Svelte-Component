@@ -3,7 +3,7 @@
 	"displayName": "Svelte WebComponent Boilerplate",
 	"description": "Create your HTML5 Web Component with Svelte. Made your web components with this friendly boilerplate",
 	"version": "0.0.1",
-	"main": "dist/videocardbootstrap.js",
+	"main": "release/videocardbootstrap.js",
 	"publishConfig": {
 		"access": "public"
 	},
@@ -20,7 +20,8 @@
 		"start": "sirv dist",
 		"dev": "ts-node scripts/debug.ts --enable && ts-node scripts/rmdist.ts && rollup -c -w",
 		"build": "ts-node scripts/rmdist.ts && rollup -c",
-		"prepublish": "PRODUCTION=true npm run build"
+		"copydest": "cp dist/videocardbootstrap.js ./release/ && cp dist/videocardbootstrap.js.map ./release/",
+		"build:release": "PRODUCTION=true npm run build && npm run copydest"
 	},
 	"dependencies": {
 		"moment-with-locales-es6": "^1.0.1"
