@@ -20,7 +20,7 @@
 		"start": "sirv dist",
 		"dev": "ts-node scripts/debug.ts --enable && ts-node scripts/rmdist.ts && rollup -c -w",
 		"build": "ts-node scripts/rmdist.ts && rollup -c",
-		"docs": "git submodule update --recursive && markserv ./README.md"
+		"prepublish": "PRODUCTION=true npm run build"
 	},
 	"devDependencies": {
 		"@rollup/plugin-alias": "^3.1.2",
