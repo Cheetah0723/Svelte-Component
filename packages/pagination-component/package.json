@@ -21,7 +21,8 @@
 		"dev": "ts-node scripts/debug.ts --enable && ts-node scripts/rmdist.ts && rollup -c -w",
 		"build": "ts-node scripts/rmdist.ts && rollup -c",
 		"copydest": "cp dist/paginationbootstrap.js ./release/ && cp dist/paginationbootstrap.js.map ./release/",
-		"build:release": "PRODUCTION=true npm run build && npm run copydest"
+		"build:release": "PRODUCTION=true npm run build && npm run copydest",
+		"prepublish": "npm run build:release"
 	},
 	"devDependencies": {
 		"@rollup/plugin-alias": "^3.1.2",
