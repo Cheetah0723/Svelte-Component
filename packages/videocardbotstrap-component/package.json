@@ -2,7 +2,7 @@
 	"name": "videocardbootstrap-component",
 	"displayName": "Svelte WebComponent Boilerplate",
 	"description": "Create your HTML5 Web Component with Svelte. Made your web components with this friendly boilerplate",
-	"version": "0.0.1",
+	"version": "0.0.3",
 	"main": "release/videocardbootstrap.js",
 	"publishConfig": {
 		"access": "public"
