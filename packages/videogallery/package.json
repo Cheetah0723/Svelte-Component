@@ -1,9 +1,9 @@
 {
-	"name": "@dariocaruso/videocardbootstrap-component",
-	"displayName": "Svelte Boostrap Video Card WebComponent",
-	"description": "Svelte Boostrap Video Card WebComponent",
-	"version": "0.0.5",
-	"main": "release/videocardbootstrap.js",
+	"name": "@dariocaruso/videogallerybootstrap-component",
+	"displayName": "Svelte Boostrap Video Gallery WebComponent",
+	"description": "Svelte Boostrap Video Gallery WebComponent",
+	"version": "1.0.20210430",
+	"main": "release/videogallerycomponent.js",
 	"publishConfig": {
 		"access": "public"
 	},
@@ -20,11 +20,8 @@
 		"start": "sirv dist",
 		"dev": "ts-node scripts/debug.ts --enable && ts-node scripts/rmdist.ts && rollup -c -w",
 		"build": "ts-node scripts/rmdist.ts && rollup -c",
-		"copydest": "cp dist/videocardbootstrap.js ./release/ && cp dist/videocardbootstrap.js.map ./release/",
+		"copydest": "cp dist/videogallerycomponent.js ./release/ && cp dist/videogallerycomponent.js.map ./release/",
 		"build:release": "PRODUCTION=true npm run build && npm run copydest"
-	},
-	"dependencies": {
-		"moment-with-locales-es6": "^1.0.1"
 	},
 	"devDependencies": {
 		"@rollup/plugin-alias": "^3.1.2",
@@ -80,5 +77,8 @@
 		"svelte-webcomponents",
 		"webcomponents"
 	],
-	"contributors": []
+	"contributors": [],
+	"dependencies": {
+		"moment-with-locales-es6": "^1.0.1"
+	}
 }
