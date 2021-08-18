@@ -16,6 +16,13 @@
 
 	// import dispatch from "@app/functions/webcomponent";
 
+	interface ITableHeader {
+		label: string;
+		key: string;
+		type?: string;
+		format?: string;
+		search?: boolean;
+	}
 	interface ICard {
 		videoSrc: string;
 		title?: string;
@@ -25,23 +32,15 @@
 		_id: string;
 	}
 
-	export let cards: string;
+	export let rows: string;
 	export let size: number;
 	export let page: number;
-	export let linkLabel: string;
-	export let dateFormat: string;
 	export let primarycolor: string;
 	export let filter: string;
 	export let headers: string;
 
-	if (!linkLabel) {
-		linkLabel = "";
-	}
 	if (!primarycolor) {
 		primarycolor = null;
-	}
-	if (!dateFormat) {
-		dateFormat = "dddd DD MMMM YYYY HH:mm";
 	}
 
 	let pages = 0;
@@ -52,7 +51,7 @@
 	let firstCardData: Date;
 	let lastCardData: Date;
 	let enableDate = true;
-	let tableHeaders: { label: string; key: string; type?: string; format?: string; search?: boolean }[] = [];
+	let tableHeaders: ITableHeader[] = [];
 
 	$: {
 		if (!size) {
@@ -74,7 +73,7 @@
 				tableHeaders = JSON.parse(headers);
 			}
 
-			cardItems = JSON.parse(cards);
+			cardItems = JSON.parse(rows);
 			let cc = 0;
 			for (const c of cardItems) {
 				if (!c._id) {
@@ -149,7 +148,7 @@
 		page = el.detail.page;
 		dispatch("pagechange", {
 			page,
-			cards: getCurrentCards(),
+			rows: getCurrentCards(),
 		});
 	}
 
@@ -312,7 +311,7 @@
 			</table>
 
 			<nav style="margin-top:20px" aria-label="Page navigation example">
-				<paginationbootstrap-component on:pagechange={changePage} page={page.toString()} pages={pages.toString()} />
+				<paginationbootstrap-component on:pagechange={changePage} page={page.toString()} pages={pages.toString()} primarycolor={primarycolor || ""} />
 			</nav>
 		{/if}
 	</div>

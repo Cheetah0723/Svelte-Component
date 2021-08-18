@@ -62,7 +62,7 @@
 				},
 			];
 
-			document.getElementsByTagName("streamingtablebootstrap-webcomponent")[0].setAttribute("cards", JSON.stringify(items));
+			document.getElementsByTagName("streamingtablebootstrap-webcomponent")[0].setAttribute("rows", JSON.stringify(items));
 			document.getElementsByTagName("streamingtablebootstrap-webcomponent")[0].setAttribute("headers", JSON.stringify(headers));
 			window.addEventListener("load", () => {
 				document.getElementsByTagName("streamingtablebootstrap-webcomponent")[0].$on("pagechange", buu);
