@@ -13,7 +13,7 @@
 		"strict": false,
 		"skipLibCheck": true,
 		"allowJs": true,
-		"types": ["svelte", "jest"],
+		"types": ["svelte"],
 		"paths": {
 			"@translations/*": ["./app/translations/*"],
 			"@configs/*": ["./app/configs/*"],

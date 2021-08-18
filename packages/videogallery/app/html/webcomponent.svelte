@@ -11,7 +11,7 @@
 	 *
 	 */
 
-	import moment from "moment-with-locales-es6";
+	import moment from "moment";
 	import { createEventDispatcher } from "svelte";
 
 	// import dispatch from "@app/functions/webcomponent";
@@ -245,7 +245,7 @@
 				{/each}
 			</div>
 			<nav style="margin-top:20px" aria-label="Page navigation example">
-				<paginationbootstrap-component on:pagechange={changePage} page={page.toString()} pages={pages.toString()} />
+				<paginationbootstrap-component on:pagechange={changePage} page={page.toString()} pages={pages.toString()} primarycolor={primarycolor || ""} />
 			</nav>
 		{/if}
 	</div>

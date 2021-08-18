@@ -1,20 +1,11 @@
-interface ITableHeader {
-	label: string;
-	key: string;
-	type?: string;
-	format?: string;
-	search?: boolean;
-}
-
-export interface TableProps {
+export interface VideoGalleryProps {
 	cards: any[];
-	headers: ITableHeader[];
 	size?: number;
 	page?: number;
 	primarycolor?: string;
 }
 
-export const createTable = ({ cards, size, page, primarycolor }: TableProps) => {
+export const createVideoGallery = ({ cards, size, page, primarycolor }: VideoGalleryProps) => {
 	const script = document.createElement("script");
 	script.src = "http://localhost:5000/videogallerycomponent.js";
 	document.body.appendChild(script);

@@ -1,5 +1,5 @@
 import { Story, Meta } from "@storybook/html";
-import { createTable, TableProps } from "./Basic";
+import { createVideoGallery, VideoGalleryProps } from "./Basic";
 
 const cards = [
 	{ title: "bau", videoSrc: "https://comapi.be-on.tv/v1/public/records/61043eedb50af916a6429fdc/video", time: "2021-08-06T22:46:30.565Z" },
@@ -48,7 +48,7 @@ export default {
 	},
 } as Meta;
 
-const Template: Story<TableProps> = (args) => createTable(args);
+const Template: Story<VideoGalleryProps> = (args) => createVideoGallery(args);
 
 export const BasicTable = Template.bind({});
 BasicTable.args = {
