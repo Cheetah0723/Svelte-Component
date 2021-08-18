@@ -74,7 +74,7 @@
 				c._id = `${cc.toString() + c.title}`;
 				if (!c.time) {
 					enableDate = false;
-					console.warn("UNABLE TO ACTIVATE SEARCH FILTER FOR THIS CARDS");
+					console.warn("UNABLE TO ACTIVATE SEARCH FILTER!");
 					break;
 				}
 				c.time = moment(c.time).toDate();
