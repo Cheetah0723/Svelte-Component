@@ -50,8 +50,8 @@ export default {
 
 const Template: Story<VideoGalleryProps> = (args) => createVideoGallery(args);
 
-export const BasicTable = Template.bind({});
-BasicTable.args = {
+export const BasicVideoGallery = Template.bind({});
+BasicVideoGallery.args = {
 	cards,
 	headers,
 };
