@@ -52,7 +52,7 @@
 	let firstCardData: Date;
 	let lastCardData: Date;
 	let enableDate = true;
-	let tableHeaders: { label: string; name: string }[] = [];
+	let tableHeaders: { label: string; key: string; type?: string; format?: string; search?: boolean }[] = [];
 
 	$: {
 		if (!size) {
@@ -174,6 +174,37 @@
 
 	// 	return app();
 	// }
+
+	function getObjVal(obj, opts: { key: string; type?: string; format?: string }): string {
+		if (!opts) {
+			return "";
+		}
+		let value;
+		if (!opts.key.includes(".")) {
+			value = obj[opts.key];
+		} else {
+			let val = obj;
+
+			for (const k of opts.key.split(".")) {
+				if (!val[k]) {
+					value = undefined;
+					break;
+				}
+				val = val[k];
+				value = val;
+			}
+		}
+
+		if (!value) {
+			return "";
+		} else if (!opts.type || opts.type === "string") {
+			return value;
+		} else if (opts.type === "datetime" && opts.format) {
+			return moment(value).format(opts.format);
+		} else {
+			return "";
+		}
+	}
 </script>
 
 <svelte:head>
@@ -237,21 +268,42 @@
 			{/if}
 		</div>
 		{#if tableHeaders && tableHeaders.length && cardItems && cardItems.length}
-			<table class="table table-responsive table-striped table-hover align-middle" style="width:100%;text-align: left;">
+			<table class="table table-responsive table-striped table-hover align-middle" style="width:100%;text-align:left">
 				<thead>
 					<tr>
-						{#each tableHeaders as th (th.name)}
-							<th scope="col">{th.label}</th>
+						{#each tableHeaders as th (th.key)}
+							<th scope="col">
+								{th.label}
+							</th>
+						{/each}
+					</tr>
+					<tr>
+						{#each tableHeaders as th (th.key)}
+							<th scope="col">
+								{#if th.search}
+									<input
+										type="text"
+										style="width:auto"
+										class="form-control"
+										placeholder="..."
+										aria-label="Search"
+										aria-describedby="search"
+									/>
+								{/if}
+								{#if !th.search}
+									&nbsp;
+								{/if}
+							</th>
 						{/each}
 					</tr>
 				</thead>
 				<tbody>
 					{#each cardItems.slice(page * size, (page + 1) * size) as item (item._id)}
 						<tr>
-							<th scope="row">{item[tableHeaders[0].name]}</th>
+							<th scope="row">{getObjVal(item, tableHeaders[0])}</th>
 							{#if tableHeaders.length > 1}
-								{#each tableHeaders.slice(1, tableHeaders.length) as td (td.name)}
-									<td>{item[td.name] || ""}</td>
+								{#each tableHeaders.slice(1, tableHeaders.length) as td (td.key)}
+									<td>{getObjVal(item, td) || ""}</td>
 								{/each}
 							{/if}
 						</tr>
