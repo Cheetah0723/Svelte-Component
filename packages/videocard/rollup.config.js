@@ -13,48 +13,19 @@ import copy from "rollup-plugin-copy";
 import json from "@rollup/plugin-json";
 import alias from "@rollup/plugin-alias";
 import path from "path";
-import { spawn } from "child_process";
 
 const tsconfig = require("./tsconfig.json");
 
 const production = process.env.PRODUCTION ? true : false;
-const serverPort = process.env.PORT ? parseInt(process.env.PORT) : 5000;
-
-function serve() {
-	let server;
-
-	function toExit() {
-		if (server) {
-			server.kill(0);
-		}
-	}
-
-	return {
-		writeBundle() {
-			if (server) {
-				return;
-			}
-			server = spawn("npm", ["run", "start", "--", "--dev", "--port", serverPort], {
-				stdio: ["ignore", "inherit", "inherit"],
-				shell: true,
-			});
-
-			process.on("SIGTERM", toExit);
-			process.on("exit", toExit);
-		},
-	};
-}
 
 function tsalias() {
 	const paths = [];
 
 	for (const value in tsconfig.compilerOptions.paths) {
-		paths.push(
-			{
-				replacement: path.resolve(path.resolve(__dirname), tsconfig.compilerOptions.paths[value][0].replace("./", "").replace("/*", "")),
-				find: value.replace("./", "").replace("/*", ""),
-			}
-		);
+		paths.push({
+			replacement: path.resolve(path.resolve(__dirname), tsconfig.compilerOptions.paths[value][0].replace("./", "").replace("/*", "")),
+			find: value.replace("./", "").replace("/*", ""),
+		});
 	}
 
 	return paths;
@@ -71,8 +42,8 @@ export default {
 		json(),
 		copy({
 			targets: [
-				{ src: "public/**/*", dest: "dist" },
-				{ src: "assets/**/*", dest: "dist" }
+				// { src: "public/**/*", dest: "dist" },
+				// { src: "assets/**/*", dest: "dist" }
 			],
 		}),
 		svelte({
@@ -83,7 +54,7 @@ export default {
 			compilerOptions: {
 				// enable run-time checks when not in production
 				dev: !production,
-				customElement: true
+				customElement: true,
 			},
 		}),
 		// we'll extract any component CSS out into
@@ -100,7 +71,7 @@ export default {
 			dedupe: ["svelte"],
 		}),
 		alias({
-			entries: tsalias()
+			entries: tsalias(),
 		}),
 		commonjs(),
 		typescript({
@@ -108,11 +79,11 @@ export default {
 			inlineSources: !production,
 		}),
 		tsPlugin({
-			typescript: ttypescript
+			typescript: ttypescript,
 		}),
 		// In dev mode, call `npm run start` once
 		// the bundle has been generated
-		!production && serve(),
+		// !production && serve(),
 
 		// Watch the `public` directory and refresh the
 		// browser on changes when not in production
@@ -120,11 +91,12 @@ export default {
 
 		// If we're building for production (npm run build
 		// instead of npm run dev), minify
-		production && terser({
-			output: {
-				comments: false,
-			},
-		}),
+		production &&
+			terser({
+				output: {
+					comments: false,
+				},
+			}),
 	],
 
 	watch: {
