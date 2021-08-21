@@ -12,6 +12,7 @@ export interface TableProps {
   size?: number;
   page?: number;
   primarycolor?: string;
+  pagechange?: () => void;
 }
 
 export const createTable = ({
@@ -20,26 +21,26 @@ export const createTable = ({
   size,
   page,
   primarycolor,
+  pagechange,
 }: TableProps) => {
   const script = document.createElement("script");
   script.src =
     "http://localhost:6006/streamingtable/dist/streamingtablebootstrap.js";
 
   document.body.appendChild(script);
-
-  let html = `<streamingtablebootstrap-webcomponent rows='${JSON.stringify(
-    rows
-  )}' headers='${JSON.stringify(headers)}'`;
+  const c = document.createElement("streamingtablebootstrap-webcomponent");
+  c.setAttribute("rows", JSON.stringify(rows));
+  c.setAttribute("headers", JSON.stringify(headers));
   if (size) {
-    html += ` size='${size.toString()}'`;
+    c.setAttribute("size", size.toString());
   }
   if (page) {
-    html += ` page='${page.toString()}'`;
+    c.setAttribute("page", page.toString());
   }
   if (primarycolor) {
-    html += ` primarycolor='${primarycolor.toString()}'`;
+    c.setAttribute("primarycolor", primarycolor);
   }
-  html += "></streamingtablebootstrap-webcomponent>";
+  c.addEventListener("pagechange", pagechange);
 
-  return html;
+  return c;
 };

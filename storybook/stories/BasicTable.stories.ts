@@ -64,7 +64,10 @@ export default {
   argTypes: {
     size: { control: { type: "range", min: 1, max: rows.length + 2 } },
     page: { control: { type: "number" } },
-    primarycolor: { control: { type: "color" } },
+    primarycolor: {
+      control: { type: "color" },
+    },
+    pagechange: { action: "pagechangeEvent" },
   },
 } as Meta;
 

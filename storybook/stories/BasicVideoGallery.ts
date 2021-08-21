@@ -3,6 +3,7 @@ export interface VideoGalleryProps {
   size?: number;
   page?: number;
   primarycolor?: string;
+  pagechange?: () => void;
 }
 
 export const createVideoGallery = ({
@@ -10,25 +11,26 @@ export const createVideoGallery = ({
   size,
   page,
   primarycolor,
+  pagechange,
 }: VideoGalleryProps) => {
   const script = document.createElement("script");
   script.src =
     "http://localhost:6006/videogallery/dist/videogallerycomponent.js";
   document.body.appendChild(script);
 
-  let html = `<videogallery-bootstrap-component cards='${JSON.stringify(
-    cards
-  )}'`;
+  document.body.appendChild(script);
+  const c = document.createElement("videogallery-bootstrap-component");
+  c.setAttribute("cards", JSON.stringify(cards));
   if (size) {
-    html += ` size='${size.toString()}'`;
+    c.setAttribute("size", size.toString());
   }
   if (page) {
-    html += ` page='${page.toString()}'`;
+    c.setAttribute("page", page.toString());
   }
   if (primarycolor) {
-    html += ` primarycolor='${primarycolor.toString()}'`;
+    c.setAttribute("primarycolor", primarycolor);
   }
-  html += "></videogallery-bootstrap-component>";
+  c.addEventListener("pagechange", pagechange);
 
-  return html;
+  return c;
 };

@@ -65,6 +65,7 @@ export default {
     size: { control: { type: "range", min: 1, max: cards.length + 2 } },
     page: { control: { type: "number" } },
     primarycolor: { control: { type: "color" } },
+    pagechange: { action: "pagechangeEvent" },
   },
 } as Meta;
 
