@@ -26,9 +26,7 @@
 		}
 	}
 
-	onMount(async () => {
-		const video = component?.shadowRoot?.getElementById("videoplayer") as any;
-
+	function setHls(video) {
 		if (video && Hls.isSupported()) {
 			const hls = new Hls({});
 			hls.loadSource(mediauri);
@@ -48,12 +46,16 @@
 				video.play();
 			});
 		}
-	});
+	}
+
+	// onMount(async () => {
+	// 	setHls();
+	// });
 </script>
 
 {#if mediauri}
 	<!-- svelte-ignore a11y-media-has-caption -->
-	<video style="width: 100%;max-height:100%" id="videoplayer" />
+	<video use:setHls style="width: 100%;max-height:100%" />
 {/if}
 
 <style lang="scss">
