@@ -5,6 +5,7 @@ export default {
   title: "Components/Pagination",
   argTypes: {
     page: { control: { type: "number" } },
+    pagechange: { action: "pagechangeEvent" },
   },
 } as Meta;
 

@@ -3,6 +3,7 @@ export interface PaginationProps {
   size?: number;
   page?: number;
   primarycolor?: string;
+  pagechange?: () => void;
 }
 
 export const createPagination = ({
@@ -10,23 +11,28 @@ export const createPagination = ({
   size,
   page,
   primarycolor,
+  pagechange,
 }: PaginationProps) => {
   const script = document.createElement("script");
   script.src = "http://localhost:6006/pagination/dist/paginationbootstrap.js";
 
   document.body.appendChild(script);
 
-  let html = `<paginationbootstrap-component pages='${pages.toString()}'`;
+  const c = document.createElement("paginationbootstrap-component");
+
+  c.setAttribute("pages", pages.toString());
+
   if (size) {
-    html += ` size='${size.toString()}'`;
+    c.setAttribute("size", size.toString());
   }
   if (page) {
-    html += ` page='${page.toString()}'`;
+    c.setAttribute("page", page.toString());
   }
   if (primarycolor) {
-    html += ` primarycolor='${primarycolor.toString()}'`;
+    c.setAttribute("primarycolor", primarycolor);
   }
-  html += "></paginationbootstrap-component>";
 
-  return html;
+  c.addEventListener("pagechange", pagechange);
+
+  return c;
 };
