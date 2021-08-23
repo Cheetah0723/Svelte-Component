@@ -50,8 +50,15 @@
 	let lastDate: Date;
 	let firstCardData: Date;
 	let lastCardData: Date;
-	let enableDate = true;
 	let tableHeaders: ITableHeader[] = [];
+
+	const filters: {
+		key: string;
+		value?: string;
+		type?: "date" | "string";
+		start?: Date;
+		end?: Date;
+	}[] = [];
 
 	$: {
 		if (!size) {
@@ -63,9 +70,6 @@
 			page = 0;
 		} else {
 			page = parseInt(page as unknown as string);
-		}
-		if (!filter) {
-			filter = null;
 		}
 
 		try {
@@ -79,40 +83,8 @@
 				if (!c._id) {
 					c._id = `${cc.toString() + c.title}`;
 				}
-				if (!c.time) {
-					enableDate = false;
-					console.warn("UNABLE TO ACTIVATE SEARCH FILTER FOR THIS CARDS");
-					break;
-				}
-				c.time = moment(c.time).toDate();
-				if (!initialDate || initialDate.valueOf() > c.time.valueOf()) {
-					initialDate = c.time;
-				}
-				if (!lastDate || lastDate.valueOf() < c.time.valueOf()) {
-					lastDate = c.time;
-				}
-				cc++;
-			}
 
-			if (enableDate) {
-				cardItems = cardItems.sort((b, a) => {
-					return a.time.valueOf() - b.time.valueOf();
-				});
-				if (!firstCardData) {
-					firstCardData = initialDate;
-				}
-				if (!lastCardData) {
-					lastCardData = lastDate;
-				}
-				cardItems = cardItems.filter((f) => f.time.valueOf() >= firstCardData.valueOf() && f.time.valueOf() <= lastCardData.valueOf());
-			}
-			if (filter) {
-				cardItems = cardItems.filter((c) => {
-					if (c.title?.toLowerCase().includes(filter.toLowerCase()) || c.description?.toLowerCase().includes(filter.toLowerCase())) {
-						return true;
-					}
-					return false;
-				});
+				cc++;
 			}
 			if (cardItems.length) {
 				pages = Math.floor(cardItems.length / size) + (cardItems.length % size ? 1 : 0);
@@ -156,18 +128,6 @@
 		return cardItems.slice(page * size, (page + 1) * size);
 	}
 
-	function changeStartDate(node) {
-		const newDate = node.target.value;
-		// console.log(newDate);
-		firstCardData = moment(newDate, "YYYY-MM-DD").startOf("day").toDate();
-		filter = null;
-	}
-	function changeEndDate(node) {
-		const newDate = node.target.value;
-		// console.log(newDate);
-		lastCardData = moment(newDate, "YYYY-MM-DD").endOf("day").toDate();
-		filter = null;
-	}
 	// async function getHelloWorld() {
 	// 	const { app } = await webcomponent({ text: "hello-world" });
 
@@ -212,60 +172,6 @@
 
 <div id="webcomponent">
 	<div class="container-fluid">
-		<div class="d-none d-md-block">
-			<div class="grid">
-				<div class="g-col-4 g-col-xxl-2">
-					<div class="input-group mb-3">
-						<span class="input-group-text" id="search">&#x1F50E;</span>
-						<input type="text" bind:value={filter} class="form-control" placeholder="..." aria-label="Search" aria-describedby="search" />
-					</div>
-				</div>
-				<div class="g-col-8 g-col-xxl-10">
-					{#if enableDate}
-						<div class="input-group mb-3">
-							<span class="input-group-text">&#128197;</span>
-
-							<input
-								on:input={changeStartDate}
-								type="date"
-								class="form-control"
-								style="max-width: 200px"
-								value={moment(initialDate).format("YYYY-MM-DD")}
-							/>
-							<input
-								on:input={changeEndDate}
-								type="date"
-								class="form-control"
-								style="max-width: 200px"
-								value={moment(lastDate).format("YYYY-MM-DD")}
-							/>
-						</div>
-					{/if}
-				</div>
-			</div>
-		</div>
-		<div class="d-block d-md-none">
-			<div class="grid">
-				<div class="g-col-12">
-					<div class="input-group mb-3">
-						<span class="input-group-text" id="search">&#x1F50E;</span>
-						<input type="text" value={filter} class="form-control" placeholder="..." aria-label="Search" aria-describedby="search" />
-					</div>
-				</div>
-			</div>
-			{#if enableDate}
-				<div class="grid">
-					<div class="g-col-12">
-						<div class="input-group mb-3">
-							<span class="input-group-text">&#128197;</span>
-
-							<input on:input={changeStartDate} type="date" class="form-control" />
-							<input on:input={changeEndDate} type="date" class="form-control" />
-						</div>
-					</div>
-				</div>
-			{/if}
-		</div>
 		{#if tableHeaders && tableHeaders.length && cardItems && cardItems.length}
 			<table class="table table-responsive table-striped table-hover align-middle" style="width:100%;text-align:left">
 				<thead>
