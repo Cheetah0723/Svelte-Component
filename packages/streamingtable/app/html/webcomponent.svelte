@@ -19,7 +19,7 @@
 	interface ITableHeader {
 		label: string;
 		key: string;
-		type?: string;
+		type?: "date" | "string";
 		format?: string;
 		search?: boolean;
 	}
@@ -36,7 +36,6 @@
 	export let size: number;
 	export let page: number;
 	export let primarycolor: string;
-	export let filter: string;
 	export let headers: string;
 
 	if (!primarycolor) {
@@ -52,7 +51,7 @@
 	let lastCardData: Date;
 	let tableHeaders: ITableHeader[] = [];
 
-	const filters: {
+	let filters: {
 		key: string;
 		value?: string;
 		type?: "date" | "string";
@@ -61,6 +60,7 @@
 	}[] = [];
 
 	$: {
+		console.log("compute", filters);
 		if (!size) {
 			size = 12;
 		} else {
@@ -78,6 +78,11 @@
 			}
 
 			cardItems = JSON.parse(rows);
+			if (filters?.length) {
+				for (const filter of filters) {
+					cardItems = cardItems.filter((f) => getObjVal(f, filter).includes(filter.value));
+				}
+			}
 			let cc = 0;
 			for (const c of cardItems) {
 				if (!c._id) {
@@ -164,6 +169,32 @@
 			return "";
 		}
 	}
+
+	function searchInput(element, h: ITableHeader) {
+		const value = element.value;
+		console.log("searchInput", value, h.key);
+		if (value && value.length) {
+			const filterExist = filters.find((f) => f.key === h.key);
+
+			if (filterExist) {
+				filterExist.value = value;
+				filters = filters;
+			} else {
+				filters.push({
+					key: h.key,
+					type: h.type,
+					value,
+				});
+				filters = filters;
+			}
+		} else {
+			if (filters.find((f) => f.key === h.key)) {
+				const filter = filters.find((f) => f.key === h.key);
+				filter.value = value;
+				filters = filters.filter((f) => f.key !== h.key);
+			}
+		}
+	}
 </script>
 
 <svelte:head>
@@ -187,6 +218,7 @@
 							<th scope="col">
 								{#if th.search}
 									<input
+										on:input={(element) => searchInput(element.target, th)}
 										type="text"
 										style="width:auto"
 										class="form-control"

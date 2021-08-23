@@ -13,6 +13,7 @@ const rows = [
     videoSrc:
       "https://comapi.be-on.tv/v1/public/records/61043eedb50af916a6429fdc/video",
     time: "2021-08-06T22:46:31.565Z",
+    description: "ffff2",
   },
   { title: "bb2", time: "2021-08-02T22:46:32.565Z" },
   {
@@ -37,7 +38,7 @@ const rows = [
   },
   { title: "bb13", time: "2021-08-07T22:46:39.565Z" },
 ];
-const headers = [
+const basicHeaders = [
   {
     label: "title",
     key: "title",
@@ -59,6 +60,29 @@ const headers = [
   },
 ];
 
+const headers2 = [
+  {
+    label: "title",
+    key: "title",
+    search: true,
+  },
+  {
+    label: "description",
+    key: "description",
+    search: true,
+  },
+  {
+    label: "nested",
+    key: "testnested.nested",
+  },
+  {
+    label: "data",
+    key: "time",
+    type: "datetime",
+    format: "DD MMMM YYYY",
+  },
+];
+
 export default {
   title: "Table/Basic",
   argTypes: {
@@ -67,6 +91,7 @@ export default {
     primarycolor: {
       control: { type: "color" },
     },
+
     pagechange: { action: "pagechangeEvent" },
   },
 } as Meta;
@@ -75,6 +100,12 @@ const Template: Story<TableProps> = (args) => createTable(args);
 
 export const BasicTable = Template.bind({});
 BasicTable.args = {
+  headers: basicHeaders,
   rows,
-  headers,
+};
+
+export const BasicTableWithMoreSearch = Template.bind({});
+BasicTableWithMoreSearch.args = {
+  headers: headers2,
+  rows,
 };
