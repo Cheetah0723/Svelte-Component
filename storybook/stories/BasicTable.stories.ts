@@ -82,7 +82,74 @@ const headers2 = [
     format: "DD MMMM YYYY",
   },
 ];
-
+const headers3 = [
+  {
+    label: "title",
+    key: "title",
+    search: true,
+  },
+  {
+    label: "description",
+    key: "description",
+    search: true,
+  },
+  {
+    label: "nested",
+    key: "testnested.nested",
+    search: true,
+  },
+  {
+    label: "data",
+    key: "time",
+    type: "datetime",
+    format: "DD MMMM YYYY",
+  },
+];
+const headers4 = [
+  {
+    label: "title",
+    key: "title",
+    search: true,
+  },
+  {
+    label: "description",
+    key: "description",
+    search: true,
+  },
+  {
+    label: "nested",
+    key: "testnested.nested",
+    search: true,
+  },
+  {
+    label: "data",
+    key: "time",
+    type: "datetime",
+    format: "DD MMMM YYYY",
+    search: true,
+  },
+];
+const headers5 = [
+  {
+    label: "title",
+    key: "title",
+  },
+  {
+    label: "description",
+    key: "description",
+  },
+  {
+    label: "nested",
+    key: "testnested.nested",
+  },
+  {
+    label: "data",
+    key: "time",
+    type: "datetime",
+    format: "DD MMMM YYYY",
+    search: true,
+  },
+];
 export default {
   title: "Table/Basic",
   argTypes: {
@@ -107,5 +174,22 @@ BasicTable.args = {
 export const BasicTableWithMoreSearch = Template.bind({});
 BasicTableWithMoreSearch.args = {
   headers: headers2,
+  rows,
+};
+
+export const BasicTableWithSearchOnNestedField = Template.bind({});
+BasicTableWithSearchOnNestedField.args = {
+  headers: headers3,
+  rows,
+};
+
+export const BasicTableWithSearchOnAllFields = Template.bind({});
+BasicTableWithSearchOnAllFields.args = {
+  headers: headers4,
+  rows,
+};
+export const BasicTableWithDate = Template.bind({});
+BasicTableWithDate.args = {
+  headers: headers5,
   rows,
 };

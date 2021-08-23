@@ -16,10 +16,17 @@
 
 	// import dispatch from "@app/functions/webcomponent";
 
+	interface IFilter {
+		key: string;
+		value?: string;
+		type?: "datetime" | "string";
+		start?: Date;
+		end?: Date;
+	}
 	interface ITableHeader {
 		label: string;
 		key: string;
-		type?: "date" | "string";
+		type?: "datetime" | "string";
 		format?: string;
 		search?: boolean;
 	}
@@ -45,19 +52,11 @@
 	let pages = 0;
 
 	let cardItems: ICard[];
-	let initialDate: Date;
-	let lastDate: Date;
-	let firstCardData: Date;
-	let lastCardData: Date;
-	let tableHeaders: ITableHeader[] = [];
 
-	let filters: {
-		key: string;
-		value?: string;
-		type?: "date" | "string";
-		start?: Date;
-		end?: Date;
-	}[] = [];
+	let tableHeaders: ITableHeader[] = [];
+	let searchOnRangeIsPresent = false;
+
+	let filters: IFilter[] = [];
 
 	$: {
 		console.log("compute", filters);
@@ -74,13 +73,24 @@
 
 		try {
 			if (headers) {
+				if (!headers) throw new Error("no headers");
+
 				tableHeaders = JSON.parse(headers);
+				if (tableHeaders.find((f) => f.type === "datetime")) searchOnRangeIsPresent = true;
 			}
 
+			if (!rows) throw new Error("no rows");
 			cardItems = JSON.parse(rows);
 			if (filters?.length) {
 				for (const filter of filters) {
-					cardItems = cardItems.filter((f) => getObjVal(f, filter).includes(filter.value));
+					if (filter.type === "datetime") {
+						if (filter.start) {
+						}
+						if (filter.end) {
+						}
+					} else {
+						cardItems = cardItems.filter((f) => getObjVal(f, filter).includes(filter.value));
+					}
 				}
 			}
 			let cc = 0;
@@ -170,30 +180,55 @@
 		}
 	}
 
+	function removeFilter(key: string) {
+		if (filters.find((f) => f.key === key)) {
+			const filter = filters.find((f) => f.key === key);
+			filters = filters.filter((f) => f.key !== key);
+		}
+	}
+	function setFilter(filter: IFilter) {
+		const filterExist = filters.find((f) => f.key === filter.key);
+
+		if (filterExist) {
+			filterExist.key = filter.key;
+			filterExist.type = filter.type;
+			filterExist.value = filter.value;
+			filterExist.start = filter.start;
+			filterExist.end = filter.end;
+
+			filters = filters;
+		} else {
+			filters.push({
+				key: filter.key,
+				type: filter.type,
+				value: filter.value,
+				start: filter.start,
+				end: filter.end,
+			});
+			filters = filters;
+		}
+	}
+
 	function searchInput(element, h: ITableHeader) {
 		const value = element.value;
 		console.log("searchInput", value, h.key);
 		if (value && value.length) {
-			const filterExist = filters.find((f) => f.key === h.key);
-
-			if (filterExist) {
-				filterExist.value = value;
-				filters = filters;
-			} else {
-				filters.push({
-					key: h.key,
-					type: h.type,
-					value,
-				});
-				filters = filters;
-			}
+			setFilter({
+				key: h.key,
+				type: h.type,
+				value,
+			});
 		} else {
-			if (filters.find((f) => f.key === h.key)) {
-				const filter = filters.find((f) => f.key === h.key);
-				filter.value = value;
-				filters = filters.filter((f) => f.key !== h.key);
-			}
+			removeFilter(h.key);
 		}
+	}
+	function changeStartDate(target, th) {
+		const newDate = target.value;
+		console.log(newDate);
+	}
+	function changeEndDate(target, th) {
+		const newDate = target.value;
+		console.log(newDate);
 	}
 </script>
 
@@ -213,26 +248,74 @@
 							</th>
 						{/each}
 					</tr>
-					<tr>
-						{#each tableHeaders as th (th.key)}
-							<th scope="col">
-								{#if th.search}
-									<input
-										on:input={(element) => searchInput(element.target, th)}
-										type="text"
-										style="width:auto"
-										class="form-control"
-										placeholder="..."
-										aria-label="Search"
-										aria-describedby="search"
-									/>
-								{/if}
-								{#if !th.search}
-									&nbsp;
-								{/if}
-							</th>
-						{/each}
-					</tr>
+					{#if !searchOnRangeIsPresent}
+						<tr>
+							{#each tableHeaders as th (th.key)}
+								<th scope="col">
+									{#if th.search}
+										<input
+											on:input={(element) => searchInput(element.target, th)}
+											type="text"
+											style="width:auto"
+											class="form-control"
+											placeholder="..."
+											aria-label="Search"
+											aria-describedby="search"
+										/>
+									{/if}
+									{#if !th.search}
+										&nbsp;
+									{/if}
+								</th>
+							{/each}
+						</tr>
+					{/if}
+					{#if searchOnRangeIsPresent}
+						<tr>
+							{#each tableHeaders as th (th.key)}
+								<th scope="col">
+									{#if th.search}
+										{#if th.type && th.type === "datetime"}
+											<input
+												on:input={(element) => changeStartDate(element.target, th)}
+												type="date"
+												class="form-control"
+												style="max-width: 200px"
+											/>
+										{/if}
+										{#if !th.type || th.type === "string"}
+											<input
+												on:input={(element) => searchInput(element.target, th)}
+												type="text"
+												style="width:auto"
+												class="form-control"
+												placeholder="..."
+												aria-label="Search"
+												aria-describedby="search"
+											/>
+										{/if}
+									{/if}
+									{#if !th.search}
+										&nbsp;
+									{/if}
+								</th>
+							{/each}
+						</tr>
+						<tr>
+							{#each tableHeaders as th (th.key)}
+								<th scope="col">
+									{#if th.search && th.type && th.type === "datetime"}
+										<input
+											on:input={(element) => changeEndDate(element.target, th)}
+											type="date"
+											class="form-control"
+											style="max-width: 200px"
+										/>
+									{/if}
+								</th>
+							{/each}
+						</tr>
+					{/if}
 				</thead>
 				<tbody>
 					{#each cardItems.slice(page * size, (page + 1) * size) as item (item._id)}
