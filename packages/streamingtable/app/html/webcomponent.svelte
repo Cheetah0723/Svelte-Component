@@ -264,6 +264,18 @@
 			colId: colId,
 		});
 	}
+
+	function handleSelectedItem(itemId: string, target) {
+		console.log(itemId, target.checked, selectedItems);
+		if (!target || !itemId) return console.error(`wrong params`);
+		if (target.checked && !selectedItems.find((f) => f === itemId)) selectedItems.push(itemId);
+		if (!target.checked && selectedItems.find((f) => f === itemId))
+			selectedItems = selectedItems.splice(
+				selectedItems.findIndex((f) => f === itemId),
+				1,
+			);
+		console.log(itemId, target.checked, selectedItems);
+	}
 </script>
 
 <svelte:head>
@@ -381,7 +393,14 @@
 								{#if enableselect}
 									<td style="box-shadow: none;">
 										<div class="form-check">
-											<input class="form-check-input" type="checkbox" />
+											<input
+												on:input={(i) => {
+													handleSelectedItem(item._id, i.target);
+												}}
+												id="flexCheckDefault"
+												class="form-check-input"
+												type="checkbox"
+											/>
 										</div>
 									</td>
 								{/if}
