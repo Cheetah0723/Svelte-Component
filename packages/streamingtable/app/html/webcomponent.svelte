@@ -29,13 +29,9 @@
 		type?: "datetime" | "string";
 		format?: string;
 		search?: boolean;
+		click?: boolean;
 	}
-	interface ICard {
-		videoSrc: string;
-		title?: string;
-		description?: string;
-		time?: Date;
-		pageUri?: string;
+	interface IRow {
 		_id: string;
 	}
 
@@ -45,6 +41,7 @@
 	export let primarycolor: string;
 	export let headers: string;
 	export let actions: string;
+	export let enableselect: string;
 
 	if (!primarycolor) {
 		primarycolor = null;
@@ -52,7 +49,7 @@
 
 	let pages = 0;
 
-	let cardItems: ICard[];
+	let rowItems: IRow[];
 
 	let tableHeaders: ITableHeader[] = [];
 	let searchOnRangeIsPresent = false;
@@ -65,8 +62,14 @@
 		btnClass?: string;
 	}[];
 
+	let selectedItems: string[];
+
 	$: {
 		console.log("compute", filters);
+		selectedItems = [];
+		if (!enableselect) {
+			enableselect = null;
+		}
 		if (!size) {
 			size = 12;
 		} else {
@@ -89,31 +92,24 @@
 			if (actions) {
 				actionButtons = JSON.parse(actions);
 			}
-			cardItems = JSON.parse(rows);
+			rowItems = JSON.parse(rows);
 			if (filters?.length) {
 				for (const filter of filters) {
 					if (filter.type === "datetime") {
 						if (filter.start) {
-							cardItems = cardItems.filter((f) => moment(getObjVal(f, filter)).valueOf() >= moment(filter.start).valueOf());
+							rowItems = rowItems.filter((f) => moment(getObjVal(f, filter)).valueOf() >= moment(filter.start).valueOf());
 						}
 						if (filter.end) {
-							cardItems = cardItems.filter((f) => moment(getObjVal(f, filter)).valueOf() <= moment(filter.end).valueOf());
+							rowItems = rowItems.filter((f) => moment(getObjVal(f, filter)).valueOf() <= moment(filter.end).valueOf());
 						}
 					} else {
-						cardItems = cardItems.filter((f) => getObjVal(f, filter).includes(filter.value));
+						rowItems = rowItems.filter((f) => getObjVal(f, filter).includes(filter.value));
 					}
 				}
 			}
-			let cc = 0;
-			for (const c of cardItems) {
-				if (!c._id) {
-					c._id = `${cc.toString() + c.title}`;
-				}
 
-				cc++;
-			}
-			if (cardItems.length) {
-				pages = Math.floor(cardItems.length / size) + (cardItems.length % size ? 1 : 0);
+			if (rowItems.length) {
+				pages = Math.floor(rowItems.length / size) + (rowItems.length % size ? 1 : 0);
 			}
 
 			// const videos = component.getElementsByTagName("video");
@@ -125,7 +121,7 @@
 		}
 
 		// console.log("end computed");
-		// console.log(size, page, pages, cardItems.length, initialDate, lastDate);
+		// console.log(size, page, pages, rowItems.length, initialDate, lastDate);
 
 		// will only get called when the `color` changed.
 	}
@@ -151,7 +147,7 @@
 	}
 
 	function getCurrentCards() {
-		return cardItems.slice(page * size, (page + 1) * size);
+		return rowItems.slice(page * size, (page + 1) * size);
 	}
 
 	// async function getHelloWorld() {
@@ -193,7 +189,6 @@
 
 	function removeFilter(key: string) {
 		if (filters.find((f) => f.key === key)) {
-			const filter = filters.find((f) => f.key === key);
 			filters = filters.filter((f) => f.key !== key);
 		}
 	}
@@ -222,7 +217,6 @@
 
 	function searchInput(element, h: ITableHeader) {
 		const value = element.value;
-		console.log("searchInput", value, h.key);
 		if (value && value.length) {
 			setFilter({
 				key: h.key,
@@ -263,6 +257,13 @@
 			action,
 		});
 	}
+	function handleClickOnRow(itemId: string, colId: string) {
+		console.log("cellclick", itemId, colId);
+		dispatch("cellclick", {
+			rowId: itemId,
+			colId: colId,
+		});
+	}
 </script>
 
 <svelte:head>
@@ -281,6 +282,9 @@
 			<table class="table table-responsive table-striped table-hover align-middle" style="width:100%;text-align:left">
 				<thead>
 					<tr>
+						{#if enableselect}
+							<th scope="col" />
+						{/if}
 						{#each tableHeaders as th (th.key)}
 							<th scope="col">
 								{th.label}
@@ -292,6 +296,9 @@
 					</tr>
 					{#if !searchOnRangeIsPresent}
 						<tr>
+							{#if enableselect}
+								<th scope="col" />
+							{/if}
 							{#each tableHeaders as th (th.key)}
 								<th scope="col">
 									{#if th.search}
@@ -314,6 +321,9 @@
 					{/if}
 					{#if searchOnRangeIsPresent}
 						<tr>
+							{#if enableselect}
+								<th scope="col" />
+							{/if}
 							{#each tableHeaders as th (th.key)}
 								<th scope="col">
 									{#if th.search}
@@ -345,6 +355,9 @@
 							{/each}
 						</tr>
 						<tr>
+							{#if enableselect}
+								<th scope="col" />
+							{/if}
 							{#each tableHeaders as th (th.key)}
 								<th scope="col">
 									{#if th.search && th.type && th.type === "datetime"}
@@ -362,13 +375,29 @@
 					{/if}
 				</thead>
 				<tbody>
-					{#if cardItems?.length}
-						{#each cardItems.slice(page * size, (page + 1) * size) as item (item._id)}
+					{#if rowItems?.length}
+						{#each rowItems.slice(page * size, (page + 1) * size) as item (item._id)}
 							<tr>
-								<th scope="row">{getObjVal(item, tableHeaders[0])}</th>
-								{#if tableHeaders.length > 1}
-									{#each tableHeaders.slice(1, tableHeaders.length) as td (td.key)}
-										<td>{getObjVal(item, td) || ""}</td>
+								{#if enableselect}
+									<td style="box-shadow: none;">
+										<div class="form-check">
+											<input class="form-check-input" type="checkbox" />
+										</div>
+									</td>
+								{/if}
+								{#if tableHeaders.length}
+									{#each tableHeaders as td (td.key)}
+										<td>
+											{#if td.click}
+												<button on:click={() => handleClickOnRow(item._id, td.key)} type="button" class="btn btn-link"
+													>{getObjVal(item, td) || ""}</button
+												>
+											{/if}
+
+											{#if !td.click}
+												{getObjVal(item, td) || ""}
+											{/if}
+										</td>
 									{/each}
 								{/if}
 								{#if actionButtons}
