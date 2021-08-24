@@ -85,8 +85,10 @@
 				for (const filter of filters) {
 					if (filter.type === "datetime") {
 						if (filter.start) {
+							cardItems = cardItems.filter((f) => moment(getObjVal(f, filter)).valueOf() >= moment(filter.start).valueOf());
 						}
 						if (filter.end) {
+							cardItems = cardItems.filter((f) => moment(getObjVal(f, filter)).valueOf() <= moment(filter.end).valueOf());
 						}
 					} else {
 						cardItems = cardItems.filter((f) => getObjVal(f, filter).includes(filter.value));
@@ -173,8 +175,8 @@
 			return "";
 		} else if (!opts.type || opts.type === "string") {
 			return value;
-		} else if (opts.type === "datetime" && opts.format) {
-			return moment(value).format(opts.format);
+		} else if (opts.type === "datetime") {
+			return opts.format ? moment(value).format(opts.format) : moment(value).format();
 		} else {
 			return "";
 		}
@@ -225,10 +227,24 @@
 	function changeStartDate(target, th) {
 		const newDate = target.value;
 		console.log(newDate);
+		const filterExists = filters.find((f) => f.key === th.key);
+		setFilter({
+			key: th.key,
+			type: th.type,
+			start: moment(newDate, "YYYY-MM-DD").toDate(),
+			end: filterExists && filterExists.end ? filterExists.end : undefined,
+		});
 	}
 	function changeEndDate(target, th) {
 		const newDate = target.value;
 		console.log(newDate);
+		const filterExists = filters.find((f) => f.key === th.key);
+		setFilter({
+			key: th.key,
+			type: th.type,
+			end: moment(newDate, "YYYY-MM-DD").toDate(),
+			start: filterExists && filterExists.start ? filterExists.start : undefined,
+		});
 	}
 </script>
 
@@ -238,7 +254,7 @@
 
 <div id="webcomponent">
 	<div class="container-fluid">
-		{#if tableHeaders && tableHeaders.length && cardItems && cardItems.length}
+		{#if tableHeaders && tableHeaders.length}
 			<table class="table table-responsive table-striped table-hover align-middle" style="width:100%;text-align:left">
 				<thead>
 					<tr>
