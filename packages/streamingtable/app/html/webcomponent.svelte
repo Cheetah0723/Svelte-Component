@@ -44,6 +44,7 @@
 	export let page: number;
 	export let primarycolor: string;
 	export let headers: string;
+	export let actions: string;
 
 	if (!primarycolor) {
 		primarycolor = null;
@@ -57,6 +58,11 @@
 	let searchOnRangeIsPresent = false;
 
 	let filters: IFilter[] = [];
+	let actionButtons: {
+		value: string;
+		type: string;
+		key: string;
+	}[];
 
 	$: {
 		console.log("compute", filters);
@@ -72,14 +78,16 @@
 		}
 
 		try {
-			if (headers) {
-				if (!headers) throw new Error("no headers");
+			if (!headers) throw new Error("no headers");
+			if (!rows) throw new Error("no rows");
 
+			if (headers) {
 				tableHeaders = JSON.parse(headers);
 				if (tableHeaders.find((f) => f.type === "datetime")) searchOnRangeIsPresent = true;
 			}
-
-			if (!rows) throw new Error("no rows");
+			if (actions) {
+				actionButtons = JSON.parse(actions);
+			}
 			cardItems = JSON.parse(rows);
 			if (filters?.length) {
 				for (const filter of filters) {
@@ -263,6 +271,9 @@
 								{th.label}
 							</th>
 						{/each}
+						{#if actionButtons}
+							<th scope="col"> azioni </th>
+						{/if}
 					</tr>
 					{#if !searchOnRangeIsPresent}
 						<tr>
@@ -336,16 +347,21 @@
 					{/if}
 				</thead>
 				<tbody>
-					{#each cardItems.slice(page * size, (page + 1) * size) as item (item._id)}
-						<tr>
-							<th scope="row">{getObjVal(item, tableHeaders[0])}</th>
-							{#if tableHeaders.length > 1}
-								{#each tableHeaders.slice(1, tableHeaders.length) as td (td.key)}
-									<td>{getObjVal(item, td) || ""}</td>
-								{/each}
-							{/if}
-						</tr>
-					{/each}
+					{#if cardItems?.length}
+						{#each cardItems.slice(page * size, (page + 1) * size) as item (item._id)}
+							<tr>
+								<th scope="row">{getObjVal(item, tableHeaders[0])}</th>
+								{#if tableHeaders.length > 1}
+									{#each tableHeaders.slice(1, tableHeaders.length) as td (td.key)}
+										<td>{getObjVal(item, td) || ""}</td>
+									{/each}
+								{/if}
+								{#if actionButtons}
+									<td><slot name="actions" /></td>
+								{/if}
+							</tr>
+						{/each}
+					{/if}
 				</tbody>
 			</table>
 

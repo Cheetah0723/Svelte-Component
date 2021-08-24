@@ -13,6 +13,11 @@ export interface TableProps {
   page?: number;
   primarycolor?: string;
   pagechange?: () => void;
+  actions: {
+    value: string;
+    type: string;
+    key: string;
+  }[];
 }
 
 export const createTable = ({
@@ -21,6 +26,7 @@ export const createTable = ({
   size,
   page,
   primarycolor,
+  actions,
   pagechange,
 }: TableProps) => {
   const script = document.createElement("script");
@@ -39,6 +45,9 @@ export const createTable = ({
   }
   if (primarycolor) {
     c.setAttribute("primarycolor", primarycolor);
+  }
+  if (actions) {
+    c.setAttribute("actions", JSON.stringify(actions));
   }
   c.addEventListener("pagechange", pagechange);
 
