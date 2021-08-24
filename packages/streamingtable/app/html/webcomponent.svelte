@@ -59,9 +59,10 @@
 
 	let filters: IFilter[] = [];
 	let actionButtons: {
-		value: string;
-		type: string;
-		key: string;
+		name: string;
+		type: "icon" | "text";
+		iconOrText: string;
+		btnClass?: string;
 	}[];
 
 	$: {
@@ -254,10 +255,24 @@
 			start: filterExists && filterExists.start ? filterExists.start : undefined,
 		});
 	}
+
+	function handleClickOnAction(itemId: string, action: string) {
+		console.log("action", itemId, action);
+		dispatch("tableaction", {
+			itemId,
+			action,
+		});
+	}
 </script>
 
 <svelte:head>
-	<script defer src="https://unpkg.com/@htmlbricks/paginationbootstrap-component@0.0.7/release/paginationbootstrap.js"></script>
+	<script defer src="https://unpkg.com/@htmlbricks/paginationbootstrap-component@latest/release/paginationbootstrap.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@latest/font/bootstrap-icons.css" />
+	<!--
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@latest/font/bootstrap-icons.css" />
+
+	-->
 </svelte:head>
 
 <div id="webcomponent">
@@ -357,7 +372,27 @@
 									{/each}
 								{/if}
 								{#if actionButtons}
-									<td><slot name="actions" /></td>
+									<td>
+										{#each actionButtons as abutton (abutton.name)}
+											{#if abutton.type === "text"}
+												<button
+													on:click={() => handleClickOnAction(item._id, abutton.name)}
+													type="button"
+													class="btn btn-{abutton.btnClass || 'link'}"
+													style="margin-right:10px">{abutton.iconOrText}</button
+												>
+											{/if}
+											{#if abutton.type === "icon"}
+												<button
+													on:click={() => handleClickOnAction(item._id, abutton.name)}
+													type="button"
+													class="btn btn-{abutton.btnClass || 'light'}"
+													style="margin-right:10px"
+													><i class="bi-{abutton.iconOrText}" />
+												</button>
+											{/if}
+										{/each}
+									</td>
 								{/if}
 							</tr>
 						{/each}

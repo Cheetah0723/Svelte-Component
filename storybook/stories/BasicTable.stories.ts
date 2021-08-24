@@ -153,9 +153,14 @@ const headersWithDateOnly = [
 
 const actions = [
   {
-    value: "title",
-    key: "action0",
-    type: "label",
+    name: "testaction",
+    type: "text",
+    iconOrText: "string",
+  },
+  {
+    name: "testaction2",
+    type: "icon",
+    iconOrText: "github",
   },
 ];
 
@@ -169,6 +174,7 @@ export default {
     },
 
     pagechange: { action: "pagechangeEvent" },
+    tableaction: { action: "tableactionEvent" },
   },
 } as Meta;
 

@@ -169,8 +169,8 @@
 </script>
 
 <svelte:head>
-	<script defer src="https://unpkg.com/@htmlbricks/paginationbootstrap-component@0.0.7/release/paginationbootstrap.js"></script>
-	<script defer src="https://unpkg.com/@htmlbricks/videocardbootstrap-component@0.0.7/release/videocardbootstrap.js"></script>
+	<script defer src="https://unpkg.com/@htmlbricks/paginationbootstrap-component@latest/release/paginationbootstrap.js"></script>
+	<script defer src="https://unpkg.com/@htmlbricks/videocardbootstrap-component@latest/release/videocardbootstrap.js"></script>
 </svelte:head>
 
 <div id="webcomponent">
