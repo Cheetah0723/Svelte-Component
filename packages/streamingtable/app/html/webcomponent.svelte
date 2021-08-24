@@ -270,7 +270,7 @@
 		if (!target || !itemId) return console.error(`wrong params`);
 		if (target.checked && !selectedItems.find((f) => f === itemId)) selectedItems.push(itemId);
 		if (!target.checked && selectedItems.find((f) => f === itemId))
-			selectedItems = selectedItems.splice(
+			selectedItems.splice(
 				selectedItems.findIndex((f) => f === itemId),
 				1,
 			);
