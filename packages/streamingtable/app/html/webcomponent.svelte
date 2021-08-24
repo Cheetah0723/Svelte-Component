@@ -292,11 +292,12 @@
 								<th scope="col">
 									{#if th.search}
 										{#if th.type && th.type === "datetime"}
+											<span style="width:50px;display:inline-block">Inizio</span>
 											<input
 												on:input={(element) => changeStartDate(element.target, th)}
 												type="date"
 												class="form-control"
-												style="max-width: 200px"
+												style="max-width: 200px;display:inline-block"
 											/>
 										{/if}
 										{#if !th.type || th.type === "string"}
@@ -321,11 +322,12 @@
 							{#each tableHeaders as th (th.key)}
 								<th scope="col">
 									{#if th.search && th.type && th.type === "datetime"}
+										<span style="width:50px;display:inline-block">Fine</span>
 										<input
 											on:input={(element) => changeEndDate(element.target, th)}
 											type="date"
 											class="form-control"
-											style="max-width: 200px"
+											style="max-width: 200px;display:inline-block"
 										/>
 									{/if}
 								</th>
