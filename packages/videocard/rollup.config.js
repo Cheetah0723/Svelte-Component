@@ -37,6 +37,7 @@ export default {
 		sourcemap: true,
 		format: "iife",
 		file: "dist/videocardbootstrap.js",
+		name: "videocardbootstrap",
 	},
 	plugins: [
 		json(),

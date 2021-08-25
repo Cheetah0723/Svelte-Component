@@ -37,6 +37,7 @@ export default {
 		sourcemap: true,
 		format: "iife",
 		file: "dist/streamingtablebootstrap.js",
+		name: "streamingtablebootstrap",
 	},
 	plugins: [
 		json(),

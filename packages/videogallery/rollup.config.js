@@ -64,6 +64,7 @@ export default {
 		sourcemap: true,
 		format: "iife",
 		file: "dist/videogallerycomponent.js",
+		name: "videogallerybootstrap",
 	},
 
 	plugins: [

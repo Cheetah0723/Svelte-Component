@@ -64,6 +64,7 @@ export default {
 		sourcemap: true,
 		format: "iife",
 		file: "dist/liveplayer.js",
+		name: "liveplayer",
 	},
 	plugins: [
 		json(),
