@@ -13,6 +13,7 @@ export interface TableProps {
   page?: number;
   primarycolor?: string;
   selectactions?: boolean;
+  enableselect?: boolean;
   pagechange?: (d) => void;
   tableaction?: (d) => void;
   cellclick?: (d) => void;
@@ -33,6 +34,7 @@ export const createTable = ({
   page,
   primarycolor,
   actions,
+  enableselect,
   selectactions,
   selectrow,
   actiononselected,
@@ -49,6 +51,7 @@ export const createTable = ({
   const c = document.createElement("streamingtablebootstrap-webcomponent");
   c.setAttribute("rows", JSON.stringify(rows));
   c.setAttribute("headers", JSON.stringify(headers));
+  c.setAttribute("enableselect", enableselect ? "yes" : "");
   if (size) {
     c.setAttribute("size", size.toString());
   }

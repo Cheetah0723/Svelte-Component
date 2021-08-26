@@ -43,13 +43,12 @@
 	export let actions: string;
 	export let selectactions: string;
 	export let selectrow: string;
-
+	export let enableselect: string;
 	if (!primarycolor) {
 		primarycolor = null;
 	}
 
 	let pages = 0;
-	let enableselect: string = "";
 	let selectActionsbuttons: any[];
 	let rowItems: IRow[];
 
@@ -67,12 +66,14 @@
 	let selectedItems: string[] = [];
 
 	$: {
-		console.log("compute", filters);
+		console.info("compute");
+		console.info(selectactions);
 		if (!selectactions) {
 			selectActionsbuttons = null;
 		} else {
 			selectActionsbuttons = JSON.parse(selectactions);
 		}
+
 		if (!selectrow) {
 			selectrow = null;
 		}
@@ -333,7 +334,7 @@
 			<table class="table table-responsive table-striped table-hover align-middle" style="width:100%;text-align:left">
 				<thead>
 					<tr>
-						{#if enableselect}
+						{#if enableselect && selectActionsbuttons}
 							{#if !searchOnRangeIsPresent}
 								{#if selectedItems.length !== rowItems.length}
 									<button on:click={selectAllElements} class="btn btn-link">seleziona tutti</button>
@@ -355,7 +356,7 @@
 					</tr>
 					{#if !searchOnRangeIsPresent}
 						<tr>
-							{#if enableselect}
+							{#if enableselect && selectActionsbuttons}
 								<th scope="col">
 									{selectedItems.length}/{rowItems.length}
 								</th>
@@ -381,7 +382,7 @@
 						</tr>
 					{:else}
 						<tr>
-							{#if enableselect}
+							{#if enableselect && selectActionsbuttons}
 								<th scope="col">
 									{#if selectedItems.length !== rowItems.length}
 										<button on:click={selectAllElements} class="btn btn-link">seleziona tutti</button>
@@ -420,7 +421,7 @@
 							{/each}
 						</tr>
 						<tr>
-							{#if enableselect}
+							{#if enableselect && selectActionsbuttons}
 								<th scope="col">
 									{selectedItems.length}/{rowItems.length}
 								</th>
@@ -444,8 +445,8 @@
 				<tbody>
 					{#if rowItems?.length}
 						{#each rowItems.slice(page * size, (page + 1) * size) as item (item._id)}
-							<tr on:click={() => selectrow && clickonrow(item._id)}>
-								{#if enableselect}
+							<tr>
+								{#if enableselect && selectActionsbuttons}
 									<td style="box-shadow: none;">
 										<div class="form-check">
 											{#if selectedItems.find((f) => f === item._id)}
@@ -473,7 +474,11 @@
 								{/if}
 								{#if tableHeaders.length}
 									{#each tableHeaders as td (td.key)}
-										<td>
+										<td
+											on:click={() => {
+												if (selectrow) clickonrow(item._id);
+											}}
+										>
 											{#if td.click}
 												<button on:click={() => handleClickOnRow(item._id, td.key)} type="button" class="btn btn-link"
 													>{getObjVal(item, td) || ""}</button

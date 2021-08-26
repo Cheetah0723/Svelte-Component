@@ -189,10 +189,12 @@ export default {
   argTypes: {
     size: { control: { type: "range", min: 1, max: rows.length + 2 } },
     page: { control: { type: "number" } },
-    enableselect: { control: { type: "string" } },
     primarycolor: {
       control: { type: "color" },
     },
+
+    enableselect: { type: "boolean" },
+    selectrow: { type: "boolean" },
 
     pagechange: { action: "pagechangeEvent" },
     tableaction: { action: "tableactionEvent" },
@@ -208,19 +210,19 @@ export const BasicTable = Template.bind({});
 BasicTable.args = {
   headers: basicHeaders,
   rows,
-  selectrow: true,
 };
 export const BasicTableWithClick = Template.bind({});
 BasicTableWithClick.args = {
   headers: basicHeaders,
   rows,
+  selectrow: true,
 };
 
 export const BasicTableWithMoreSearchAndSelect = Template.bind({});
 BasicTableWithMoreSearchAndSelect.args = {
   headers: headersWithMoreSearch,
   rows,
-
+  enableselect: true,
   selectactions: selections,
 };
 
