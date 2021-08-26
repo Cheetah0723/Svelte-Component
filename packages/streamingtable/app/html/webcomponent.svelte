@@ -42,6 +42,7 @@
 	export let headers: string;
 	export let actions: string;
 	export let selectactions: string;
+	export let selectrow: string;
 
 	if (!primarycolor) {
 		primarycolor = null;
@@ -63,15 +64,17 @@
 		btnClass?: string;
 	}[];
 
-	let selectedItems: string[];
+	let selectedItems: string[] = [];
 
 	$: {
 		console.log("compute", filters);
-		selectedItems = [];
 		if (!selectactions) {
 			selectActionsbuttons = null;
 		} else {
 			selectActionsbuttons = JSON.parse(selectactions);
+		}
+		if (!selectrow) {
+			selectrow = null;
 		}
 		if (!size) {
 			size = 12;
@@ -143,6 +146,8 @@
 		// console.log("changepage");
 
 		page = el.detail.page;
+		selectedItems.length = 0;
+
 		dispatch("pagechange", {
 			page,
 			rows: getCurrentCards(),
@@ -194,6 +199,7 @@
 		if (filters.find((f) => f.key === key)) {
 			filters = filters.filter((f) => f.key !== key);
 		}
+		selectedItems.length = 0;
 	}
 	function setFilter(filter: IFilter) {
 		const filterExist = filters.find((f) => f.key === filter.key);
@@ -216,6 +222,7 @@
 			});
 			filters = filters;
 		}
+		selectedItems.length = 0;
 	}
 
 	function searchInput(element, h: ITableHeader) {
@@ -278,12 +285,13 @@
 				1,
 			);
 		console.log(itemId, target.checked, selectedItems);
+		selectedItems = selectedItems;
 	}
 
 	function handleEnableSelector() {
 		if (enableselect) {
 			enableselect = null;
-			selectedItems = [];
+			selectedItems.length = 0;
 		} else {
 			enableselect = "yes";
 		}
@@ -298,6 +306,14 @@
 	}
 	function selectAllElements() {
 		selectedItems = rowItems.map((m) => m._id);
+	}
+	function deSelectAllElements() {
+		selectedItems.length = 0;
+	}
+	function clickonrow(itemId: string) {
+		dispatch("clickonrow", {
+			itemId,
+		});
 	}
 </script>
 
@@ -318,7 +334,15 @@
 				<thead>
 					<tr>
 						{#if enableselect}
-							<th scope="col" />
+							{#if !searchOnRangeIsPresent}
+								{#if selectedItems.length !== rowItems.length}
+									<button on:click={selectAllElements} class="btn btn-link">seleziona tutti</button>
+								{:else}
+									<button on:click={deSelectAllElements} class="btn btn-link">rimuovi tutti</button>
+								{/if}
+							{:else}
+								<th scope="col" />
+							{/if}
 						{/if}
 						{#each tableHeaders as th (th.key)}
 							<th scope="col">
@@ -333,8 +357,7 @@
 						<tr>
 							{#if enableselect}
 								<th scope="col">
-									<div>{selectedItems.length}/{rowItems.length}</div>
-									<div><button on:click={selectAllElements} class="btn btn-link">seleziona tutti</button></div>
+									{selectedItems.length}/{rowItems.length}
 								</th>
 							{/if}
 							{#each tableHeaders as th (th.key)}
@@ -356,11 +379,16 @@
 								</th>
 							{/each}
 						</tr>
-					{/if}
-					{#if searchOnRangeIsPresent}
+					{:else}
 						<tr>
 							{#if enableselect}
-								<th scope="col" />
+								<th scope="col">
+									{#if selectedItems.length !== rowItems.length}
+										<button on:click={selectAllElements} class="btn btn-link">seleziona tutti</button>
+									{:else}
+										<button on:click={deSelectAllElements} class="btn btn-link">rimuovi tutti</button>
+									{/if}
+								</th>
 							{/if}
 							{#each tableHeaders as th (th.key)}
 								<th scope="col">
@@ -385,8 +413,7 @@
 												aria-describedby="search"
 											/>
 										{/if}
-									{/if}
-									{#if !th.search}
+									{:else}
 										&nbsp;
 									{/if}
 								</th>
@@ -394,7 +421,9 @@
 						</tr>
 						<tr>
 							{#if enableselect}
-								<th scope="col" />
+								<th scope="col">
+									{selectedItems.length}/{rowItems.length}
+								</th>
 							{/if}
 							{#each tableHeaders as th (th.key)}
 								<th scope="col">
@@ -415,18 +444,30 @@
 				<tbody>
 					{#if rowItems?.length}
 						{#each rowItems.slice(page * size, (page + 1) * size) as item (item._id)}
-							<tr>
+							<tr on:click={() => selectrow && clickonrow(item._id)}>
 								{#if enableselect}
 									<td style="box-shadow: none;">
 										<div class="form-check">
-											<input
-												on:input={(i) => {
-													handleSelectedItem(item._id, i.target);
-												}}
-												id="flexCheckDefault"
-												class="form-check-input"
-												type="checkbox"
-											/>
+											{#if selectedItems.find((f) => f === item._id)}
+												<input
+													on:change={(i) => {
+														handleSelectedItem(item._id, i.target);
+													}}
+													id="flexCheckDefault"
+													class="form-check-input"
+													type="checkbox"
+													checked
+												/>
+											{:else}
+												<input
+													on:change={(i) => {
+														handleSelectedItem(item._id, i.target);
+													}}
+													id="flexCheckDefault"
+													class="form-check-input"
+													type="checkbox"
+												/>
+											{/if}
 										</div>
 									</td>
 								{/if}

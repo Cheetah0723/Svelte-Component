@@ -17,6 +17,8 @@ export interface TableProps {
   tableaction?: (d) => void;
   cellclick?: (d) => void;
   actiononselected?: (d) => void;
+  clickonrow?: (d) => void;
+  selectrow?: boolean;
   actions: {
     name: string;
     type: string;
@@ -32,10 +34,12 @@ export const createTable = ({
   primarycolor,
   actions,
   selectactions,
+  selectrow,
   actiononselected,
   cellclick,
   tableaction,
   pagechange,
+  clickonrow,
 }: TableProps) => {
   const script = document.createElement("script");
   script.src =
@@ -51,6 +55,9 @@ export const createTable = ({
   if (page) {
     c.setAttribute("page", page.toString());
   }
+  if (selectrow) {
+    c.setAttribute("selectrow", "yes");
+  }
   if (selectactions) {
     c.setAttribute("selectactions", JSON.stringify(selectactions));
   }
@@ -59,6 +66,9 @@ export const createTable = ({
   }
   if (actions) {
     c.setAttribute("actions", JSON.stringify(actions));
+  }
+  if (clickonrow) {
+    c.addEventListener("clickonrow", (i: any) => clickonrow(i.detail));
   }
   if (pagechange) {
     c.addEventListener("pagechange", (i: any) => pagechange(i.detail));

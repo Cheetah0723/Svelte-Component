@@ -198,6 +198,7 @@ export default {
     tableaction: { action: "tableactionEvent" },
     cellclick: { action: "cellclickEvent" },
     actiononselected: { action: "actiononselectedEvent" },
+    clickonrow: { action: "clickonrowEvent" },
   },
 } as Meta;
 
@@ -207,12 +208,20 @@ export const BasicTable = Template.bind({});
 BasicTable.args = {
   headers: basicHeaders,
   rows,
+  selectrow: true,
+};
+export const BasicTableWithClick = Template.bind({});
+BasicTableWithClick.args = {
+  headers: basicHeaders,
+  rows,
 };
 
-export const BasicTableWithMoreSearch = Template.bind({});
-BasicTableWithMoreSearch.args = {
+export const BasicTableWithMoreSearchAndSelect = Template.bind({});
+BasicTableWithMoreSearchAndSelect.args = {
   headers: headersWithMoreSearch,
   rows,
+
+  selectactions: selections,
 };
 
 export const BasicTableWithSearchOnNestedField = Template.bind({});
