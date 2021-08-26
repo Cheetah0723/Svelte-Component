@@ -19,17 +19,18 @@
 	interface IFilter {
 		key: string;
 		value?: string;
-		type?: "datetime" | "string";
+		type?: "datetime" | "string" | "enum";
 		start?: Date;
 		end?: Date;
 	}
 	interface ITableHeader {
 		label: string;
 		key: string;
-		type?: "datetime" | "string";
+		type?: "datetime" | "string" | "enum";
 		format?: string;
 		search?: boolean;
 		click?: boolean;
+		select: string[];
 	}
 	interface IRow {
 		_id: string;
@@ -187,7 +188,7 @@
 
 		if (!value) {
 			return "";
-		} else if (!opts.type || opts.type === "string") {
+		} else if (!opts.type || opts.type === "string" || opts.type === "enum") {
 			return value;
 		} else if (opts.type === "datetime") {
 			return opts.format ? moment(value).format(opts.format) : moment(value).format();
@@ -402,8 +403,7 @@
 												class="form-control"
 												style="max-width: 200px;display:inline-block"
 											/>
-										{/if}
-										{#if !th.type || th.type === "string"}
+										{:else if !th.type || th.type === "string"}
 											<input
 												on:input={(element) => searchInput(element.target, th)}
 												type="text"
@@ -413,6 +413,14 @@
 												aria-label="Search"
 												aria-describedby="search"
 											/>
+										{:else if th.type && th.type === "enum"}
+											<select class="form-select" on:input={(element) => searchInput(element.target, th)}>
+												<option value="">tutti</option>
+
+												{#each th.select as se (se)}
+													<option value={se}>{se}</option>
+												{/each}
+											</select>
 										{/if}
 									{:else}
 										&nbsp;
