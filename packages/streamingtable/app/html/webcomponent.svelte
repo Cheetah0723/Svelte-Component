@@ -296,6 +296,9 @@
 			selectedItems,
 		});
 	}
+	function selectAllElements() {
+		selectedItems = rowItems.map((m) => m._id);
+	}
 </script>
 
 <svelte:head>
@@ -329,7 +332,10 @@
 					{#if !searchOnRangeIsPresent}
 						<tr>
 							{#if enableselect}
-								<th scope="col" />
+								<th scope="col">
+									<div>{selectedItems.length}/{rowItems.length}</div>
+									<div><button on:click={selectAllElements} class="btn btn-link">seleziona tutti</button></div>
+								</th>
 							{/if}
 							{#each tableHeaders as th (th.key)}
 								<th scope="col">
