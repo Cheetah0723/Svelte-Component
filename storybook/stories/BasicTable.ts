@@ -12,10 +12,11 @@ export interface TableProps {
   size?: number;
   page?: number;
   primarycolor?: string;
-  enableselect?: boolean;
+  selectactions?: boolean;
   pagechange?: (d) => void;
   tableaction?: (d) => void;
   cellclick?: (d) => void;
+  actiononselected?: (d) => void;
   actions: {
     name: string;
     type: string;
@@ -30,7 +31,8 @@ export const createTable = ({
   page,
   primarycolor,
   actions,
-  enableselect,
+  selectactions,
+  actiononselected,
   cellclick,
   tableaction,
   pagechange,
@@ -49,8 +51,8 @@ export const createTable = ({
   if (page) {
     c.setAttribute("page", page.toString());
   }
-  if (enableselect) {
-    c.setAttribute("enableselect", "yes");
+  if (selectactions) {
+    c.setAttribute("selectactions", JSON.stringify(selectactions));
   }
   if (primarycolor) {
     c.setAttribute("primarycolor", primarycolor);
@@ -66,6 +68,11 @@ export const createTable = ({
   }
   if (cellclick) {
     c.addEventListener("cellclick", (i: any) => cellclick(i.detail));
+  }
+  if (actiononselected) {
+    c.addEventListener("actiononselected", (i: any) =>
+      actiononselected(i.detail)
+    );
   }
   return c;
 };

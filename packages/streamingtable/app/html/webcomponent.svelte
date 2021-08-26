@@ -41,14 +41,15 @@
 	export let primarycolor: string;
 	export let headers: string;
 	export let actions: string;
-	export let enableselect: string;
+	export let selectactions: string;
 
 	if (!primarycolor) {
 		primarycolor = null;
 	}
 
 	let pages = 0;
-
+	let enableselect: string = "";
+	let selectActionsbuttons: any[];
 	let rowItems: IRow[];
 
 	let tableHeaders: ITableHeader[] = [];
@@ -67,8 +68,10 @@
 	$: {
 		console.log("compute", filters);
 		selectedItems = [];
-		if (!enableselect) {
-			enableselect = null;
+		if (!selectactions) {
+			selectActionsbuttons = null;
+		} else {
+			selectActionsbuttons = JSON.parse(selectactions);
 		}
 		if (!size) {
 			size = 12;
@@ -276,6 +279,23 @@
 			);
 		console.log(itemId, target.checked, selectedItems);
 	}
+
+	function handleEnableSelector() {
+		if (enableselect) {
+			enableselect = null;
+			selectedItems = [];
+		} else {
+			enableselect = "yes";
+		}
+	}
+
+	function handleClickOnMultipleSelectAction(buttonName: string) {
+		console.log("action", buttonName, buttonName);
+		dispatch("actiononselected", {
+			key: buttonName,
+			selectedItems,
+		});
+	}
 </script>
 
 <svelte:head>
@@ -447,8 +467,25 @@
 					{/if}
 				</tbody>
 			</table>
+			{#if selectActionsbuttons}
+				<nav style="margin-top:20px" aria-label="actions on selected">
+					<button on:click={handleEnableSelector} class="btn btn-primary"> <i class="bi-gear" /> </button>
+					{#each selectActionsbuttons as sbutton (sbutton.name)}
+						<span style="margin-left:20px">
+							<button
+								on:click={() => {
+									handleClickOnMultipleSelectAction(sbutton.name);
+								}}
+								class="btn btn-primary"
+							>
+								{sbutton.name}
+							</button>
+						</span>
+					{/each}
+				</nav>
+			{/if}
 
-			<nav style="margin-top:20px" aria-label="Page navigation example">
+			<nav style="margin-top:20px" aria-label="navigation">
 				<paginationbootstrap-component on:pagechange={changePage} page={page.toString()} pages={pages.toString()} primarycolor={primarycolor || ""} />
 			</nav>
 		{/if}

@@ -171,6 +171,19 @@ const actions = [
   },
 ];
 
+const selections = [
+  {
+    name: "testaction",
+    type: "text",
+    iconOrText: "string",
+  },
+  {
+    name: "testaction2",
+    type: "icon",
+    iconOrText: "github",
+  },
+];
+
 export default {
   title: "Table/Basic",
   argTypes: {
@@ -184,6 +197,7 @@ export default {
     pagechange: { action: "pagechangeEvent" },
     tableaction: { action: "tableactionEvent" },
     cellclick: { action: "cellclickEvent" },
+    actiononselected: { action: "actiononselectedEvent" },
   },
 } as Meta;
 
@@ -228,5 +242,5 @@ BasicTableWithActionsAndSelect.args = {
   headers: headersWithAllSearches,
   rows,
   actions,
-  enableselect: true,
+  selectactions: selections,
 };
