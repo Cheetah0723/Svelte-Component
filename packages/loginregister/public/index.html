@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+
+		<title>loginregister-component</title>
+
+		<link rel="icon" type="image/png" href="favicon.png" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" />
+
+		<script defer src="loginregister.js"></script>
+	</head>
+
+	<body>
+		<loginregister-component page="2" pages="6"></loginregister-component>
+	</body>
+	<script>
+		function buu(a, b) {
+			console.log("debug pagechange", a);
+		}
+		// self executing function here
+		(function () {
+			// your page initialization code here
+			// the DOM will be available here
+
+			window.addEventListener("load", () => {
+				document.getElementsByTagName("loginregister-component")[0].$on("pagechange", buu);
+			});
+		})();
+	</script>
+</html>
