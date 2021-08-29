@@ -68,7 +68,7 @@
       "runtimeArgs": ["run", "dev"],
       "port": 9229,
       "skipFiles": ["<node_internals>/**"],
-      "cwd": "${workspaceFolder}/packages/videogallery"
+      "cwd": "${workspaceFolder}/packages/loginregister"
     },
     {
       "name": "Launch Chrome",

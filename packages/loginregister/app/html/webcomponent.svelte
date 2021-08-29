@@ -2,7 +2,7 @@
 
 <script lang="ts">
 	/**
-	 * Svelte Video Gallery WebComponent
+	 * Svelte Video Login/Register/Forget Password WebComponent
 	 * =====================
 	 *
 	 * @contributors: Dario Caruso <dev@dariocaruso.info> (https://dariocaruso.info)
@@ -11,116 +11,78 @@
 	 *
 	 */
 
-	import { createEventDispatcher } from "svelte";
+	export let type: "login" | "register";
 
-	// import dispatch from "@app/functions/webcomponent";
+	export let expectmailconfirm: string;
 
-	export let page: number;
-	export let primarycolor: number;
-
-	export let pages: number;
-
-	if (!primarycolor) {
-		primarycolor = null;
-	}
+	export let serveruri: string;
+	export let requestmethod: string;
+	export let appendqueryparams: string;
+	export let appendbodyparams: string;
 
 	$: {
-		if (!page) {
-			page = 0;
-		} else {
-			page = parseInt(page as unknown as string);
+		if (!type) {
+			type = "login";
 		}
-
-		if (!pages) {
-			pages = 1;
-		} else {
-			pages = parseInt(pages as unknown as string);
+		if (!requestmethod) {
+			requestmethod = "post";
 		}
 	}
-	import { get_current_component } from "svelte/internal";
 
-	const component = get_current_component();
-	const svelteDispatch = createEventDispatcher();
+	async function login() {}
 
-	function dispatch(name, detail) {
-		// console.log(`svelte: ${name}`);
-		svelteDispatch(name, detail);
-		component.dispatchEvent && component.dispatchEvent(new CustomEvent(name, { detail }));
-	}
-	function changePage(newPage: number) {
-		// console.log("changepage");
-
-		// page = newPage;
-		dispatch("pagechange", {
-			page: newPage,
-			pages,
-		});
-	}
+	async function register() {}
 </script>
 
-<ul class="pagination">
-	{#if pages > 0}
-		{#if page > 0}
-			<li class="page-item">
-				<button style="color:{primarycolor}" class="page-link" on:click={() => changePage(page - 1)}>&#60;</button>
-			</li>
-		{:else}
-			<li class="page-item disabled"><button class="page-link" disabled>&#60;</button></li>
-		{/if}
-		{#if pages > 5 && page > pages - 3}
-			<li class="page-item">
-				<button style="color:{primarycolor}" class="page-link" on:click={() => changePage(page - 4)}>{page - 4 + 1}</button>
-			</li>
-		{/if}
-		{#if pages > 5 && page > pages - 2}
-			<li class="page-item">
-				<button style="color:{primarycolor}" class="page-link" on:click={() => changePage(page - 3)}>{page - 3 + 1}</button>
-			</li>
-		{/if}
+<div id="webcomponent" class="text-center">
+	<main class="form-signin">
+		{#if type === "login"}
+			<form>
+				<img class="mb-4 text-center" src="https://getbootstrap.com/docs/5.1/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57" />
+				<h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
-		{#if page - 2 > -1}
-			<li class="page-item">
-				<button style="color:{primarycolor}" class="page-link" on:click={() => changePage(page - 2)}>{page - 2 + 1}</button>
-			</li>
-		{/if}
-		{#if page - 1 > -1}
-			<li class="page-item">
-				<button style="color:{primarycolor}" class="page-link" on:click={() => changePage(page - 1)}>{page - 1 + 1}</button>
-			</li>
-		{/if}
-		<li class="page-item active"><button style="color:{primarycolor}" class="page-link ">{page + 1}</button></li>
+				<div class="form-floating">
+					<input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" />
+					<label for="floatingInput">Email address</label>
+				</div>
+				<div class="form-floating">
+					<input type="password" class="form-control" id="floatingPassword" placeholder="Password" />
+					<label for="floatingPassword">Password</label>
+				</div>
 
-		{#if page + 1 < pages}
-			<li class="page-item">
-				<button style="color:{primarycolor}" class="page-link" on:click={() => changePage(page + 1)}>{page + 1 + 1}</button>
-			</li>
-		{/if}
-		{#if page + 2 < pages}
-			<li class="page-item">
-				<button style="color:{primarycolor}" class="page-link" on:click={() => changePage(page + 2)}>{page + 2 + 1}</button>
-			</li>
-		{/if}
+				<div class="checkbox mb-3">
+					<label>
+						<input type="checkbox" value="remember-me" /> Remember me
+					</label>
+				</div>
+				<button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+				<p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
+			</form>
+		{:else if type === "register"}
+			<form>
+				<img class="mb-4 text-center" src="https://getbootstrap.com/docs/5.1/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57" />
+				<h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
-		{#if page < 2 && page + 3 < pages}
-			<li class="page-item">
-				<button style="color:{primarycolor}" class="page-link" on:click={() => changePage(page + 3)}>{page + 3 + 1}</button>
-			</li>
-		{/if}
-		{#if page === 0 && page + 4 < pages}
-			<li class="page-item">
-				<button style="color:{primarycolor}" class="page-link" on:click={() => changePage(page + 4)}>{page + 4 + 1}</button>
-			</li>
-		{/if}
+				<div class="form-floating">
+					<input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" />
+					<label for="floatingInput">Email address</label>
+				</div>
+				<div class="form-floating">
+					<input type="password" class="form-control" id="floatingPassword" placeholder="Password" />
+					<label for="floatingPassword">Password</label>
+				</div>
 
-		{#if page < pages - 1}
-			<li class="page-item">
-				<button style="color:{primarycolor}" class="page-link" on:click={() => changePage(page + 1)}>&#62;</button>
-			</li>
-		{:else}
-			<li class="page-item disabled"><button style="color:{primarycolor}" class="page-link" disabled>&#62;</button></li>
+				<div class="checkbox mb-3">
+					<label>
+						<input type="checkbox" value="remember-me" /> Remember me
+					</label>
+				</div>
+				<button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+				<p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
+			</form>
 		{/if}
-	{/if}
-</ul>
+	</main>
+</div>
 
 <style lang="scss">
 	@import "../styles/bootstrap.scss";
