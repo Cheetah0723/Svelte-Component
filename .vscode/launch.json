@@ -60,6 +60,17 @@
       "cwd": "${workspaceFolder}/packages/videogallery"
     },
     {
+      "type": "node",
+      "request": "launch",
+      "runtimeVersion": "16.7.0",
+      "name": "dev loginregister",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 9229,
+      "skipFiles": ["<node_internals>/**"],
+      "cwd": "${workspaceFolder}/packages/videogallery"
+    },
+    {
       "name": "Launch Chrome",
       "request": "launch",
       "type": "pwa-chrome",

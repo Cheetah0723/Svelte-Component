@@ -2,7 +2,7 @@
 
 <script lang="ts">
 	/**
-	 * Svelte Video Gallery WebComponent
+	 * Svelte Table WebComponent
 	 * =====================
 	 *
 	 * @contributors: Dario Caruso <dev@dariocaruso.info> (https://dariocaruso.info)
