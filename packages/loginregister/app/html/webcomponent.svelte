@@ -39,8 +39,15 @@
 
 	$: {
 		if (!language || !dictionary[language]) {
-			console.log("lang", language);
-			language = "en";
+			const autolang = navigator.languages[0];
+
+			console.log("autolang", autolang);
+			if (navigator?.languages[0] && dictionary[autolang]) {
+				language = autolang;
+			} else {
+				console.log("lang", language);
+				language = "en";
+			}
 		}
 		if (!type) {
 			type = "login";
@@ -77,14 +84,12 @@
 		svelteDispatch(name, detail);
 		component.dispatchEvent && component.dispatchEvent(new CustomEvent(name, { detail }));
 	}
-	function getWord(w, l?: string) {
-		l = l || language;
-
-		const dict = dictionary[l];
+	function getWord(w) {
+		const dict = dictionary[language];
 
 		let word = dict[w];
 
-		if (!word && l !== "en") word = dictionary["en"][w];
+		if (!word && language !== "en") word = dictionary["en"][w];
 
 		return word || "";
 	}
