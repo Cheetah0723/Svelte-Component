@@ -1,18 +1,9 @@
 export interface LoginRegisterProps {
-  pages: number;
-  size?: number;
-  page?: number;
-  primarycolor?: string;
-  pagechange?: () => void;
+  type: "login" | "register";
+  login?: (d) => void;
 }
 
-export const createLoginRegister = ({
-  pages,
-  size,
-  page,
-  primarycolor,
-  pagechange,
-}: LoginRegisterProps) => {
+export const createLoginRegister = ({ type, login }: LoginRegisterProps) => {
   const script = document.createElement("script");
   script.src = "http://localhost:6006/loginregister/dist/loginregister.js";
 
@@ -20,19 +11,10 @@ export const createLoginRegister = ({
 
   const c = document.createElement("loginregister-component");
 
-  c.setAttribute("pages", pages.toString());
-
-  if (size) {
-    c.setAttribute("size", size.toString());
+  if (type) {
+    c.setAttribute("type", type.toString());
   }
-  if (page) {
-    c.setAttribute("page", page.toString());
-  }
-  if (primarycolor) {
-    c.setAttribute("primarycolor", primarycolor);
-  }
-
-  c.addEventListener("pagechange", pagechange);
+  c.addEventListener("login", (c: any) => login(c.detail));
 
   return c;
 };

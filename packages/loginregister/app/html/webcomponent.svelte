@@ -26,19 +26,39 @@
 	if (!logouri) {
 		logouri = "https://getbootstrap.com/docs/5.1/assets/brand/bootstrap-logo.svg";
 	}
+
+	let email: string;
+
+	let password: string;
+
 	$: {
 		if (!type) {
 			type = "login";
 		}
-
+		if (!email) {
+			email = "";
+		}
+		if (!password) {
+			password = "";
+		}
 		if (!requestmethod) {
 			requestmethod = "post";
 		}
 	}
 
-	async function login() {}
+	async function login() {
+		dispatch("login", {
+			email,
+			password,
+		});
+	}
 
-	async function register() {}
+	async function register() {
+		dispatch("register", {
+			email,
+			password,
+		});
+	}
 	const component = get_current_component();
 	const svelteDispatch = createEventDispatcher();
 
@@ -47,35 +67,54 @@
 		svelteDispatch(name, detail);
 		component.dispatchEvent && component.dispatchEvent(new CustomEvent(name, { detail }));
 	}
+	function switchType(t: "login" | "register") {
+		console.log(type);
+
+		type = t;
+		console.log(type);
+	}
+	//test@tt.com
+	console.log(type);
 </script>
 
 <div id="webcomponent" class="text-center">
 	<main class="form-signin">
-		{#if type === "login"}
-			<form>
-				<img class="mb-4 text-center" src={logouri} alt="" width="72" height="57" />
+		<img class="mb-4 text-center" src={logouri} alt="" width="72" height="57" />
+		<h1 class="h3 mb-3 fw-normal">
+			{#if type === "login"}
 				<h1 class="h3 mb-3 fw-normal">Please sign in</h1>
-
-				<div class="form-floating">
-					<input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" />
-					<label for="floatingInput">Email address</label>
-				</div>
-				<div class="form-floating">
-					<input type="password" class="form-control" id="floatingPassword" placeholder="Password" />
-					<label for="floatingPassword">Password</label>
-				</div>
-
-				<div class="checkbox mb-3">
-					<label>
-						<input type="checkbox" value="remember-me" /> Remember me
-					</label>
-				</div>
-				<button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-				<p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
-			</form>
+			{:else if type === "register"}
+				<h1 class="h3 mb-3 fw-normal">Please create account</h1>
+			{/if}
+		</h1>
+		<div class="form-floating">
+			<input type="email" class="form-control" bind:value={email} placeholder="name@example.com" />
+			<label for="floatingInput">Email address</label>
+		</div>
+		<div class="form-floating">
+			<input type="password" class="form-control" placeholder="Password" bind:value={password} />
+			<label for="floatingPassword">Password</label>
+		</div>
+		{#if type === "login"}
+			<div class="checkbox mb-3">
+				<label>
+					<input type="checkbox" value="remember-me" /> Remember me
+				</label>
+			</div>
+			<button class="w-100 btn btn-lg btn-primary" on:click={login}>Sign in</button>
+			<p>
+				<button class="btn btn-link" on:click={() => switchType("register")}>register</button>
+			</p>
 		{:else if type === "register"}
-			todo
+			<div class="checkbox mb-3">
+				<label />
+			</div>
+			<button class="w-100 btn btn-lg btn-primary" on:click={login}>Sign in</button>
+			<p>
+				<button class="btn btn-link" on:click={() => switchType("login")}>login</button>
+			</p>
 		{/if}
+		<p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
 	</main>
 </div>
 
