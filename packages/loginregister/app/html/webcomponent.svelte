@@ -10,6 +10,27 @@
 	 * @license: MIT License
 	 *
 	 */
+
+	const dictionary = {
+		en: {
+			hello: "Ciao Mondo!",
+			loginTitle: "",
+		},
+		it: {},
+	};
+
+	function getWord(w, l?: string) {
+		l = l || language;
+
+		const dict = dictionary[l];
+
+		let word = dict[w];
+
+		if (!word && l !== "en") word = dictionary["en"][w];
+
+		return word || "";
+	}
+
 	import { createEventDispatcher } from "svelte";
 	import { get_current_component } from "svelte/internal";
 
@@ -23,10 +44,14 @@
 	export let appendbodyparams: string;
 	export let logouri: string;
 	export let oauth2providers: string;
+	export let language;
+
 	if (!logouri) {
 		logouri = "https://getbootstrap.com/docs/5.1/assets/brand/bootstrap-logo.svg";
 	}
-
+	if (!language || !dictionary[language]) {
+		language = "en";
+	}
 	let email: string;
 
 	let password: string;
@@ -114,7 +139,7 @@
 				<button class="btn btn-link" on:click={() => switchType("login")}>login</button>
 			</p>
 		{/if}
-		<p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
+		<!-- <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p> -->
 	</main>
 </div>
 
