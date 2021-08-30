@@ -22,3 +22,8 @@ export const Register = Template.bind({});
 Register.args = {
   type: "register",
 };
+export const LoginIt = Template.bind({});
+LoginIt.args = {
+  type: "login",
+  language: "it",
+};

@@ -11,25 +11,7 @@
 	 *
 	 */
 
-	const dictionary = {
-		en: {
-			hello: "Ciao Mondo!",
-			loginTitle: "",
-		},
-		it: {},
-	};
-
-	function getWord(w, l?: string) {
-		l = l || language;
-
-		const dict = dictionary[l];
-
-		let word = dict[w];
-
-		if (!word && l !== "en") word = dictionary["en"][w];
-
-		return word || "";
-	}
+	import { dictionary } from "../functions/i18n";
 
 	import { createEventDispatcher } from "svelte";
 	import { get_current_component } from "svelte/internal";
@@ -49,14 +31,17 @@
 	if (!logouri) {
 		logouri = "https://getbootstrap.com/docs/5.1/assets/brand/bootstrap-logo.svg";
 	}
-	if (!language || !dictionary[language]) {
-		language = "en";
-	}
+
+	console.log(language);
 	let email: string;
 
 	let password: string;
 
 	$: {
+		if (!language || !dictionary[language]) {
+			console.log("lang", language);
+			language = "en";
+		}
 		if (!type) {
 			type = "login";
 		}
@@ -92,6 +77,17 @@
 		svelteDispatch(name, detail);
 		component.dispatchEvent && component.dispatchEvent(new CustomEvent(name, { detail }));
 	}
+	function getWord(w, l?: string) {
+		l = l || language;
+
+		const dict = dictionary[l];
+
+		let word = dict[w];
+
+		if (!word && l !== "en") word = dictionary["en"][w];
+
+		return word || "";
+	}
 	function switchType(t: "login" | "register") {
 		console.log(type);
 
@@ -107,9 +103,9 @@
 		<img class="mb-4 text-center" src={logouri} alt="" width="72" height="57" />
 		<h1 class="h3 mb-3 fw-normal">
 			{#if type === "login"}
-				<h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+				<h1 class="h3 mb-3 fw-normal">{getWord("loginTitle")}</h1>
 			{:else if type === "register"}
-				<h1 class="h3 mb-3 fw-normal">Please create account</h1>
+				<h1 class="h3 mb-3 fw-normal">{getWord("registerTitle")}</h1>
 			{/if}
 		</h1>
 		<div class="form-floating">
