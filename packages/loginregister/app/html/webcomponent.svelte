@@ -152,7 +152,7 @@
 			</div>
 			<button class="w-100 btn btn-lg btn-primary" on:click={login}>Sign in</button>
 			<p>
-				<button class="btn btn-link" on:click={() => switchType("register")}>register</button>
+				<button class="btn btn-link" on:click={() => switchType("register")}>{getWord("register")}</button>
 			</p>
 		{:else if type === "register"}
 			<div class="checkbox mb-3">
@@ -160,7 +160,7 @@
 			</div>
 			<button class="w-100 btn btn-lg btn-primary" on:click={login}>Sign in</button>
 			<p>
-				<button class="btn btn-link" on:click={() => switchType("login")}>login</button>
+				<button class="btn btn-link" on:click={() => switchType("login")}>{getWord("login")}</button>
 			</p>
 		{/if}
 		<!-- <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p> -->
