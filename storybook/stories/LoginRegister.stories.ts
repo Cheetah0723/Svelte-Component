@@ -9,6 +9,7 @@ export default {
       control: { type: "select" }, // Automatically inferred when 'options' is defined
     },
     login: { action: "loginEvent" },
+    register: { action: "registerEvent" },
   },
 } as Meta;
 

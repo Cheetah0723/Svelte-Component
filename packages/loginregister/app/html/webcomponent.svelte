@@ -33,10 +33,12 @@
 	}
 
 	let email: string;
+	let checkValidity: boolean;
 
 	let password: string;
 	let getWord;
 	$: {
+		checkValidity = false;
 		if (!language || !dictionary[language]) {
 			const autolang = navigator.languages[0];
 
@@ -71,11 +73,26 @@
 		}
 	}
 
+	function checkValidityFn(type: "password" | "email") {
+		checkValidity = true;
+		console.log("checkval", type);
+		if (type === "email") {
+			if (email.length && email.length > 3) return true;
+		} else if (type === "password") {
+			if (password.length && password.length > 3) return true;
+		}
+		return false;
+	}
+
 	async function login() {
-		dispatch("login", {
-			email,
-			password,
-		});
+		if (checkValidityFn("email") && checkValidityFn("password")) {
+			dispatch("login", {
+				email,
+				password,
+			});
+		} else {
+			console.error("invalid", { email, password });
+		}
 	}
 
 	async function register() {
@@ -110,11 +127,21 @@
 			{/if}
 		</h1>
 		<div class="form-floating">
-			<input type="email" class="form-control" bind:value={email} placeholder="name@example.com" />
+			<input
+				type="email"
+				class="form-control {checkValidity ? (checkValidityFn('email') ? 'is-valid' : 'is-invalid') : ''}"
+				bind:value={email}
+				placeholder="name@example.com"
+			/>
 			<label for="floatingInput">Email address</label>
 		</div>
 		<div class="form-floating">
-			<input type="password" class="form-control" placeholder="Password" bind:value={password} />
+			<input
+				type="password"
+				class="form-control {checkValidity ? (checkValidityFn('password') ? 'is-valid' : 'is-invalid') : ''}"
+				placeholder="Password"
+				bind:value={password}
+			/>
 			<label for="floatingPassword">Password</label>
 		</div>
 		{#if type === "login"}

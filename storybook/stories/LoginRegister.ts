@@ -2,11 +2,13 @@ export interface LoginRegisterProps {
   type: "login" | "register";
   language?: string;
   login?: (d) => void;
+  register?: (d) => void;
 }
 
 export const createLoginRegister = ({
   type,
   login,
+  register,
   language,
 }: LoginRegisterProps) => {
   const script = document.createElement("script");
@@ -23,6 +25,7 @@ export const createLoginRegister = ({
     c.setAttribute("language", language);
   }
   c.addEventListener("login", (c: any) => login(c.detail));
+  c.addEventListener("register", (c: any) => register(c.detail));
 
   return c;
 };
