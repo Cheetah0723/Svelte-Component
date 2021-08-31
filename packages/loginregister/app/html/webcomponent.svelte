@@ -26,18 +26,19 @@
 	export let appendbodyparams: string;
 	export let logouri: string;
 	export let oauth2providers: string;
-	export let language;
+	export let language: string;
 
 	if (!logouri) {
 		logouri = "https://getbootstrap.com/docs/5.1/assets/brand/bootstrap-logo.svg";
 	}
 
-	console.log(language);
 	let email: string;
 
 	let password: string;
-
+	let getWord;
 	$: {
+		console.log("l", language);
+
 		if (!language || !dictionary[language]) {
 			const autolang = navigator.languages[0];
 
@@ -49,6 +50,18 @@
 				language = "en";
 			}
 		}
+		getWord = (w) => {
+			console.log("lll", language);
+			const dict = dictionary[language];
+
+			let word = dict[w];
+
+			if (!word && language !== "en") word = dictionary["en"][w];
+
+			return word || "";
+		};
+		console.log("ll", language);
+
 		if (!type) {
 			type = "login";
 		}
@@ -84,15 +97,7 @@
 		svelteDispatch(name, detail);
 		component.dispatchEvent && component.dispatchEvent(new CustomEvent(name, { detail }));
 	}
-	function getWord(w) {
-		const dict = dictionary[language];
 
-		let word = dict[w];
-
-		if (!word && language !== "en") word = dictionary["en"][w];
-
-		return word || "";
-	}
 	function switchType(t: "login" | "register") {
 		console.log(type);
 
