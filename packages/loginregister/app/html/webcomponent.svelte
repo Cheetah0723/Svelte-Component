@@ -37,8 +37,6 @@
 	let password: string;
 	let getWord;
 	$: {
-		console.log("l", language);
-
 		if (!language || !dictionary[language]) {
 			const autolang = navigator.languages[0];
 
@@ -46,12 +44,10 @@
 			if (navigator?.languages[0] && dictionary[autolang]) {
 				language = autolang;
 			} else {
-				console.log("lang", language);
 				language = "en";
 			}
 		}
 		getWord = (w) => {
-			console.log("lll", language);
 			const dict = dictionary[language];
 
 			let word = dict[w];
@@ -60,7 +56,6 @@
 
 			return word || "";
 		};
-		console.log("ll", language);
 
 		if (!type) {
 			type = "login";
@@ -99,13 +94,9 @@
 	}
 
 	function switchType(t: "login" | "register") {
-		console.log(type);
-
 		type = t;
-		console.log(type);
 	}
 	//test@tt.com
-	console.log(type);
 </script>
 
 <div id="webcomponent" class="text-center">
