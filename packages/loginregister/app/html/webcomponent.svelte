@@ -74,6 +74,8 @@
 				language = "en";
 			}
 			localDictionary = dictionary[language];
+		} else {
+			localDictionary = dictionary[language];
 		}
 		getWord = (w) => {
 			return localDictionary[w] || dictionary["en"][w] || "";
@@ -264,17 +266,17 @@
 					{getWord("rememberMe")}
 				</label>
 			</div>
-			<button class="w-100 btn btn-lg btn-primary" on:click={login}>Sign in</button>
+			<button class="w-100 btn btn-lg btn-primary" on:click={login}>{getWord("loginButton").toUpperCase()}</button>
 			<p>
-				<button class="btn btn-link" on:click={() => switchType("register")}>{getWord("register")}</button>
+				<button class="btn btn-link" on:click={() => switchType("register")}>{getWord("registerSwitch")}</button>
 			</p>
 		{:else if type === "register"}
 			<div class="checkbox mb-3">
 				<label />
 			</div>
-			<button class="w-100 btn btn-lg btn-primary" on:click={register}>Sign in</button>
+			<button class="w-100 btn btn-lg btn-primary" on:click={register}>{getWord("registerButton").toUpperCase()}</button>
 			<p>
-				<button class="btn btn-link" on:click={() => switchType("login")}>{getWord("login")}</button>
+				<button class="btn btn-link" on:click={() => switchType("login")}>{getWord("loginSwitch")}</button>
 			</p>
 		{/if}
 		<!-- <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p> -->
