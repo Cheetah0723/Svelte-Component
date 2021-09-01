@@ -36,14 +36,22 @@
 	let getWord;
 	let localDictionary = dictionary["en"];
 	$: {
-		checkValidity = false;
-
+		if (!type) {
+			type = "login";
+		}
+		if (!email) {
+			email = "";
+		}
+		if (!password) {
+			password = "";
+		}
 		if (!logouri) {
 			logouri = "https://getbootstrap.com/docs/5.1/assets/brand/bootstrap-logo.svg";
 		}
-		if (!registeruri) {
-			registeruri = null;
-		}
+		// validation
+		checkValidity = false;
+
+		// fetch request config
 		if (!appendqueryparams) {
 			appendqueryparams = null;
 		}
@@ -52,20 +60,29 @@
 		}
 		if (!loginuri) {
 			loginuri = null;
-		} else {
-			if (appendqueryparams) {
-				if (loginuri)
-					loginuri = loginuri.split("/")[loginuri.split("/").length].includes("?")
-						? `${loginuri}&${appendqueryparams}`
-						: `${loginuri}?${appendqueryparams}`;
-				if (registeruri)
-					registeruri = registeruri.split("/")[registeruri.split("/").length].includes("?")
-						? `${registeruri}&${appendqueryparams}`
-						: `${registeruri}?${appendqueryparams}`;
-			} else {
-				appendqueryparams = null;
-			}
 		}
+		if (!registeruri) {
+			registeruri = null;
+		}
+		if (appendqueryparams) {
+			if (loginuri)
+				loginuri = loginuri.split("/")[loginuri.split("/").length].includes("?")
+					? `${loginuri}&${appendqueryparams}`
+					: `${loginuri}?${appendqueryparams}`;
+			if (registeruri)
+				registeruri = registeruri.split("/")[registeruri.split("/").length].includes("?")
+					? `${registeruri}&${appendqueryparams}`
+					: `${registeruri}?${appendqueryparams}`;
+		} else {
+			appendqueryparams = null;
+		}
+
+		if (!requestmethod) {
+			requestmethod = "POST";
+		} else {
+			requestmethod = requestmethod.toUpperCase();
+		}
+		// i18n
 		if (!language || !dictionary[language]) {
 			const autolang = navigator?.languages ? navigator.languages[0]?.split("-")[0]?.toLowerCase() : null;
 			if (autolang && dictionary[autolang]) {
@@ -80,21 +97,6 @@
 		getWord = (w) => {
 			return localDictionary[w] || dictionary["en"][w] || "";
 		};
-
-		if (!type) {
-			type = "login";
-		}
-		if (!email) {
-			email = "";
-		}
-		if (!password) {
-			password = "";
-		}
-		if (!requestmethod) {
-			requestmethod = "POST";
-		} else {
-			requestmethod = requestmethod.toUpperCase();
-		}
 	}
 
 	function checkValidityFn(type: "password" | "email") {
