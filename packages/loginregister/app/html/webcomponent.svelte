@@ -45,6 +45,17 @@
 		}
 		if (!loginuri) {
 			loginuri = null;
+		} else {
+			if (appendqueryparams) {
+				if (loginuri)
+					loginuri = loginuri.split("/")[loginuri.split("/").length].includes("?")
+						? `${loginuri}&${appendqueryparams}`
+						: `${loginuri}?${appendqueryparams}`;
+				if (registeruri)
+					registeruri = registeruri.split("/")[registeruri.split("/").length].includes("?")
+						? `${registeruri}&${appendqueryparams}`
+						: `${registeruri}?${appendqueryparams}`;
+			}
 		}
 		if (!language || !dictionary[language]) {
 			const autolang = navigator.languages[0];
@@ -110,9 +121,11 @@
 							},
 							redirect: "follow", // manual, *follow, error
 							referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-							body: JSON.stringify({ email, password }), // body data type must match "Content-Type" header
 						});
 					} else {
+						let body = { email, password };
+						if (appendbodyparams) Object.assign(body, JSON.parse(appendbodyparams));
+
 						response = await fetch(`${loginuri}`, {
 							method: requestmethod, // *GET, POST, PUT, DELETE, etc.
 							// mode: "cors", // no-cors, *cors, same-origin
@@ -124,14 +137,13 @@
 							},
 							redirect: "follow", // manual, *follow, error
 							referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-							body: JSON.stringify({ email, password }), // body data type must match "Content-Type" header
+							body: JSON.stringify(body), // body data type must match "Content-Type" header
 						});
 					}
 
 					let answer = await response.json();
 					answer.ok = true;
 					answer.requestSent = { email, password };
-					if (appendbodyparams) answer = Object.assign(JSON.parse(appendbodyparams), answer);
 
 					dispatch("login", answer);
 				} catch (err) {
@@ -152,19 +164,38 @@
 		if (checkValidityFn("email") && checkValidityFn("password")) {
 			if (registeruri) {
 				try {
-					const response = await fetch(`${registeruri}`, {
-						method: !requestmethod ? "POST" : requestmethod.toUpperCase(), // *GET, POST, PUT, DELETE, etc.
-						// mode: "cors", // no-cors, *cors, same-origin
-						cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-						// credentials: "same-origin", // include, *same-origin, omit
-						headers: {
-							"Content-Type": "application/json",
-							// 'Content-Type': 'application/x-www-form-urlencoded',
-						},
-						redirect: "follow", // manual, *follow, error
-						referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-						body: JSON.stringify({ email, password }), // body data type must match "Content-Type" header
-					});
+					let response;
+					if (requestmethod === "GET") {
+						response = await fetch(`${registeruri}`, {
+							method: requestmethod, // *GET, POST, PUT, DELETE, etc.
+							// mode: "cors", // no-cors, *cors, same-origin
+							cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+							// credentials: "same-origin", // include, *same-origin, omit
+							headers: {
+								"Content-Type": "application/json",
+								// 'Content-Type': 'application/x-www-form-urlencoded',
+							},
+							redirect: "follow", // manual, *follow, error
+							referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+						});
+					} else {
+						let body = { email, password };
+						if (appendbodyparams) Object.assign(body, JSON.parse(appendbodyparams));
+
+						response = await fetch(`${registeruri}`, {
+							method: requestmethod, // *GET, POST, PUT, DELETE, etc.
+							// mode: "cors", // no-cors, *cors, same-origin
+							cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+							// credentials: "same-origin", // include, *same-origin, omit
+							headers: {
+								"Content-Type": "application/json",
+								// 'Content-Type': 'application/x-www-form-urlencoded',
+							},
+							redirect: "follow", // manual, *follow, error
+							referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+							body: JSON.stringify(body), // body data type must match "Content-Type" header
+						});
+					}
 					const answer = await response.json();
 					answer.ok = true;
 					answer.requestSent = { email, password };
