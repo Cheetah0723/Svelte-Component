@@ -34,6 +34,7 @@
 
 	let password: string;
 	let getWord;
+	let localDictionary = dictionary["en"];
 	$: {
 		checkValidity = false;
 
@@ -43,9 +44,14 @@
 		if (!registeruri) {
 			registeruri = null;
 		}
+		if (!appendqueryparams) {
+			appendqueryparams = null;
+		}
+		if (!appendbodyparams) {
+			appendbodyparams = null;
+		}
 		if (!loginuri) {
 			loginuri = null;
-			appendqueryparams = null;
 		} else {
 			if (appendqueryparams) {
 				if (loginuri)
@@ -61,21 +67,16 @@
 			}
 		}
 		if (!language || !dictionary[language]) {
-			const autolang = navigator.languages[0]?.split("-")[0];
-			if (autolang && navigator?.languages[0] && dictionary[autolang]) {
+			const autolang = navigator?.languages ? navigator.languages[0]?.split("-")[0]?.toLowerCase() : null;
+			if (autolang && dictionary[autolang]) {
 				language = autolang;
 			} else {
 				language = "en";
 			}
+			localDictionary = dictionary[language];
 		}
 		getWord = (w) => {
-			const dict = dictionary[language];
-
-			let word = dict[w];
-
-			if (!word && language !== "en") word = dictionary["en"][w];
-
-			return word || "";
+			let word = localDictionary[w] || dictionary["en"][w] || "";
 		};
 
 		if (!type) {
