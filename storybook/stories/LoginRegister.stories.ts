@@ -8,6 +8,7 @@ export default {
       options: ["login", "register"],
       control: { type: "select" }, // Automatically inferred when 'options' is defined
     },
+    language: { type: "string" },
     login: { action: "loginEvent" },
     register: { action: "registerEvent" },
   },

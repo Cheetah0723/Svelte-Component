@@ -20,17 +20,14 @@
 
 	export let expectmailconfirm: string;
 
-	export let serveruri: string;
+	export let loginuri: string;
+	export let registeruri: string;
 	export let requestmethod: string;
 	export let appendqueryparams: string;
 	export let appendbodyparams: string;
 	export let logouri: string;
 	export let oauth2providers: string;
 	export let language: string;
-
-	if (!logouri) {
-		logouri = "https://getbootstrap.com/docs/5.1/assets/brand/bootstrap-logo.svg";
-	}
 
 	let email: string;
 	let checkValidity: boolean;
@@ -39,6 +36,16 @@
 	let getWord;
 	$: {
 		checkValidity = false;
+
+		if (!logouri) {
+			logouri = "https://getbootstrap.com/docs/5.1/assets/brand/bootstrap-logo.svg";
+		}
+		if (!registeruri) {
+			registeruri = null;
+		}
+		if (!loginuri) {
+			loginuri = null;
+		}
 		if (!language || !dictionary[language]) {
 			const autolang = navigator.languages[0];
 
@@ -69,7 +76,9 @@
 			password = "";
 		}
 		if (!requestmethod) {
-			requestmethod = "post";
+			requestmethod = "POST";
+		} else {
+			requestmethod = requestmethod.toUpperCase();
 		}
 	}
 
@@ -86,20 +95,92 @@
 
 	async function login() {
 		if (checkValidityFn("email") && checkValidityFn("password")) {
-			dispatch("login", {
-				email,
-				password,
-			});
+			if (loginuri) {
+				try {
+					let response;
+					if (requestmethod === "GET") {
+						response = await fetch(`${loginuri}`, {
+							method: requestmethod, // *GET, POST, PUT, DELETE, etc.
+							// mode: "cors", // no-cors, *cors, same-origin
+							cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+							// credentials: "same-origin", // include, *same-origin, omit
+							headers: {
+								"Content-Type": "application/json",
+								// 'Content-Type': 'application/x-www-form-urlencoded',
+							},
+							redirect: "follow", // manual, *follow, error
+							referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+							body: JSON.stringify({ email, password }), // body data type must match "Content-Type" header
+						});
+					} else {
+						response = await fetch(`${loginuri}`, {
+							method: requestmethod, // *GET, POST, PUT, DELETE, etc.
+							// mode: "cors", // no-cors, *cors, same-origin
+							cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+							// credentials: "same-origin", // include, *same-origin, omit
+							headers: {
+								"Content-Type": "application/json",
+								// 'Content-Type': 'application/x-www-form-urlencoded',
+							},
+							redirect: "follow", // manual, *follow, error
+							referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+							body: JSON.stringify({ email, password }), // body data type must match "Content-Type" header
+						});
+					}
+
+					let answer = await response.json();
+					answer.ok = true;
+					answer.requestSent = { email, password };
+					if (appendbodyparams) answer = Object.assign(JSON.parse(appendbodyparams), answer);
+
+					dispatch("login", answer);
+				} catch (err) {
+					console.error("invalid login", { email, password });
+				}
+			} else {
+				dispatch("login", {
+					email,
+					password,
+				});
+			}
 		} else {
-			console.error("invalid", { email, password });
+			console.error("invalid login", { email, password });
 		}
 	}
 
 	async function register() {
-		dispatch("register", {
-			email,
-			password,
-		});
+		if (checkValidityFn("email") && checkValidityFn("password")) {
+			if (registeruri) {
+				try {
+					const response = await fetch(`${registeruri}`, {
+						method: !requestmethod ? "POST" : requestmethod.toUpperCase(), // *GET, POST, PUT, DELETE, etc.
+						// mode: "cors", // no-cors, *cors, same-origin
+						cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+						// credentials: "same-origin", // include, *same-origin, omit
+						headers: {
+							"Content-Type": "application/json",
+							// 'Content-Type': 'application/x-www-form-urlencoded',
+						},
+						redirect: "follow", // manual, *follow, error
+						referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+						body: JSON.stringify({ email, password }), // body data type must match "Content-Type" header
+					});
+					const answer = await response.json();
+					answer.ok = true;
+					answer.requestSent = { email, password };
+					dispatch("register", answer);
+				} catch (err) {
+					console.error("invalid register", { email, password });
+				}
+			} else {
+				dispatch("register", {
+					email,
+					password,
+				});
+			}
+		} else {
+			console.error("invalid register", { email, password });
+		}
 	}
 	const component = get_current_component();
 	const svelteDispatch = createEventDispatcher();
