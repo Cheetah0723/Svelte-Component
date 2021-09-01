@@ -18,7 +18,7 @@
 
 	export let type: "login" | "register";
 
-	export let expectmailconfirm: string;
+	export let language: string;
 
 	export let loginuri: string;
 	export let registeruri: string;
@@ -26,8 +26,8 @@
 	export let appendqueryparams: string;
 	export let appendbodyparams: string;
 	export let logouri: string;
-	export let oauth2providers: string;
-	export let language: string;
+	// export let oauth2providers: string;
+	// export let expectmailconfirm: string;
 
 	let email: string;
 	let checkValidity: boolean;
@@ -45,6 +45,7 @@
 		}
 		if (!loginuri) {
 			loginuri = null;
+			appendqueryparams = null;
 		} else {
 			if (appendqueryparams) {
 				if (loginuri)
@@ -55,13 +56,13 @@
 					registeruri = registeruri.split("/")[registeruri.split("/").length].includes("?")
 						? `${registeruri}&${appendqueryparams}`
 						: `${registeruri}?${appendqueryparams}`;
+			} else {
+				appendqueryparams = null;
 			}
 		}
 		if (!language || !dictionary[language]) {
-			const autolang = navigator.languages[0];
-
-			console.log("autolang", autolang);
-			if (navigator?.languages[0] && dictionary[autolang]) {
+			const autolang = navigator.languages[0]?.split("-")[0];
+			if (autolang && navigator?.languages[0] && dictionary[autolang]) {
 				language = autolang;
 			} else {
 				language = "en";
@@ -95,7 +96,6 @@
 
 	function checkValidityFn(type: "password" | "email") {
 		checkValidity = true;
-		console.log("checkval", type);
 		if (type === "email") {
 			if (email.length && email.length > 3) return true;
 		} else if (type === "password") {
@@ -141,9 +141,9 @@
 						});
 					}
 
-					let answer = await response.json();
+					const answer = await response.json();
 					answer.ok = true;
-					answer.requestSent = { email, password };
+					answer.requestSent = { email, password, uri: loginuri };
 
 					dispatch("login", answer);
 				} catch (err) {
@@ -201,7 +201,7 @@
 					answer.requestSent = { email, password };
 					dispatch("register", answer);
 				} catch (err) {
-					console.error("invalid register", { email, password });
+					console.error("invalid register", { email, password, uri: registeruri });
 				}
 			} else {
 				dispatch("register", {
@@ -245,7 +245,7 @@
 				bind:value={email}
 				placeholder="name@example.com"
 			/>
-			<label for="floatingInput">Email address</label>
+			<label for="floatingInput">Email</label>
 		</div>
 		<div class="form-floating">
 			<input
@@ -259,7 +259,8 @@
 		{#if type === "login"}
 			<div class="checkbox mb-3">
 				<label>
-					<input type="checkbox" value="remember-me" /> Remember me
+					<input type="checkbox" value="remember-me" />
+					{getWord("rememberMe")}
 				</label>
 			</div>
 			<button class="w-100 btn btn-lg btn-primary" on:click={login}>Sign in</button>
@@ -270,7 +271,7 @@
 			<div class="checkbox mb-3">
 				<label />
 			</div>
-			<button class="w-100 btn btn-lg btn-primary" on:click={login}>Sign in</button>
+			<button class="w-100 btn btn-lg btn-primary" on:click={register}>Sign in</button>
 			<p>
 				<button class="btn btn-link" on:click={() => switchType("login")}>{getWord("login")}</button>
 			</p>

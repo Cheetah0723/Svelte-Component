@@ -9,6 +9,8 @@ export default {
       control: { type: "select" }, // Automatically inferred when 'options' is defined
     },
     language: { type: "string" },
+    loginuri: { type: "string" },
+    registeruri: { type: "string" },
     login: { action: "loginEvent" },
     register: { action: "registerEvent" },
   },
@@ -28,4 +30,12 @@ export const LoginEn = Template.bind({});
 LoginEn.args = {
   type: "login",
   language: "en",
+};
+
+export const LoginEnWithFetch = Template.bind({});
+LoginEnWithFetch.args = {
+  type: "login",
+  language: "en",
+  loginuri: "https://kernel.free.beeceptor.com/login",
+  registeruri: "https://kernel.free.beeceptor.com/register",
 };
