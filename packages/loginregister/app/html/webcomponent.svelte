@@ -31,6 +31,7 @@
 
 	let email: string;
 	let checkValidity: boolean;
+	let rememberMe: boolean;
 
 	let password: string;
 	let getWord;
@@ -128,7 +129,7 @@
 							referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
 						});
 					} else {
-						let body = { email, password };
+						let body = { email, password, rememberMe };
 						if (appendbodyparams) Object.assign(body, JSON.parse(appendbodyparams));
 
 						response = await fetch(`${loginuri}`, {
@@ -148,20 +149,21 @@
 
 					const answer = await response.json();
 					answer.ok = true;
-					answer.requestSent = { email, password, uri: loginuri };
+					answer.requestSent = { email, password, rememberMe, uri: loginuri };
 
 					dispatch("login", answer);
 				} catch (err) {
-					console.error("invalid login", { email, password });
+					console.error("invalid login", { email, password, rememberMe });
 				}
 			} else {
 				dispatch("login", {
 					email,
 					password,
+					rememberMe,
 				});
 			}
 		} else {
-			console.error("invalid login", { email, password });
+			console.error("invalid login", { email, password, rememberMe });
 		}
 	}
 
@@ -264,7 +266,7 @@
 		{#if type === "login"}
 			<div class="checkbox mb-3">
 				<label>
-					<input type="checkbox" value="remember-me" />
+					<input type="checkbox" bind:checked={rememberMe} />
 					{getWord("rememberMe")}
 				</label>
 			</div>
