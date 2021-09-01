@@ -76,7 +76,7 @@
 			localDictionary = dictionary[language];
 		}
 		getWord = (w) => {
-			let word = localDictionary[w] || dictionary["en"][w] || "";
+			return localDictionary[w] || dictionary["en"][w] || "";
 		};
 
 		if (!type) {
