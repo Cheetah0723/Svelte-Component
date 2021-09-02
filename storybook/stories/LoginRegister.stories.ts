@@ -39,3 +39,15 @@ LoginEnWithFetch.args = {
   loginuri: "https://kernel.free.beeceptor.com/login",
   registeruri: "https://kernel.free.beeceptor.com/register",
 };
+export const LoginEnWithOauth = Template.bind({});
+LoginEnWithOauth.args = {
+  type: "login",
+  language: "en",
+  loginuri: "https://kernel.free.beeceptor.com/login",
+  registeruri: "https://kernel.free.beeceptor.com/register",
+  oauth2providers: [
+    { provider: "google" },
+    { provider: "facebook" },
+    { provider: "twitter" },
+  ],
+};

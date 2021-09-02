@@ -26,8 +26,9 @@
 	export let appendqueryparams: string;
 	export let appendbodyparams: string;
 	export let logouri: string;
-	// export let oauth2providers: string;
+	export let oauth2providers: string;
 	// export let expectmailconfirm: string;
+	let oauth2ProvidersObj: {}[];
 
 	let email: string;
 	let checkValidity: boolean;
@@ -39,6 +40,17 @@
 	$: {
 		if (!type) {
 			type = "login";
+		}
+		if (!oauth2providers) {
+			oauth2ProvidersObj = null;
+			oauth2providers = null;
+		} else {
+			try {
+				oauth2ProvidersObj = JSON.parse(oauth2providers);
+			} catch (err) {
+				console.error("wrong oauth provider params");
+				oauth2ProvidersObj = null;
+			}
 		}
 		if (!email) {
 			email = "";
@@ -108,6 +120,10 @@
 			if (password.length && password.length > 3) return true;
 		}
 		return false;
+	}
+
+	async function socialLogin(providerName: string) {
+		console.log("socialLogin", providerName);
 	}
 
 	async function login() {
@@ -241,22 +257,34 @@
 
 <svelte:head>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@latest/font/bootstrap-icons.css" />
-	<!--
-			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@latest/font/bootstrap-icons.css" />
-
-	-->
 </svelte:head>
 <div id="webcomponent" class="text-center">
 	<main class="form-signin">
 		<img class="mb-4 text-center" src={logouri} alt="" width="72" height="57" />
-		<h1 class="h3 mb-3 fw-normal">
-			{#if type === "login"}
-				<h1 class="h3 mb-3 fw-normal">{getWord("loginTitle")}</h1>
-			{:else if type === "register"}
-				<h1 class="h3 mb-3 fw-normal">{getWord("registerTitle")}</h1>
-			{/if}
-		</h1>
+		{#if type === "login"}
+			<h1 class="h3 mb-3 fw-normal">{getWord("loginTitle")}</h1>
+		{:else if type === "register"}
+			<h1 class="h3 mb-3 fw-normal">{getWord("registerTitle")}</h1>
+		{/if}
+		{#if oauth2ProvidersObj?.length}
+			<div class="d-flex justify-content-center mt-1">
+				<ul class="social-icons">
+					{#each oauth2ProvidersObj as p (p.provider)}
+						<li>
+							<button
+								on:click={() => {
+									socialLogin(p.provider);
+								}}
+								class="btn btn-primary dot"><i class="bi-{p.provider}" /></button
+							>
+						</li>
+					{/each}
+				</ul>
+			</div>
+
+			<h1 class="h3 mb-3 fw-normal">Credenziali</h1>
+		{/if}
+
 		<div class="form-floating">
 			<input
 				type="email"

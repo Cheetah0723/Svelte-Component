@@ -3,6 +3,7 @@ export interface LoginRegisterProps {
   language?: string;
   registeruri?: string;
   loginuri?: string;
+  oauth2providers: any[];
   login?: (d) => void;
   register?: (d) => void;
 }
@@ -14,6 +15,7 @@ export const createLoginRegister = ({
   language,
   loginuri,
   registeruri,
+  oauth2providers,
 }: LoginRegisterProps) => {
   const script = document.createElement("script");
   script.src = "http://localhost:6006/loginregister/dist/loginregister.js";
@@ -25,7 +27,9 @@ export const createLoginRegister = ({
   if (type) {
     c.setAttribute("type", type.toString());
   }
-
+  if (oauth2providers) {
+    c.setAttribute("oauth2providers", JSON.stringify(oauth2providers));
+  }
   if (registeruri) {
     c.setAttribute("registeruri", registeruri);
   }
