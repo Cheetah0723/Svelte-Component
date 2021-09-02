@@ -201,13 +201,11 @@
 						});
 					}
 
-					const answer = await response.json();
+					const serverAnswer = await response.json();
+					const answer = serverAnswer;
 					answer.ok = true;
 					answer.requestSent = { email, password, rememberMe, uri: loginuri };
-					const cookie = {
-						email,
-						password,
-					};
+					const cookie = serverAnswer.token || serverAnswer;
 					setLoginCookie(JSON.stringify(cookie));
 					if (redirectonlogin) location.href = redirectonlogin;
 					dispatch("login", answer);
@@ -215,12 +213,12 @@
 					console.error("invalid login", { email, password, rememberMe });
 				}
 			} else {
-				const cookie = {
-					email,
-					password,
-				};
-				setLoginCookie(JSON.stringify(cookie));
-				if (redirectonlogin) location.href = redirectonlogin;
+				// const cookie = {
+				// 	email,
+				// 	password,
+				// };
+				// setLoginCookie(JSON.stringify(cookie));
+				// if (redirectonlogin) location.href = redirectonlogin;
 
 				dispatch("login", {
 					email,
@@ -280,7 +278,7 @@
 						email,
 						password,
 					};
-					setLoginCookie(JSON.stringify(cookie));
+					// setLoginCookie(JSON.stringify(cookie));
 
 					if (redirectoncreate) location.href = redirectoncreate;
 					dispatch("register", answer);
@@ -288,12 +286,12 @@
 					console.error("invalid register", { email, password, uri: registeruri });
 				}
 			} else {
-				const cookie = {
-					email,
-					password,
-				};
-				setLoginCookie(JSON.stringify(cookie));
-				if (redirectoncreate) location.href = redirectoncreate;
+				// const cookie = {
+				// 	email,
+				// 	password,
+				// };
+				// setLoginCookie(JSON.stringify(cookie));
+				// if (redirectoncreate) location.href = redirectoncreate;
 
 				dispatch("register", {
 					email,
