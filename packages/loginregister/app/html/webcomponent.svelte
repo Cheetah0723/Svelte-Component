@@ -230,11 +230,23 @@
 	}
 
 	function switchType(t: "login" | "register") {
+		email = "";
+		password = "";
+		rememberMe = false;
+		checkValidity = false;
 		type = t;
 	}
 	//test@tt.com
 </script>
 
+<svelte:head>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@latest/font/bootstrap-icons.css" />
+	<!--
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@latest/font/bootstrap-icons.css" />
+
+	-->
+</svelte:head>
 <div id="webcomponent" class="text-center">
 	<main class="form-signin">
 		<img class="mb-4 text-center" src={logouri} alt="" width="72" height="57" />
