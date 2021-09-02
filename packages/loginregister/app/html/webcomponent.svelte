@@ -143,6 +143,12 @@
 	// 	return "";
 	// }
 	// console.log(getCookie(cookiename));
+	function setCookie(cname: string, cvalue: string, ms?: number) {
+		const d = new Date();
+		d.setTime(d.getTime() + (ms || 24 * 60 * 60 * 1000));
+		let expires = "expires=" + d.toUTCString();
+		document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+	}
 	function checkValidityFn(type: "password" | "email") {
 		checkValidity = true;
 		if (type === "email") {
@@ -198,14 +204,22 @@
 					const answer = await response.json();
 					answer.ok = true;
 					answer.requestSent = { email, password, rememberMe, uri: loginuri };
-					setLoginCookie();
+					const cookie = {
+						email,
+						password,
+					};
+					setLoginCookie(JSON.stringify(cookie));
 					if (redirectonlogin) location.href = redirectonlogin;
 					dispatch("login", answer);
 				} catch (err) {
 					console.error("invalid login", { email, password, rememberMe });
 				}
 			} else {
-				setLoginCookie();
+				const cookie = {
+					email,
+					password,
+				};
+				setLoginCookie(JSON.stringify(cookie));
 				if (redirectonlogin) location.href = redirectonlogin;
 
 				dispatch("login", {
@@ -219,7 +233,9 @@
 		}
 	}
 
-	function setLoginCookie() {}
+	function setLoginCookie(tokenStringified: string, expire?: number) {
+		setCookie(cookiename, tokenStringified, expire);
+	}
 
 	async function register() {
 		if (checkValidityFn("email") && checkValidityFn("password")) {
@@ -260,7 +276,11 @@
 					const answer = await response.json();
 					answer.ok = true;
 					answer.requestSent = { email, password };
-					setLoginCookie();
+					const cookie = {
+						email,
+						password,
+					};
+					setLoginCookie(JSON.stringify(cookie));
 
 					if (redirectoncreate) location.href = redirectoncreate;
 					dispatch("register", answer);
@@ -268,8 +288,11 @@
 					console.error("invalid register", { email, password, uri: registeruri });
 				}
 			} else {
-				setLoginCookie();
-
+				const cookie = {
+					email,
+					password,
+				};
+				setLoginCookie(JSON.stringify(cookie));
 				if (redirectoncreate) location.href = redirectoncreate;
 
 				dispatch("register", {
