@@ -20,8 +20,7 @@
 
 	export let language: string;
 
-	export let cookierequestkeys: string;
-	export let cookiename: string;
+	export let sessionkey: string;
 
 	export let redirectonlogin: string;
 	export let redirectoncreate: string;
@@ -32,13 +31,17 @@
 	export let appendbodyparams: string;
 	export let logouri: string;
 	export let oauth2providers: string;
+
+	export let passwordpattern: string;
+	export let userpattern: string;
+	export let usertype: "user" | "username";
 	// export let expectmailconfirm: string;
 	let oauth2ProvidersObj: {
 		provider: string;
 		uri: string;
 	}[];
 
-	let email: string;
+	let user: string;
 	let checkValidity: boolean;
 	let rememberMe: boolean;
 
@@ -47,6 +50,15 @@
 	let localDictionary = dictionary["en"];
 
 	$: {
+		if (!passwordpattern) {
+			passwordpattern = null;
+		}
+		if (!userpattern) {
+			userpattern = null;
+		}
+		if (!usertype) {
+			usertype = "email";
+		}
 		if (!redirectonlogin) {
 			redirectonlogin = null;
 		}
@@ -56,11 +68,9 @@
 		if (!type) {
 			type = "login";
 		}
-		if (!cookierequestkeys) {
-			cookierequestkeys = null;
-		}
-		if (!cookiename) {
-			cookiename = "_lg";
+
+		if (!sessionkey) {
+			sessionkey = "_lg";
 		}
 		if (!oauth2providers) {
 			oauth2ProvidersObj = null;
@@ -73,8 +83,8 @@
 				oauth2ProvidersObj = null;
 			}
 		}
-		if (!email) {
-			email = "";
+		if (!user) {
+			user = "";
 		}
 		if (!password) {
 			password = "";
@@ -100,11 +110,11 @@
 		}
 		if (appendqueryparams) {
 			if (loginuri)
-				loginuri = loginuri.split("/")[loginuri.split("/").length].includes("?")
+				loginuri = loginuri.split("/")[loginuri.split("/").length - 1].includes("?")
 					? `${loginuri}&${appendqueryparams}`
 					: `${loginuri}?${appendqueryparams}`;
 			if (registeruri)
-				registeruri = registeruri.split("/")[registeruri.split("/").length].includes("?")
+				registeruri = registeruri.split("/")[registeruri.split("/").length - 1].includes("?")
 					? `${registeruri}&${appendqueryparams}`
 					: `${registeruri}?${appendqueryparams}`;
 		} else {
@@ -148,16 +158,19 @@
 	// 	return "";
 	// }
 	// console.log(getCookie(cookierequestkeys));
-	function setCookie(cname: string, cvalue: string, ms?: number) {
-		const d = new Date();
-		d.setTime(d.getTime() + (ms || 24 * 60 * 60 * 1000));
-		let expires = "expires=" + d.toUTCString();
-		document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-	}
-	function checkValidityFn(type: "password" | "email") {
+
+	function checkValidityFn(type: "password" | "user") {
 		checkValidity = true;
 		if (type === "email") {
-			if (email.length && email.length > 3) return true;
+			if (usertype === "username" && user.length && user.length > 3) return true;
+			if (
+				usertype === "email" &&
+				user.length &&
+				user.length > 3 &&
+				user.split("@").length === 2 &&
+				user.split(".")[user.split(".").length - 1].length > 1
+			)
+				return true;
 		} else if (type === "password") {
 			if (password.length && password.length > 3) return true;
 		}
@@ -170,7 +183,7 @@
 	}
 
 	async function login() {
-		if (checkValidityFn("email") && checkValidityFn("password")) {
+		if (checkValidityFn("user") && checkValidityFn("password")) {
 			if (loginuri) {
 				try {
 					let response;
@@ -188,7 +201,7 @@
 							referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
 						});
 					} else {
-						let body = { email, password, rememberMe };
+						let body = { user, password, rememberMe };
 						if (appendbodyparams) Object.assign(body, JSON.parse(appendbodyparams));
 
 						response = await fetch(`${loginuri}`, {
@@ -209,44 +222,40 @@
 					const serverAnswer = await response.json();
 					const answer = serverAnswer;
 					answer.ok = true;
-					answer.requestSent = { email, password, rememberMe, uri: loginuri };
-					if (cookierequestkeys) {
-						// TODO: to be completed
-						let props;
-						const cookie = {} || serverAnswer[cookierequestkeys];
-						setLoginCookie(JSON.stringify(cookie));
-					}
+					answer.requestSent = { user, password, rememberMe, uri: loginuri };
+
+					setLoginSession(JSON.stringify(answer));
 
 					if (redirectonlogin) location.href = redirectonlogin;
 					dispatch("login", answer);
 				} catch (err) {
-					console.error("invalid login", { email, password, rememberMe });
+					console.error("invalid login", { user, password, rememberMe });
 				}
 			} else {
 				// const cookie = {
-				// 	email,
+				// 	user,
 				// 	password,
 				// };
 				// setLoginCookie(JSON.stringify(cookie));
 				// if (redirectonlogin) location.href = redirectonlogin;
 
 				dispatch("login", {
-					email,
+					user,
 					password,
 					rememberMe,
 				});
 			}
 		} else {
-			console.error("invalid login", { email, password, rememberMe });
+			console.error("invalid login", { user, password, rememberMe });
 		}
 	}
 
-	function setLoginCookie(tokenStringified: string, expire?: number) {
-		setCookie(cookierequestkeys, tokenStringified, expire);
+	function setLoginSession(tokenStringified: string, expire?: number) {
+		localStorage.setItem(sessionkey, tokenStringified);
 	}
 
 	async function register() {
-		if (checkValidityFn("email") && checkValidityFn("password")) {
+		if (checkValidityFn("user") && checkValidityFn("password")) {
 			if (registeruri) {
 				try {
 					let response;
@@ -264,7 +273,7 @@
 							referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
 						});
 					} else {
-						let body = { email, password };
+						let body = { user, password };
 						if (appendbodyparams) Object.assign(body, JSON.parse(appendbodyparams));
 
 						response = await fetch(`${registeruri}`, {
@@ -283,9 +292,9 @@
 					}
 					const answer = await response.json();
 					answer.ok = true;
-					answer.requestSent = { email, password };
+					answer.requestSent = { user, password };
 					const cookie = {
-						email,
+						user,
 						password,
 					};
 					// setLoginCookie(JSON.stringify(cookie));
@@ -293,23 +302,23 @@
 					if (redirectoncreate) location.href = redirectoncreate;
 					dispatch("register", answer);
 				} catch (err) {
-					console.error("invalid register", { email, password, uri: registeruri });
+					console.error("invalid register", { user, password, uri: registeruri });
 				}
 			} else {
 				// const cookie = {
-				// 	email,
+				// 	user,
 				// 	password,
 				// };
 				// setLoginCookie(JSON.stringify(cookie));
 				// if (redirectoncreate) location.href = redirectoncreate;
 
 				dispatch("register", {
-					email,
+					user,
 					password,
 				});
 			}
 		} else {
-			console.error("invalid register", { email, password });
+			console.error("invalid register", { user, password });
 		}
 	}
 	const component = get_current_component();
@@ -322,7 +331,7 @@
 	}
 
 	function switchType(t: "login" | "register") {
-		email = "";
+		user = "";
 		password = "";
 		rememberMe = false;
 		checkValidity = false;
@@ -362,12 +371,25 @@
 		{/if}
 
 		<div class="form-floating">
-			<input
-				type="email"
-				class="form-control {checkValidity ? (checkValidityFn('email') ? 'is-valid' : 'is-invalid') : ''}"
-				bind:value={email}
-				placeholder="name@example.com"
-			/>
+			{#if usertype === "email"}
+				<input
+					type="email"
+					class="form-control {checkValidity ? (checkValidityFn('user') ? 'is-valid' : 'is-invalid') : ''}"
+					bind:value={user}
+					placeholder="name@example.com"
+					pattern={userpattern ? userpattern : ""}
+				/>
+			{:else if usertype === "username"}
+				<input
+					type="text"
+					class="form-control {checkValidity ? (checkValidityFn('user') ? 'is-valid' : 'is-invalid') : ''}"
+					bind:value={user}
+					placeholder="name@example.com"
+					required
+					pattern={userpattern ? userpattern : ""}
+				/>
+			{/if}
+
 			<label for="floatingInput">Email</label>
 		</div>
 		<div class="form-floating">
@@ -376,6 +398,8 @@
 				class="form-control {checkValidity ? (checkValidityFn('password') ? 'is-valid' : 'is-invalid') : ''}"
 				placeholder="Password"
 				bind:value={password}
+				required
+				pattern={passwordpattern ? passwordpattern : ""}
 			/>
 			<label for="floatingPassword">Password</label>
 		</div>
