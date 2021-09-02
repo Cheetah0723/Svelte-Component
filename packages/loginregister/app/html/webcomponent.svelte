@@ -20,7 +20,9 @@
 
 	export let language: string;
 
+	export let cookierequestkeys: string;
 	export let cookiename: string;
+
 	export let redirectonlogin: string;
 	export let redirectoncreate: string;
 	export let loginuri: string;
@@ -53,6 +55,9 @@
 		}
 		if (!type) {
 			type = "login";
+		}
+		if (!cookierequestkeys) {
+			cookierequestkeys = null;
 		}
 		if (!cookiename) {
 			cookiename = "_lg";
@@ -142,7 +147,7 @@
 	// 	}
 	// 	return "";
 	// }
-	// console.log(getCookie(cookiename));
+	// console.log(getCookie(cookierequestkeys));
 	function setCookie(cname: string, cvalue: string, ms?: number) {
 		const d = new Date();
 		d.setTime(d.getTime() + (ms || 24 * 60 * 60 * 1000));
@@ -205,8 +210,13 @@
 					const answer = serverAnswer;
 					answer.ok = true;
 					answer.requestSent = { email, password, rememberMe, uri: loginuri };
-					const cookie = serverAnswer.token || serverAnswer;
-					setLoginCookie(JSON.stringify(cookie));
+					if (cookierequestkeys) {
+						// TODO: to be completed
+						let props;
+						const cookie = {} || serverAnswer[cookierequestkeys];
+						setLoginCookie(JSON.stringify(cookie));
+					}
+
 					if (redirectonlogin) location.href = redirectonlogin;
 					dispatch("login", answer);
 				} catch (err) {
@@ -232,7 +242,7 @@
 	}
 
 	function setLoginCookie(tokenStringified: string, expire?: number) {
-		setCookie(cookiename, tokenStringified, expire);
+		setCookie(cookierequestkeys, tokenStringified, expire);
 	}
 
 	async function register() {
