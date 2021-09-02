@@ -34,7 +34,7 @@
 
 	export let passwordpattern: string;
 	export let userpattern: string;
-	export let usertype: "user" | "username";
+	export let usertype: "email" | "username";
 	// export let expectmailconfirm: string;
 	let oauth2ProvidersObj: {
 		provider: string;
@@ -160,15 +160,18 @@
 	// console.log(getCookie(cookierequestkeys));
 
 	function checkValidityFn(type: "password" | "user") {
+		console.log(usertype, user, type);
+
 		checkValidity = true;
-		if (type === "email") {
+		if (type === "user") {
 			if (usertype === "username" && user.length && user.length > 3) return true;
+			console.log(usertype, user);
 			if (
 				usertype === "email" &&
 				user.length &&
 				user.length > 3 &&
 				user.split("@").length === 2 &&
-				user.split(".")[user.split(".").length - 1].length > 1
+				user.split(".")[user.split(".").length - 1]?.length > 1
 			)
 				return true;
 		} else if (type === "password") {
@@ -184,6 +187,7 @@
 
 	async function login() {
 		if (checkValidityFn("user") && checkValidityFn("password")) {
+			console.log("request");
 			if (loginuri) {
 				try {
 					let response;
