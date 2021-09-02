@@ -20,6 +20,9 @@
 
 	export let language: string;
 
+	export let cookiename: string;
+	export let redirectonlogin: string;
+	export let redirectoncreate: string;
 	export let loginuri: string;
 	export let registeruri: string;
 	export let requestmethod: string;
@@ -28,7 +31,10 @@
 	export let logouri: string;
 	export let oauth2providers: string;
 	// export let expectmailconfirm: string;
-	let oauth2ProvidersObj: {}[];
+	let oauth2ProvidersObj: {
+		provider: string;
+		uri: string;
+	}[];
 
 	let email: string;
 	let checkValidity: boolean;
@@ -37,9 +43,19 @@
 	let password: string;
 	let getWord;
 	let localDictionary = dictionary["en"];
+
 	$: {
+		if (!redirectonlogin) {
+			redirectonlogin = null;
+		}
+		if (!redirectoncreate) {
+			redirectoncreate = null;
+		}
 		if (!type) {
 			type = "login";
+		}
+		if (!cookiename) {
+			cookiename = "_lg";
 		}
 		if (!oauth2providers) {
 			oauth2ProvidersObj = null;
@@ -111,7 +127,22 @@
 			return localDictionary[w] || dictionary["en"][w] || "";
 		};
 	}
-
+	// function getCookie(cname: string) {
+	// 	let name = cname + "=";
+	// 	let decodedCookie = decodeURIComponent(document.cookie);
+	// 	let ca = decodedCookie.split(";");
+	// 	for (let i = 0; i < ca.length; i++) {
+	// 		let c = ca[i];
+	// 		while (c.charAt(0) == " ") {
+	// 			c = c.substring(1);
+	// 		}
+	// 		if (c.indexOf(name) == 0) {
+	// 			return c.substring(name.length, c.length);
+	// 		}
+	// 	}
+	// 	return "";
+	// }
+	// console.log(getCookie(cookiename));
 	function checkValidityFn(type: "password" | "email") {
 		checkValidity = true;
 		if (type === "email") {
@@ -123,7 +154,8 @@
 	}
 
 	async function socialLogin(providerName: string) {
-		console.log("socialLogin", providerName);
+		const provider = oauth2ProvidersObj.find((f) => f.provider === providerName);
+		location.href = provider.uri;
 	}
 
 	async function login() {
@@ -166,12 +198,16 @@
 					const answer = await response.json();
 					answer.ok = true;
 					answer.requestSent = { email, password, rememberMe, uri: loginuri };
-
+					setLoginCookie();
+					if (redirectonlogin) location.href = redirectonlogin;
 					dispatch("login", answer);
 				} catch (err) {
 					console.error("invalid login", { email, password, rememberMe });
 				}
 			} else {
+				setLoginCookie();
+				if (redirectonlogin) location.href = redirectonlogin;
+
 				dispatch("login", {
 					email,
 					password,
@@ -182,6 +218,8 @@
 			console.error("invalid login", { email, password, rememberMe });
 		}
 	}
+
+	function setLoginCookie() {}
 
 	async function register() {
 		if (checkValidityFn("email") && checkValidityFn("password")) {
@@ -222,11 +260,18 @@
 					const answer = await response.json();
 					answer.ok = true;
 					answer.requestSent = { email, password };
+					setLoginCookie();
+
+					if (redirectoncreate) location.href = redirectoncreate;
 					dispatch("register", answer);
 				} catch (err) {
 					console.error("invalid register", { email, password, uri: registeruri });
 				}
 			} else {
+				setLoginCookie();
+
+				if (redirectoncreate) location.href = redirectoncreate;
+
 				dispatch("register", {
 					email,
 					password,
