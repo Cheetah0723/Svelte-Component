@@ -13,6 +13,7 @@
 
 	import moment from "moment";
 	import { createEventDispatcher } from "svelte";
+	import pkg from "../../package.json";
 
 	// import dispatch from "@app/functions/webcomponent";
 
@@ -169,8 +170,8 @@
 </script>
 
 <svelte:head>
-	<script defer src="https://unpkg.com/@htmlbricks/paginationbootstrap-component@latest/release/paginationbootstrap.js"></script>
-	<script defer src="https://unpkg.com/@htmlbricks/videocardbootstrap-component@latest/release/videocardbootstrap.js"></script>
+	<script defer src="https://unpkg.com/@htmlbricks/paginationbootstrap-component@{pkg.version}/release/paginationbootstrap.js"></script>
+	<script defer src="https://unpkg.com/@htmlbricks/videocardbootstrap-component@{pkg.version}/release/videocardbootstrap.js"></script>
 </svelte:head>
 
 <div id="webcomponent">

@@ -13,6 +13,7 @@
 
 	import moment from "moment-with-locales-es6";
 	import { createEventDispatcher } from "svelte";
+	import pkg from "../../package.json";
 
 	// import dispatch from "@app/functions/webcomponent";
 
@@ -320,7 +321,7 @@
 </script>
 
 <svelte:head>
-	<script defer src="https://unpkg.com/@htmlbricks/paginationbootstrap-component@latest/release/paginationbootstrap.js"></script>
+	<script defer src="https://unpkg.com/@htmlbricks/paginationbootstrap-component@{pkg.version}/release/paginationbootstrap.js"></script>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@latest/font/bootstrap-icons.css" />
 	<!--
 			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
