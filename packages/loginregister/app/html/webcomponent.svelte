@@ -225,10 +225,11 @@
 
 					const serverAnswer = await response.json();
 					const answer = serverAnswer;
-					answer.ok = true;
-					answer.requestSent = { user, password, rememberMe, uri: loginuri };
+					// answer.requestSent = { user, password, rememberMe, uri: loginuri };
+					if (!answer.ok) throw new Error("invalid login");
 
-					setLoginSession(JSON.stringify(answer));
+					if (rememberMe) setLoginOnStorage(JSON.stringify(answer));
+					else setLoginSession(JSON.stringify(answer));
 
 					if (redirectonlogin) location.href = redirectonlogin;
 					dispatch("login", answer);
@@ -254,10 +255,13 @@
 		}
 	}
 
-	function setLoginSession(tokenStringified: string, expire?: number) {
+	function setLoginOnStorage(tokenStringified: string, expire?: number) {
 		localStorage.setItem(sessionkey, tokenStringified);
 	}
 
+	function setLoginSession(tokenStringified: string, expire?: number) {
+		sessionStorage.setItem(sessionkey, tokenStringified);
+	}
 	async function register() {
 		if (checkValidityFn("user") && checkValidityFn("password")) {
 			if (registeruri) {
@@ -349,7 +353,10 @@
 </svelte:head>
 <div id="webcomponent" class="text-center">
 	<main class="form-signin">
-		<img class="mb-4 text-center" src={logouri} alt="" width="72" height="57" />
+		<!-- TODO: ad slot -->
+		<div class="mb-4 text-center">
+			<img src={logouri} alt="" width="90" />
+		</div>
 		{#if type === "login"}
 			<h1 class="h3 mb-3 fw-normal">{getWord("loginTitle")}</h1>
 		{:else if type === "register"}

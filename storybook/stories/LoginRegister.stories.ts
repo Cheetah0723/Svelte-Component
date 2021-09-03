@@ -21,6 +21,8 @@ const Template: Story<LoginRegisterProps> = (args) => createLoginRegister(args);
 export const Login = Template.bind({});
 Login.args = {
   type: "login",
+  logouri:
+    "https://upload.wikimedia.org/wikipedia/commons/a/af/Free_Content_Logo.svg",
 };
 export const Register = Template.bind({});
 Register.args = {

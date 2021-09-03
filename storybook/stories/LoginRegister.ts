@@ -1,5 +1,6 @@
 export interface LoginRegisterProps {
-  type: "login" | "register";
+  type?: "login" | "register";
+  logouri?: string;
   language?: string;
   registeruri?: string;
   loginuri?: string;
@@ -10,6 +11,7 @@ export interface LoginRegisterProps {
 
 export const createLoginRegister = ({
   type,
+  logouri,
   login,
   register,
   language,
@@ -23,9 +25,11 @@ export const createLoginRegister = ({
   document.body.appendChild(script);
 
   const c = document.createElement("loginregister-component");
-
+  if (logouri) {
+    c.setAttribute("logouri", logouri);
+  }
   if (type) {
-    c.setAttribute("type", type.toString());
+    c.setAttribute("type", type);
   }
   if (oauth2providers) {
     c.setAttribute("oauth2providers", JSON.stringify(oauth2providers));
