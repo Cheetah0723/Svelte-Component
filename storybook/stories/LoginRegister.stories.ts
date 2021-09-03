@@ -9,6 +9,7 @@ export default {
       control: { type: "select" }, // Automatically inferred when 'options' is defined
     },
     language: { type: "string" },
+    logouri: { type: "string" },
     loginuri: { type: "string" },
     registeruri: { type: "string" },
     login: { action: "loginEvent" },
