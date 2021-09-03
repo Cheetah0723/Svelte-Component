@@ -1,5 +1,5 @@
 import { Story, Meta } from "@storybook/html";
-import { createPagination, PaginationProps } from "./BasicPagination";
+import { createPagination, PaginationProps } from "./Pagination";
 
 export default {
   title: "Components/Pagination",

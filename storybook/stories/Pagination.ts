@@ -3,7 +3,7 @@ export interface PaginationProps {
   size?: number;
   page?: number;
   primarycolor?: string;
-  pagechange?: () => void;
+  pagechange?: (p) => void;
 }
 
 export const createPagination = ({
@@ -32,7 +32,7 @@ export const createPagination = ({
     c.setAttribute("primarycolor", primarycolor);
   }
 
-  c.addEventListener("pagechange", pagechange);
+  c.addEventListener("pagechange", (p: any) => pagechange(p.detail));
 
   return c;
 };

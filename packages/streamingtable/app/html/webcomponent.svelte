@@ -527,8 +527,8 @@
 					{/if}
 				</tbody>
 			</table>
-			{#if selectActionsbuttons}
-				<nav style="margin-top:20px" aria-label="actions on selected">
+			<nav style="margin-top:20px" aria-label="actions on selected">
+				{#if selectActionsbuttons}
 					<button on:click={handleEnableSelector} class="btn btn-primary"> <i class="bi-gear" /> </button>
 					{#each selectActionsbuttons as sbutton (sbutton.name)}
 						<span style="margin-left:20px">
@@ -542,11 +542,14 @@
 							</button>
 						</span>
 					{/each}
-				</nav>
-			{/if}
-
-			<nav style="margin-top:20px" aria-label="navigation">
-				<paginationbootstrap-component on:pagechange={changePage} page={page.toString()} pages={pages.toString()} primarycolor={primarycolor || ""} />
+				{/if}
+				<paginationbootstrap-component
+					style="float:right"
+					on:pagechange={changePage}
+					page={page.toString()}
+					pages={pages.toString()}
+					primarycolor={primarycolor || ""}
+				/>
 			</nav>
 		{/if}
 	</div>

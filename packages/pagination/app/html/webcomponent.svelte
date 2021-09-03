@@ -62,9 +62,13 @@
 	{#if pages > 0}
 		{#if page > 0}
 			<li class="page-item">
+				<button style="color:{primarycolor}" class="page-link" on:click={() => changePage(0)}>«</button>
+			</li>
+			<li class="page-item">
 				<button style="color:{primarycolor}" class="page-link" on:click={() => changePage(page - 1)}>&#60;</button>
 			</li>
 		{:else}
+			<li class="page-item disabled"><button class="page-link" disabled>«</button></li>
 			<li class="page-item disabled"><button class="page-link" disabled>&#60;</button></li>
 		{/if}
 		{#if pages > 5 && page > pages - 3}
@@ -116,8 +120,14 @@
 			<li class="page-item">
 				<button style="color:{primarycolor}" class="page-link" on:click={() => changePage(page + 1)}>&#62;</button>
 			</li>
+			<li class="page-item">
+				<button style="color:{primarycolor}" class="page-link" on:click={() => changePage(pages - 1)}>»</button>
+			</li>
 		{:else}
 			<li class="page-item disabled"><button style="color:{primarycolor}" class="page-link" disabled>&#62;</button></li>
+			<li class="page-item">
+				<button style="color:{primarycolor}" class="page-link" disabled>»</button>
+			</li>
 		{/if}
 	{/if}
 </ul>
