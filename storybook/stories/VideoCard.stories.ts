@@ -9,6 +9,7 @@ export default {
 
     description: { control: { type: "text" } },
     time: { control: { type: "date" } },
+    id: { control: { disable: true } },
   },
 } as Meta;
 

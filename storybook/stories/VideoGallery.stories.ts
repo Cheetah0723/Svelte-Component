@@ -66,6 +66,7 @@ export default {
     page: { control: { type: "number" } },
     primarycolor: { control: { type: "color" } },
     pagechange: { action: "pagechangeEvent" },
+    id: { control: { disable: true } },
   },
 } as Meta;
 

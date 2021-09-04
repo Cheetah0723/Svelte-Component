@@ -263,6 +263,7 @@ export default {
     cellclick: { action: "cellclickEvent" },
     actiononselected: { action: "actiononselectedEvent" },
     clickonrow: { action: "clickonrowEvent" },
+    id: { control: { disable: true } },
   },
 } as Meta;
 

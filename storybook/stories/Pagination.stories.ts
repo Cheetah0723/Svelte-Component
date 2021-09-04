@@ -6,6 +6,7 @@ export default {
   argTypes: {
     page: { control: { type: "number" } },
     pagechange: { action: "pagechangeEvent" },
+    id: { control: { disable: true } },
   },
 } as Meta;
 

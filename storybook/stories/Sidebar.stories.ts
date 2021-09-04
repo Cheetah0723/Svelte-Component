@@ -7,6 +7,7 @@ export default {
     opened: { control: { type: "boolean" } },
     pageclick: { action: "pageclickEvent" },
     sidebarswitch: { action: "sidebarswitchEvent" },
+    id: { control: { disable: true } },
   },
   parameters: {
     layout: "fullscreen",

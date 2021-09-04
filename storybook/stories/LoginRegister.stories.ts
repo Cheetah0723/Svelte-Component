@@ -14,6 +14,7 @@ export default {
     registeruri: { type: "string" },
     login: { action: "loginEvent" },
     register: { action: "registerEvent" },
+    id: { control: { disable: true } },
   },
 } as Meta;
 
