@@ -15,14 +15,16 @@
 
 	import { createEventDispatcher } from "svelte";
 	import { get_current_component } from "svelte/internal";
+	export let id: string;
 	export let opened: boolean;
 	if (opened) {
 		opened = true;
 	} else {
 		opened = false;
 	}
-	console.log(opened);
+
 	$: {
+		if (!id) id = null;
 	}
 </script>
 
@@ -30,6 +32,7 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@latest/font/bootstrap-icons.css" />
 </svelte:head>
 <div id="webcomponent">
+	<slot name="test"></slot>
 	<div
 		class="offcanvas offcanvas-start show"
 		tabindex="-1"

@@ -15,6 +15,7 @@
 
 	import { createEventDispatcher } from "svelte";
 	import { get_current_component } from "svelte/internal";
+	export let id: string;
 
 	export let type: "login" | "register";
 
@@ -50,6 +51,9 @@
 	let localDictionary = dictionary["en"];
 
 	$: {
+				if (!id) {
+			id = null;
+		}
 		if (!passwordpattern) {
 			passwordpattern = null;
 		}

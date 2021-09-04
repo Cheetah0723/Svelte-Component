@@ -19,6 +19,8 @@
 	export let primarycolor: number;
 
 	export let pages: number;
+	export let id: string;
+	if (!id) id = null;
 
 	if (!primarycolor) {
 		primarycolor = null;
@@ -125,7 +127,7 @@
 			</li>
 		{:else}
 			<li class="page-item disabled"><button style="color:{primarycolor}" class="page-link" disabled>&#62;</button></li>
-			<li class="page-item">
+			<li class="page-item disabled">
 				<button style="color:{primarycolor}" class="page-link" disabled>»</button>
 			</li>
 		{/if}

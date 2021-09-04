@@ -1,4 +1,6 @@
 export interface LoginRegisterProps {
+  id: string;
+
   type?: "login" | "register";
   logouri?: string;
   language?: string;
@@ -10,6 +12,7 @@ export interface LoginRegisterProps {
 }
 
 export const createLoginRegister = ({
+  id,
   type,
   logouri,
   login,
@@ -19,34 +22,54 @@ export const createLoginRegister = ({
   registeruri,
   oauth2providers,
 }: LoginRegisterProps) => {
-  const script = document.createElement("script");
-  script.src = "http://localhost:6006/loginregister/dist/loginregister.js";
+  if (!document.getElementById("loginregistercomponentscript")) {
+    const script = document.createElement("script");
+    script.id = "loginregistercomponentscript";
+    script.src = "http://localhost:6006/loginregister/dist/loginregister.js";
+    document.body.appendChild(script);
+  }
+  let c: HTMLElement;
+  if (document.getElementById(id)) {
+    c = document.getElementById(id);
+  } else {
+    c = document.createElement("loginregister-component");
+    c.id = id;
+    c.addEventListener("login", (c: any) => login(c.detail));
+    c.addEventListener("register", (c: any) => register(c.detail));
+  }
 
-  document.body.appendChild(script);
-
-  const c = document.createElement("loginregister-component");
   if (logouri) {
     c.setAttribute("logouri", logouri);
+  } else {
+    if (c.hasAttribute("logouri")) c.removeAttribute("logouri");
   }
   if (type) {
     c.setAttribute("type", type);
+  } else {
+    if (c.hasAttribute("type")) c.removeAttribute("type");
   }
   if (oauth2providers) {
     c.setAttribute("oauth2providers", JSON.stringify(oauth2providers));
+  } else {
+    if (c.hasAttribute("oauth2providers")) c.removeAttribute("oauth2providers");
   }
   if (registeruri) {
     c.setAttribute("registeruri", registeruri);
+  } else {
+    if (c.hasAttribute("registeruri")) c.removeAttribute("registeruri");
   }
 
   if (loginuri) {
     c.setAttribute("loginuri", loginuri);
+  } else {
+    if (c.hasAttribute("loginuri")) c.removeAttribute("loginuri");
   }
 
   if (language) {
     c.setAttribute("language", language);
+  } else {
+    if (c.hasAttribute("language")) c.removeAttribute("language");
   }
-  c.addEventListener("login", (c: any) => login(c.detail));
-  c.addEventListener("register", (c: any) => register(c.detail));
 
   return c;
 };

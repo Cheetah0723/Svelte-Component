@@ -37,6 +37,8 @@
 		_id: string;
 	}
 
+	export let id: string;
+
 	export let rows: string;
 	export let size: number;
 	export let page: number;
@@ -49,7 +51,9 @@
 	if (!primarycolor) {
 		primarycolor = null;
 	}
-
+	if (!id) {
+		id = null;
+	}
 	let pages = 0;
 	let selectActionsbuttons: any[];
 	let rowItems: IRow[];
@@ -68,8 +72,6 @@
 	let selectedItems: string[] = [];
 
 	$: {
-		console.info("compute");
-		console.info(selectactions);
 		if (!selectactions) {
 			selectActionsbuttons = null;
 		} else {
@@ -100,6 +102,8 @@
 			}
 			if (actions) {
 				actionButtons = JSON.parse(actions);
+			} else {
+				actions = null;
 			}
 			rowItems = JSON.parse(rows);
 			if (filters?.length) {

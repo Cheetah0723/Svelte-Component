@@ -272,12 +272,14 @@ export const BasicTable = Template.bind({});
 BasicTable.args = {
   headers: basicHeaders,
   rows,
+  id: "BasicTable",
 };
 export const BasicTableWithClick = Template.bind({});
 BasicTableWithClick.args = {
   headers: basicHeaders,
   rows,
   selectrow: true,
+  id: "BasicTableWithClick",
 };
 
 export const BasicTableWithMoreSearchAndSelect = Template.bind({});
@@ -286,29 +288,34 @@ BasicTableWithMoreSearchAndSelect.args = {
   rows,
   enableselect: true,
   selectactions: selections,
+  id: "BasicTableWithMoreSearchAndSelect",
 };
 
 export const BasicTableWithSearchOnNestedField = Template.bind({});
 BasicTableWithSearchOnNestedField.args = {
   headers: headersWithNestedLabel,
   rows,
+  id: "BasicTableWithSearchOnNestedField",
 };
 
 export const BasicTableWithSearchOnAllFields = Template.bind({});
 BasicTableWithSearchOnAllFields.args = {
   headers: headersWithAllSearches,
   rows,
+  id: "BasicTableWithSearchOnAllFields",
 };
 export const BasicTableWithDate = Template.bind({});
 BasicTableWithDate.args = {
   headers: headersWithDateOnly,
   rows,
+  id: "BasicTableWithDate",
 };
 export const BasicTableWithActions = Template.bind({});
 BasicTableWithActions.args = {
   headers: headersWithAllSearches,
   rows,
   actions,
+  id: "BasicTableWithActions",
 };
 export const BasicTableWithActionsAndSelect = Template.bind({});
 BasicTableWithActionsAndSelect.args = {
@@ -316,4 +323,5 @@ BasicTableWithActionsAndSelect.args = {
   rows,
   actions,
   selectactions: selections,
+  id: "BasicTableWithActionsAndSelect",
 };

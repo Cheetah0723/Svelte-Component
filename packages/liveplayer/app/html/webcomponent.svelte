@@ -10,19 +10,23 @@
 	 * @license: MIT License
 	 *
 	 */
-	import { onMount } from "svelte";
-	import { get_current_component } from "svelte/internal";
+	// import { onMount } from "svelte";
+	// import { get_current_component } from "svelte/internal";
 
 	import Hls from "hls.js";
 
 	export let mediauri: string;
 	export let mediatype: string;
-
-	const component = get_current_component();
+	export let id: string;
+	if (!id) id = null;
+	// const component = get_current_component();
 
 	$: {
 		if (!mediauri) {
 			mediauri = null;
+		}
+		if (!mediatype) {
+			mediatype = null;
 		}
 	}
 

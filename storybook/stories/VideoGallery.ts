@@ -1,37 +1,38 @@
-export interface PaginationProps {
+export interface VideoGalleryProps {
   id: string;
-  pages: number;
+  cards: any[];
   size?: number;
   page?: number;
   primarycolor?: string;
-  pagechange?: (p) => void;
+  pagechange?: () => void;
 }
 
-export const createPagination = ({
-  pages,
+export const createVideoGallery = ({
+  id,
+  cards,
   size,
   page,
   primarycolor,
-  id,
   pagechange,
-}: PaginationProps) => {
-  if (!document.getElementById("paginationcomponentscript")) {
+}: VideoGalleryProps) => {
+  if (!document.getElementById("videogallerycomponentscript")) {
     const script = document.createElement("script");
-    script.id = "paginationcomponentscript";
-    script.src = "http://localhost:6006/pagination/dist/paginationbootstrap.js";
+    script.id = "videogallerycomponentscript";
+    script.src =
+      "http://localhost:6006/videogallery/dist/videogallerycomponent.js";
+
     document.body.appendChild(script);
   }
   let c: HTMLElement;
   if (document.getElementById(id)) {
     c = document.getElementById(id);
   } else {
-    c = document.createElement("paginationbootstrap-component");
+    c = document.createElement("videogallery-bootstrap-component");
     c.id = id;
-    c.addEventListener("pagechange", (p: any) => pagechange(p.detail));
+    c.addEventListener("pagechange", pagechange);
   }
 
-  c.setAttribute("pages", pages.toString());
-
+  c.setAttribute("cards", JSON.stringify(cards));
   if (size) {
     c.setAttribute("size", size.toString());
   } else {

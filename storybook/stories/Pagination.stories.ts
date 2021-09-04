@@ -11,7 +11,18 @@ export default {
 
 const Template: Story<PaginationProps> = (args) => createPagination(args);
 
-export const BasicPagination = Template.bind({});
-BasicPagination.args = {
-  pages: 9,
+export const BasicPagination1 = Template.bind({});
+BasicPagination1.args = {
+  pages: 1,
+  id: "BasicPagination1",
+};
+export const BasicPagination4 = Template.bind({});
+BasicPagination4.args = {
+  pages: 4,
+  id: "BasicPagination4",
+};
+export const BasicPagination12 = Template.bind({});
+BasicPagination12.args = {
+  pages: 12,
+  id: "BasicPagination12",
 };

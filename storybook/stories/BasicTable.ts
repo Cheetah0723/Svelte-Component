@@ -7,6 +7,7 @@ interface ITableHeader {
 }
 
 export interface TableProps {
+  id: string;
   rows: any[];
   headers: ITableHeader[];
   size?: number;
@@ -28,6 +29,7 @@ export interface TableProps {
 }
 
 export const createTable = ({
+  id,
   rows,
   headers,
   size,
@@ -43,49 +45,65 @@ export const createTable = ({
   pagechange,
   clickonrow,
 }: TableProps) => {
-  const script = document.createElement("script");
-  script.src =
-    "http://localhost:6006/streamingtable/dist/streamingtablebootstrap.js";
+  if (!document.getElementById("streamingtablescript")) {
+    const script = document.createElement("script");
+    script.id = "streamingtablescript";
+    script.src =
+      "http://localhost:6006/streamingtable/dist/streamingtablebootstrap.js";
+    document.body.appendChild(script);
+  }
+  let c: HTMLElement;
+  if (document.getElementById(id)) {
+    c = document.getElementById(id);
+  } else {
+    c = document.createElement("streamingtablebootstrap-webcomponent");
+    c.id = id;
+    c.addEventListener("clickonrow", (i: any) => clickonrow(i.detail));
 
-  document.body.appendChild(script);
-  const c = document.createElement("streamingtablebootstrap-webcomponent");
+    c.addEventListener("pagechange", (i: any) => pagechange(i.detail));
+
+    c.addEventListener("tableaction", (i: any) => tableaction(i.detail));
+
+    c.addEventListener("cellclick", (i: any) => cellclick(i.detail));
+
+    c.addEventListener("actiononselected", (i: any) =>
+      actiononselected(i.detail)
+    );
+  }
+
   c.setAttribute("rows", JSON.stringify(rows));
   c.setAttribute("headers", JSON.stringify(headers));
   c.setAttribute("enableselect", enableselect ? "yes" : "");
   if (size) {
     c.setAttribute("size", size.toString());
+  } else {
+    if (c.hasAttribute("size")) c.removeAttribute("size");
   }
   if (page) {
     c.setAttribute("page", page.toString());
+  } else {
+    if (c.hasAttribute("page")) c.removeAttribute("page");
   }
   if (selectrow) {
     c.setAttribute("selectrow", "yes");
+  } else {
+    if (c.hasAttribute("selectrow")) c.removeAttribute("selectrow");
   }
   if (selectactions) {
     c.setAttribute("selectactions", JSON.stringify(selectactions));
+  } else {
+    if (c.hasAttribute("selectactions")) c.removeAttribute("selectactions");
   }
   if (primarycolor) {
     c.setAttribute("primarycolor", primarycolor);
+  } else {
+    if (c.hasAttribute("primarycolor")) c.removeAttribute("primarycolor");
   }
   if (actions) {
     c.setAttribute("actions", JSON.stringify(actions));
+  } else {
+    if (c.hasAttribute("actions")) c.removeAttribute("actions");
   }
-  if (clickonrow) {
-    c.addEventListener("clickonrow", (i: any) => clickonrow(i.detail));
-  }
-  if (pagechange) {
-    c.addEventListener("pagechange", (i: any) => pagechange(i.detail));
-  }
-  if (tableaction) {
-    c.addEventListener("tableaction", (i: any) => tableaction(i.detail));
-  }
-  if (cellclick) {
-    c.addEventListener("cellclick", (i: any) => cellclick(i.detail));
-  }
-  if (actiononselected) {
-    c.addEventListener("actiononselected", (i: any) =>
-      actiononselected(i.detail)
-    );
-  }
+
   return c;
 };

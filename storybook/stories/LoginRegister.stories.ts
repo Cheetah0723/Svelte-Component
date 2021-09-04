@@ -24,15 +24,18 @@ Login.args = {
   type: "login",
   logouri:
     "https://upload.wikimedia.org/wikipedia/commons/a/af/Free_Content_Logo.svg",
+  id: "login",
 };
 export const Register = Template.bind({});
 Register.args = {
   type: "register",
+  id: "Register",
 };
 export const LoginEn = Template.bind({});
 LoginEn.args = {
   type: "login",
   language: "en",
+  id: "LoginEn",
 };
 
 export const LoginEnWithFetch = Template.bind({});
@@ -41,6 +44,7 @@ LoginEnWithFetch.args = {
   language: "en",
   loginuri: "https://kernel.free.beeceptor.com/login",
   registeruri: "https://kernel.free.beeceptor.com/register",
+  id: "LoginEnWithFetch",
 };
 export const LoginEnWithOauth = Template.bind({});
 LoginEnWithOauth.args = {
@@ -57,4 +61,5 @@ LoginEnWithOauth.args = {
     { provider: "facebook" },
     { provider: "twitter" },
   ],
+  id: "LoginEnWithOauth",
 };

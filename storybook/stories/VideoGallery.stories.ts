@@ -1,5 +1,5 @@
 import { Story, Meta } from "@storybook/html";
-import { createVideoGallery, VideoGalleryProps } from "./BasicVideoGallery";
+import { createVideoGallery, VideoGalleryProps } from "./VideoGallery";
 
 const cards = [
   {
@@ -75,4 +75,5 @@ export const BasicVideoGallery = Template.bind({});
 BasicVideoGallery.args = {
   cards,
   headers,
+  id: "BasicVideoGallery",
 };

@@ -16,4 +16,6 @@ export default {
 const Template: Story<OffcanvasProps> = (args) => createOffcanvas(args);
 
 export const BasicOffcanvas = Template.bind({});
-BasicOffcanvas.args = {};
+BasicOffcanvas.args = {
+  id: "BasicOffcanvas",
+};

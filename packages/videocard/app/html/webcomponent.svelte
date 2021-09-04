@@ -19,6 +19,7 @@
 	export let pageuri: string;
 	export let linklabel: string;
 	export let time: string;
+	export let id: string;
 	export let dateformat: string;
 	if (!dateformat) {
 		dateformat = "dddd DD MMMM YYYY HH:mm";
@@ -31,6 +32,16 @@
 	}
 	if (!time) {
 		time = null;
+	}
+	if (!description) {
+		description = null;
+	}
+	if (!title) {
+		title = null;
+	}
+
+	if (!id) {
+		id = null;
 	}
 </script>
 

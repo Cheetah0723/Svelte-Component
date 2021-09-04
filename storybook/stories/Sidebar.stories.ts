@@ -16,9 +16,12 @@ export default {
 const Template: Story<SidebarProps> = (args) => createSidebar(args);
 
 export const BasicSidebar = Template.bind({});
-BasicSidebar.args = {};
+BasicSidebar.args = {
+  id: "BasicSidebar",
+};
 export const BasicSidebarClosed = Template.bind({});
 
 BasicSidebarClosed.args = {
   opened: true,
+  id: "BasicSidebarClosed",
 };
