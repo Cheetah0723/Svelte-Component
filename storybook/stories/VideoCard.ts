@@ -14,9 +14,9 @@ export const createVideoCard = ({
   description,
   time,
 }: VideoCardProps) => {
-  if (!document.getElementById("videocardcomponentscript")) {
+  if (!document.getElementById("videocardbootstrapbootstrapcomponentjs")) {
     const script = document.createElement("script");
-    script.id = "videocardcomponentscript";
+    script.id = "videocardbootstrapbootstrapcomponentjs";
     script.src = "http://localhost:6006/videocard/dist/videocardbootstrap.js";
 
     document.body.appendChild(script);

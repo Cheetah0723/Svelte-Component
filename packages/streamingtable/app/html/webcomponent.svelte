@@ -322,17 +322,14 @@
 			itemId,
 		});
 	}
+
+	if (!document.getElementById("paginationbootstrapcomponentjs")) {
+		const script = document.createElement("script");
+		script.id = "paginationbootstrapcomponentjs";
+		script.src = `https://unpkg.com/@htmlbricks/paginationbootstrap-component@${pkg.version}/release/paginationbootstrap.js`;
+		document.head.appendChild(script);
+	}
 </script>
-
-<svelte:head>
-	<script defer src="https://unpkg.com/@htmlbricks/paginationbootstrap-component@{pkg.version}/release/paginationbootstrap.js"></script>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@latest/font/bootstrap-icons.css" />
-	<!--
-			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@latest/font/bootstrap-icons.css" />
-
-	-->
-</svelte:head>
 
 <div id="webcomponent">
 	<div class="container-fluid">

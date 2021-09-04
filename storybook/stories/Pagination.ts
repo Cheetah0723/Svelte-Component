@@ -15,9 +15,9 @@ export const createPagination = ({
   id,
   pagechange,
 }: PaginationProps) => {
-  if (!document.getElementById("paginationcomponentscript")) {
+  if (!document.getElementById("paginationbootstrapcomponentjs")) {
     const script = document.createElement("script");
-    script.id = "paginationcomponentscript";
+    script.id = "paginationbootstrapcomponentjs";
     script.src = "http://localhost:6006/pagination/dist/paginationbootstrap.js";
     document.body.appendChild(script);
   }

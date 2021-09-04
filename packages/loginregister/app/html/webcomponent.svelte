@@ -51,7 +51,7 @@
 	let localDictionary = dictionary["en"];
 
 	$: {
-				if (!id) {
+		if (!id) {
 			id = null;
 		}
 		if (!passwordpattern) {

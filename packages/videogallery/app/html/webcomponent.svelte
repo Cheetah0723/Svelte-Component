@@ -33,6 +33,7 @@
 	export let dateFormat: string;
 	export let primarycolor: string;
 	export let filter: string;
+	export let id: string;
 
 	if (!linkLabel) {
 		linkLabel = "";
@@ -43,7 +44,9 @@
 	if (!dateFormat) {
 		dateFormat = "dddd DD MMMM YYYY HH:mm";
 	}
-
+	if (!id) {
+		id = null;
+	}
 	let pages = 0;
 
 	let cardItems: ICard[];
@@ -167,12 +170,20 @@
 
 	// 	return app();
 	// }
-</script>
+	if (!document.getElementById("paginationbootstrapcomponentjs")) {
+		const script = document.createElement("script");
+		script.id = "paginationbootstrapcomponentjs";
+		script.src = `https://unpkg.com/@htmlbricks/paginationbootstrap-component@${pkg.version}/release/paginationbootstrap.js`;
+		document.head.appendChild(script);
+	}
 
-<svelte:head>
-	<script defer src="https://unpkg.com/@htmlbricks/paginationbootstrap-component@{pkg.version}/release/paginationbootstrap.js"></script>
-	<script defer src="https://unpkg.com/@htmlbricks/videocardbootstrap-component@{pkg.version}/release/videocardbootstrap.js"></script>
-</svelte:head>
+	if (!document.getElementById("videocardbootstrapbootstrapcomponentjs")) {
+		const script = document.createElement("script");
+		script.id = "videocardbootstrapbootstrapcomponentjs";
+		script.src = `https://unpkg.com/@htmlbricks/videocardbootstrap-component@${pkg.version}/release/videocardbootstrap.js`;
+		document.head.appendChild(script);
+	}
+</script>
 
 <div id="webcomponent">
 	<div class="container-fluid">
