@@ -32,6 +32,8 @@
 		search?: boolean;
 		click?: boolean;
 		select: string[];
+		nosort?: boolean;
+		sortBy?: "asc" | "desc" | "none";
 	}
 	interface IRow {
 		_id: string;
@@ -70,10 +72,13 @@
 	}[];
 
 	let selectedItems: string[] = [];
-
+	let sortedBy: string;
+	let sortedDirection: string;
 	$: {
+		console.log("compute");
 		if (!selectactions) {
 			selectActionsbuttons = null;
+			selectactions = null;
 		} else {
 			selectActionsbuttons = JSON.parse(selectactions);
 		}
@@ -99,6 +104,9 @@
 			if (headers) {
 				tableHeaders = JSON.parse(headers);
 				if (tableHeaders.find((f) => f.type === "datetime")) searchOnRangeIsPresent = true;
+				tableHeaders.forEach((m) => {
+					if (!m.sortBy) m.sortBy = "none";
+				});
 			}
 			if (actions) {
 				actionButtons = JSON.parse(actions);
@@ -121,6 +129,10 @@
 				}
 			}
 
+			if (sortedBy) {
+				console.log("sorted", sortedBy);
+			}
+
 			if (rowItems.length) {
 				pages = Math.floor(rowItems.length / size) + (rowItems.length % size ? 1 : 0);
 			}
@@ -132,7 +144,22 @@
 		} catch (err) {
 			console.error("cards data error:", err);
 		}
+		// sortByKeyToggle = (key: string) => {
+		// 	console.log(key);
+		// 	const h = tableHeaders.find((f) => f.key === key);
+		// 	console.log(h);
 
+		// 	if (!h.sortBy || h.sortBy === "none") {
+		// 		h.sortBy = "asc";
+		// 	} else if (h.sortBy === "asc") {
+		// 		h.sortBy = "desc";
+		// 	} else if (h.sortBy === "desc") {
+		// 		h.sortBy = null;
+		// 	}
+		// 	// rowItems = rowItems.sort((a, b) => {
+		// 	// 	return b[key] - a[key];
+		// 	// });
+		// };
 		// console.log("end computed");
 		// console.log(size, page, pages, rowItems.length, initialDate, lastDate);
 
@@ -246,7 +273,6 @@
 	}
 	function changeStartDate(target, th) {
 		const newDate = target.value;
-		console.log(newDate);
 		const filterExists = filters.find((f) => f.key === th.key);
 		setFilter({
 			key: th.key,
@@ -329,8 +355,22 @@
 		script.src = `https://unpkg.com/@htmlbricks/paginationbootstrap-component@${pkg.version}/release/paginationbootstrap.js`;
 		document.head.appendChild(script);
 	}
+	function changeSort(key: string) {
+		if (!sortedBy || key !== sortedBy) {
+			sortedDirection = "asc";
+			sortedBy = key;
+		} else if (key === sortedBy && sortedDirection === "asc") {
+			sortedDirection = "desc";
+		} else if (key === sortedBy && sortedDirection === "desc") {
+			sortedDirection = null;
+			sortedBy = null;
+		}
+	}
 </script>
 
+<svelte:head>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@latest/font/bootstrap-icons.css" />
+</svelte:head>
 <div id="webcomponent">
 	<div class="container-fluid">
 		{#if tableHeaders && tableHeaders.length}
@@ -351,6 +391,15 @@
 						{#each tableHeaders as th (th.key)}
 							<th scope="col">
 								{th.label}
+								<button style="border:none; background-color:inherit" on:click={() => changeSort(th.key)}>
+									{#if !sortedBy || th.key !== sortedBy}
+										&#x21C5;
+									{:else if sortedDirection === "asc"}
+										&#x21A7;
+									{:else if sortedDirection === "desc"}
+										&#x21A5;
+									{/if}
+								</button>
 							</th>
 						{/each}
 						{#if actionButtons}
@@ -531,14 +580,14 @@
 			</table>
 			<nav style="margin-top:20px" aria-label="actions on selected">
 				{#if selectActionsbuttons}
-					<button on:click={handleEnableSelector} class="btn btn-primary"> <i class="bi-gear" /> </button>
+					<button on:click={handleEnableSelector} class="btn btn-primary btn-sm"> <i class="bi-gear" /> </button>
 					{#each selectActionsbuttons as sbutton (sbutton.name)}
 						<span style="margin-left:20px">
 							<button
 								on:click={() => {
 									handleClickOnMultipleSelectAction(sbutton.name);
 								}}
-								class="btn btn-primary"
+								class="btn btn-primary btn-sm"
 							>
 								{sbutton.name}
 							</button>
