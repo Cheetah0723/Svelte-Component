@@ -31,22 +31,19 @@
 </svelte:head>
 <div id="webcomponent">
 	<div
-		class="offcanvas offcanvas-start {opened ? 'show' : ''}"
+		class="offcanvas offcanvas-start show"
 		tabindex="-1"
-		id="offcanvasExample"
 		aria-labelledby="offcanvasExampleLabel"
-		style={opened ? "visibility: visible;" : ""}
+		style="visibility: visible; {opened ? 'transform:none!important' : 'transform:translateX(-100%)!important;'}"
 	>
 		<div class="offcanvas-header">
-			<h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
+			<h5 class="offcanvas-title">Offcanvas</h5>
 			<button
 				on:click={() => {
 					opened = false;
 				}}
 				type="button"
 				class="btn-close text-reset"
-				data-bs-dismiss="offcanvas"
-				aria-label="Close"
 			/>
 		</div>
 		<div class="offcanvas-body">
@@ -61,15 +58,14 @@
 			</div>
 		</div>
 	</div>
-	{#if opened}
-		<div
-			on:click={() => {
-				opened = false;
-			}}
-			class="modal-backdrop fade show"
-			style="z-index:1040"
-		/>
-	{/if}
+
+	<div
+		on:click={() => {
+			opened = false;
+		}}
+		class="modal-backdrop fade {opened ? 'show' : ''}"
+		style="z-index:1040; {opened ? '' : 'visibility:hidden'}"
+	/>
 </div>
 
 <style lang="scss">

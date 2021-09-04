@@ -21,5 +21,14 @@ export const createOffcanvas = ({
   c.addEventListener("pageclick", (p: any) => pageclick(p.detail));
   c.addEventListener("sidebarswitch", (p: any) => sidebarswitch(p.detail));
 
+  const b = document.createElement(`button`);
+  b.onclick = function () {
+    document
+      .getElementsByTagName("offcanvas-component")[0]
+      .setAttribute("opened", "yes");
+  };
+  b.innerHTML = `test`;
+  document.body.appendChild(b);
+
   return c;
 };
