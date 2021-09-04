@@ -1,5 +1,5 @@
 import { Story, Meta } from "@storybook/html";
-import { createTable, TableProps } from "./BasicTable";
+import { createTable, TableProps } from "./Table";
 
 const rows = [
   {

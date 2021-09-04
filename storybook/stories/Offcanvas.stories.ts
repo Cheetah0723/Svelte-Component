@@ -19,3 +19,8 @@ export const BasicOffcanvas = Template.bind({});
 BasicOffcanvas.args = {
   id: "BasicOffcanvas",
 };
+export const BasicOffcanvasOpen = Template.bind({});
+BasicOffcanvasOpen.args = {
+  opened: true,
+  id: "BasicOffcanvas",
+};
