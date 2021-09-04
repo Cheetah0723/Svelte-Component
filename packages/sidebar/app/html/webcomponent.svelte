@@ -18,7 +18,7 @@
 	export let opened: boolean;
 
 	$: {
-		if (!opened || (opened as unknown) === "yes") {
+		if (!opened || (opened as unknown) !== "no") {
 			opened = true;
 		} else {
 			opened = false;

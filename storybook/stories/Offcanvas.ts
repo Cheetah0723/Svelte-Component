@@ -1,22 +1,22 @@
-export interface SidebarProps {
+export interface OffcanvasProps {
   opened: boolean;
   pageclick?: (p) => void;
   sidebarswitch?: (p) => void;
 }
 
-export const createSidebar = ({
+export const createOffcanvas = ({
   opened,
   pageclick,
   sidebarswitch,
-}: SidebarProps) => {
+}: OffcanvasProps) => {
   const script = document.createElement("script");
-  script.src = "http://localhost:6006/sidebar/dist/sidebar.js";
+  script.src = "http://localhost:6006/offcanvas/dist/offcanvas.js";
   document.body.appendChild(script);
 
-  const c = document.createElement("sidebar-component");
+  const c = document.createElement("offcanvas-component");
 
   if (opened) {
-    c.setAttribute("opened", "no");
+    c.setAttribute("opened", "yes");
   }
   c.addEventListener("pageclick", (p: any) => pageclick(p.detail));
   c.addEventListener("sidebarswitch", (p: any) => sidebarswitch(p.detail));
