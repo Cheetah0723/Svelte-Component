@@ -49,6 +49,20 @@
 			navlinks = null;
 		}
 	}
+
+	const component = get_current_component();
+	const svelteDispatch = createEventDispatcher();
+
+	function dispatch(name, detail) {
+		// console.log(`svelte: ${name}`);
+		svelteDispatch(name, detail);
+		component.dispatchEvent && component.dispatchEvent(new CustomEvent(name, { detail }));
+	}
+	function changePage(page: string) {
+		dispatch("pagechange", {
+			page,
+		});
+	}
 </script>
 
 <svelte:head>
@@ -85,7 +99,12 @@
 								{navLink.label}
 							</button>
 						{:else}
-							<button class="nav-link link-dark">
+							<button
+								on:click={() => {
+									changePage(navLink.key);
+								}}
+								class="nav-link link-dark"
+							>
 								<i class="bi me-2 bi-{navLink.icon}" />
 								{navLink.label}
 							</button>

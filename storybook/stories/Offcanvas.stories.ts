@@ -8,6 +8,7 @@ export default {
 
     pageclick: { action: "pageclickEvent" },
     Offcanvasswitch: { action: "sidebarswitchEvent" },
+    pagechange: { action: "pagechangeEvent" },
     id: { control: { disable: true } },
   },
   parameters: {
@@ -18,6 +19,11 @@ export default {
 const Template: Story<OffcanvasProps> = (args) => createOffcanvas(args);
 
 const navlinks1 = [
+  {
+    label: "Home",
+    key: "home",
+    icon: "house-door",
+  },
   {
     label: "Dashboard",
     key: "dashboard",
@@ -38,11 +44,6 @@ const navlinks1 = [
     key: "stats",
     icon: "graph-up",
   },
-  {
-    label: "Home",
-    key: "home",
-    icon: "house-door",
-  },
 ];
 
 export const BasicOffcanvas = Template.bind({});
@@ -53,6 +54,13 @@ BasicOffcanvas.args = {
 export const BasicOffcanvasOpen = Template.bind({});
 BasicOffcanvasOpen.args = {
   opened: true,
-  id: "BasicOffcanvas",
+  id: "BasicOffcanvasOpen",
   navlinks: navlinks1,
+};
+export const BasicOffcanvasOpenOnSettings = Template.bind({});
+BasicOffcanvasOpenOnSettings.args = {
+  opened: true,
+  id: "BasicOffcanvasOpenOnSettings",
+  navlinks: navlinks1,
+  navpage: "settings",
 };
