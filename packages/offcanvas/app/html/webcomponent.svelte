@@ -35,12 +35,14 @@
 	export let companylogouri: string;
 	export let companytitle: string;
 	export let enablefooter: boolean;
+	export let type: "open" | "autohide" | "small";
 	let navLinks: INavLink[];
 	let groupsArr: { key: string; label: string }[] = [];
 	let sendOff;
 	let switched;
 	$: {
 		if (!id) id = null;
+		if (!type) type = "autohide";
 		if (!companylogouri) companylogouri = "https://getbootstrap.com/docs/5.1/assets/brand/bootstrap-logo.svg";
 		if (!companytitle) companytitle = "company";
 		if (!enablefooter) enablefooter = false;
@@ -126,7 +128,7 @@
 					{companytitle}
 				</slot>
 
-				<button on:click={() => OpenSwitch(false)} type="button" class="btn-close text-reset" style="float:right" />
+				<!-- <button on:click={() => OpenSwitch(false)} type="button" class="btn-close btn-sm text-reset" style="float:right;" /> -->
 			</h4>
 
 			<ul class="nav nav-pills flex-column mb-auto">
@@ -260,23 +262,31 @@
 					<hr />
 				{/if} -->
 			</ul>
+			<!-- TODO: add profile login/logout/managment -->
 			{#if enablefooter}
 				<hr />
 				<slot name="footer">footer</slot>
 			{/if}
 		</div>
 	</div>
-
-	<div on:click={() => OpenSwitch(false)} class="modal-backdrop fade {opened ? 'show' : ''}" style="z-index:1040; {opened ? '' : 'visibility:hidden'}" />
+	{#if type === "autohide"}
+		<div on:click={() => OpenSwitch(false)} class="modal-backdrop fade {opened ? 'show' : ''}" style="z-index:1040; {opened ? '' : 'visibility:hidden'}" />
+	{/if}
 </div>
 
 <style lang="scss">
 	// bootstrap 5.0
-	@import "../styles/bootstrap.scss"; 
+	@import "../styles/bootstrap.scss";
 	@import "../styles/webcomponent.scss";
 
 	i {
 		min-width: 16px;
 		display: inline-block;
+	}
+	.offcanvas-start {
+		width: 240px;
+	}
+	.nav-link {
+		padding: 0.5rem 0.2rem 0.5rem 0.2rem;
 	}
 </style>
