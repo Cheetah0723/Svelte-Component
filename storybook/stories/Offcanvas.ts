@@ -7,20 +7,22 @@ interface INavLink {
 
 export interface OffcanvasProps {
   navlinks?: INavLink[];
+  groups?: { key: string; label: string }[];
   id: string;
   opened?: boolean;
   navpage?: string;
   pagechange?: (p) => void;
-  sidebarswitch?: (p) => void;
+  offcanvasswitch?: (p) => void;
 }
 
 export const createOffcanvas = ({
   id,
   navlinks,
   opened,
-  sidebarswitch,
+  offcanvasswitch,
   pagechange,
   navpage,
+  groups,
 }: OffcanvasProps) => {
   if (!document.getElementById("offcanvasscript")) {
     const script = document.createElement("script");
@@ -35,7 +37,9 @@ export const createOffcanvas = ({
     c = document.createElement("offcanvas-component");
     c.id = id;
     c.addEventListener("pagechange", (p: any) => pagechange(p.detail));
-    c.addEventListener("sidebarswitch", (p: any) => sidebarswitch(p.detail));
+    c.addEventListener("offcanvasswitch", (p: any) =>
+      offcanvasswitch(p.detail)
+    );
     c.innerHTML = `<button slot="test" onclick="document.getElementsByTagName('offcanvas-component')[0].setAttribute('opened', 'yes')">test</button>`;
   }
 
@@ -54,7 +58,11 @@ export const createOffcanvas = ({
   } else {
     if (c.hasAttribute("navpage")) c.removeAttribute("navpage");
   }
-
+  if (groups) {
+    c.setAttribute("groups", JSON.stringify(groups));
+  } else {
+    if (c.hasAttribute("groups")) c.removeAttribute("groups");
+  }
   // if (!document.getElementById("openbutton")) {
   //   const b = document.createElement(`button`);
   //   b.onclick = function () {
