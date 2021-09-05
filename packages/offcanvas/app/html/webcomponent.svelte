@@ -42,7 +42,7 @@
 		<div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="min-height:100vh">
 			<h5 class="offcanvas-title" style="margin-bottom:30px">
 				Offcanvas
-
+				<!-- 
 				<button
 					on:click={() => {
 						opened = false;
@@ -50,7 +50,7 @@
 					type="button"
 					class="btn-close text-reset"
 					style="float:right"
-				/>
+				/> -->
 			</h5>
 
 			<ul class="nav nav-pills flex-column mb-auto">
