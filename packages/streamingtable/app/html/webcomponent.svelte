@@ -130,7 +130,29 @@
 			}
 
 			if (sortedBy) {
-				console.log("sorted", sortedBy);
+				console.log("resort");
+				if (sortedDirection === "asc")
+					rowItems = rowItems.sort((a, b) => {
+						if (a === b) return 0;
+						if (!a[sortedBy]) return 1;
+						if (!b[sortedBy]) return -1;
+
+						if (a[sortedBy].toUpperCase() < b[sortedBy].toUpperCase()) return 1;
+						if (a[sortedBy].toUpperCase() > b[sortedBy].toUpperCase()) return -1;
+
+						return 0;
+					});
+				if (sortedDirection === "desc")
+					rowItems = rowItems.sort((a, b) => {
+						if (a === b) return 0;
+						if (!a[sortedBy]) return -1;
+						if (!b[sortedBy]) return 1;
+
+						if (a[sortedBy].toUpperCase() < b[sortedBy].toUpperCase()) return -1;
+						if (a[sortedBy].toUpperCase() > b[sortedBy].toUpperCase()) return 1;
+
+						return 0;
+					});
 			}
 
 			if (rowItems.length) {
@@ -164,6 +186,7 @@
 		// console.log(size, page, pages, rowItems.length, initialDate, lastDate);
 
 		// will only get called when the `color` changed.
+		console.log(sortedBy, sortedDirection);
 	}
 	import { get_current_component } from "svelte/internal";
 
@@ -356,6 +379,7 @@
 		document.head.appendChild(script);
 	}
 	function changeSort(key: string) {
+		console.log(sortedBy, sortedDirection);
 		if (!sortedBy || key !== sortedBy) {
 			sortedDirection = "asc";
 			sortedBy = key;
@@ -365,6 +389,7 @@
 			sortedDirection = null;
 			sortedBy = null;
 		}
+		console.log(sortedBy, sortedDirection);
 	}
 </script>
 
