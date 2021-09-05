@@ -11,12 +11,22 @@
 	 *
 	 */
 
+	interface INavLink {
+		key: string;
+		icon: string;
+		group: string;
+		label: string;
+	}
+
 	import { dictionary } from "../functions/i18n";
 
 	import { createEventDispatcher } from "svelte";
 	import { get_current_component } from "svelte/internal";
 	export let id: string;
 	export let opened: boolean;
+	export let navlinks: string;
+	export let navpage: string;
+	let navLinks: INavLink[];
 	if (opened) {
 		opened = true;
 	} else {
@@ -25,6 +35,19 @@
 
 	$: {
 		if (!id) id = null;
+		if (!navpage) {
+			navpage = "home";
+		}
+		if (navlinks) {
+			try {
+				navLinks = JSON.parse(navlinks);
+			} catch (err) {
+				console.error(err);
+			}
+		} else {
+			navLinks = [];
+			navlinks = null;
+		}
 	}
 </script>
 
@@ -54,36 +77,21 @@
 			</h5>
 
 			<ul class="nav nav-pills flex-column mb-auto">
-				<li class="nav-item">
-					<a href="#" class="nav-link active" aria-current="page">
-						<svg class="bi me-2" width="16" height="16"><use xlink:href="#home" /></svg>
-						Home
-					</a>
-				</li>
-				<li>
-					<a href="#" class="nav-link link-dark">
-						<svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2" /></svg>
-						Dashboard
-					</a>
-				</li>
-				<li>
-					<a href="#" class="nav-link link-dark">
-						<svg class="bi me-2" width="16" height="16"><use xlink:href="#table" /></svg>
-						Orders
-					</a>
-				</li>
-				<li>
-					<a href="#" class="nav-link link-dark">
-						<svg class="bi me-2" width="16" height="16"><use xlink:href="#grid" /></svg>
-						Products
-					</a>
-				</li>
-				<li>
-					<a href="#" class="nav-link link-dark">
-						<svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle" /></svg>
-						Customers
-					</a>
-				</li>
+				{#each navLinks as navLink (navLink.key)}
+					<li class="nav-item">
+						{#if navLink.key === navpage}
+							<button style="width: 100%;text-align:left" class="nav-link active" aria-current="page">
+								<i class="bi me-2 bi-{navLink.icon}" />
+								{navLink.label}
+							</button>
+						{:else}
+							<button class="nav-link link-dark">
+								<i class="bi me-2 bi-{navLink.icon}" />
+								{navLink.label}
+							</button>
+						{/if}
+					</li>
+				{/each}
 			</ul>
 			<hr />
 			text
@@ -102,4 +110,9 @@
 <style lang="scss">
 	@import "../styles/bootstrap.scss";
 	@import "../styles/webcomponent.scss";
+
+	i {
+		min-width: 16px;
+		display: inline-block;
+	}
 </style>

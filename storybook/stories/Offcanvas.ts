@@ -1,4 +1,12 @@
+interface INavLink {
+  key: string;
+  icon: string;
+  group: string;
+  label: string;
+}
+
 export interface OffcanvasProps {
+  navlinks: INavLink[];
   id: string;
   opened: boolean;
   pageclick?: (p) => void;
@@ -7,6 +15,7 @@ export interface OffcanvasProps {
 
 export const createOffcanvas = ({
   id,
+  navlinks,
   opened,
   pageclick,
   sidebarswitch,
@@ -32,6 +41,11 @@ export const createOffcanvas = ({
     c.setAttribute("opened", "yes");
   } else {
     if (c.hasAttribute("opened")) c.removeAttribute("opened");
+  }
+  if (navlinks) {
+    c.setAttribute("navlinks", JSON.stringify(navlinks));
+  } else {
+    if (c.hasAttribute("navlinks")) c.removeAttribute("navlinks");
   }
 
   // if (!document.getElementById("openbutton")) {
