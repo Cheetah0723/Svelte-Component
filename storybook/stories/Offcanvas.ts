@@ -9,6 +9,7 @@ export interface OffcanvasProps {
   navlinks?: INavLink[];
   groups?: { key: string; label: string }[];
   id: string;
+  enablefooter?: boolean;
   opened?: boolean;
   navpage?: string;
   pagechange?: (p) => void;
@@ -21,6 +22,7 @@ export const createOffcanvas = ({
   opened,
   offcanvasswitch,
   pagechange,
+  enablefooter,
   navpage,
   groups,
 }: OffcanvasProps) => {
@@ -62,6 +64,11 @@ export const createOffcanvas = ({
     c.setAttribute("groups", JSON.stringify(groups));
   } else {
     if (c.hasAttribute("groups")) c.removeAttribute("groups");
+  }
+  if (enablefooter) {
+    c.setAttribute("enablefooter", "yes");
+  } else {
+    if (c.hasAttribute("enablefooter")) c.removeAttribute("enablefooter");
   }
   // if (!document.getElementById("openbutton")) {
   //   const b = document.createElement(`button`);

@@ -5,7 +5,9 @@ export default {
   title: "Components/Offcanvas",
   argTypes: {
     opened: { control: { type: "boolean" } },
-
+    companylogouri: { control: { type: "text" } },
+    companytitle: { control: { type: "text" } },
+    enablefooter: { control: { type: "boolean" } },
     pageclick: { action: "pageclickEvent" },
     offcanvasswitch: { action: "offcanvasswitchEvent" },
     pagechange: { action: "pagechangeEvent" },
@@ -18,6 +20,26 @@ export default {
 
 const Template: Story<OffcanvasProps> = (args) => createOffcanvas(args);
 
+const navlinks1b = [
+  {
+    label: "Settings",
+    key: "settings",
+    icon: "gear",
+    group: "admin",
+  },
+  {
+    label: "Users",
+    key: "users",
+    icon: "people-fill",
+    group: "admin",
+  },
+  {
+    label: "Stats",
+    key: "stats",
+    icon: "graph-up",
+    group: "stats",
+  },
+];
 const navlinks1 = [
   {
     label: "Home",
@@ -48,7 +70,51 @@ const navlinks1 = [
     group: "stats",
   },
 ];
-
+const navlinks2 = [
+  {
+    label: "Home",
+    key: "home",
+    icon: "house-door",
+    badge: {
+      text: "bbb",
+    },
+  },
+  {
+    label: "Dashboard",
+    key: "dashboard",
+    icon: "speedometer",
+    badge: {
+      text: "bbb",
+    },
+  },
+  {
+    label: "Settings",
+    key: "settings",
+    icon: "gear",
+    group: "admin",
+    badge: {
+      text: "bbb",
+    },
+  },
+  {
+    label: "Users",
+    key: "users",
+    icon: "people-fill",
+    group: "admin",
+    badge: {
+      text: "uuuuu",
+    },
+  },
+  {
+    label: "Stats",
+    key: "stats",
+    icon: "graph-up",
+    group: "stats",
+    badge: {
+      text: "bbb",
+    },
+  },
+];
 const navlinks0 = [
   {
     label: "Home",
@@ -110,7 +176,7 @@ export const BasicOffcanvasWithGroups = Template.bind({});
 BasicOffcanvasWithGroups.args = {
   opened: true,
   id: "BasicOffcanvasWithGroups",
-  navlinks: navlinks1,
+  navlinks: navlinks1b,
   groups: groups1,
 };
 export const BasicOffcanvasWithGroupsOnSettings = Template.bind({});
@@ -127,4 +193,29 @@ BasicOffcanvasWithAutoGroupsOnSettings.args = {
   id: "BasicOffcanvasWithAutoGroupsOnSettings",
   navlinks: navlinks1,
   navpage: "settings",
+};
+
+export const BasicOffcanvasWithAutoGroupsOnSettingsAndBadge = Template.bind({});
+BasicOffcanvasWithAutoGroupsOnSettingsAndBadge.args = {
+  opened: true,
+  id: "BasicOffcanvasWithAutoGroupsOnSettingsAndBadge",
+  navlinks: navlinks2,
+  navpage: "settings",
+};
+export const OffcanvasWithFooter = Template.bind({});
+OffcanvasWithFooter.args = {
+  opened: true,
+  id: "OffcanvasWithFooter",
+  navlinks: navlinks2,
+  navpage: "settings",
+  enablefooter: true,
+};
+
+export const OffcanvasWithFooterCustom = Template.bind({});
+OffcanvasWithFooterCustom.args = {
+  opened: true,
+  id: "OffcanvasWithFooterCustom",
+  navlinks: navlinks2,
+  navpage: "settings",
+  enablefooter: true,
 };
