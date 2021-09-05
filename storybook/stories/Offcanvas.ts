@@ -12,6 +12,7 @@ export interface OffcanvasProps {
   enablefooter?: boolean;
   opened?: boolean;
   navpage?: string;
+  type?: "open" | "autohide" | "small";
   pagechange?: (p) => void;
   offcanvasswitch?: (p) => void;
 }
@@ -25,6 +26,7 @@ export const createOffcanvas = ({
   enablefooter,
   navpage,
   groups,
+  type,
 }: OffcanvasProps) => {
   if (!document.getElementById("offcanvasscript")) {
     const script = document.createElement("script");
@@ -69,6 +71,11 @@ export const createOffcanvas = ({
     c.setAttribute("enablefooter", "yes");
   } else {
     if (c.hasAttribute("enablefooter")) c.removeAttribute("enablefooter");
+  }
+  if (type) {
+    c.setAttribute("type", type);
+  } else {
+    if (c.hasAttribute("type")) c.removeAttribute("type");
   }
   // if (!document.getElementById("openbutton")) {
   //   const b = document.createElement(`button`);

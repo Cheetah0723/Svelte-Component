@@ -12,6 +12,7 @@ export default {
     offcanvasswitch: { action: "offcanvasswitchEvent" },
     pagechange: { action: "pagechangeEvent" },
     id: { control: { disable: true } },
+    type: { control: { options: ["autohide", "small", "open"] } },
   },
   parameters: {
     layout: "fullscreen",
@@ -218,4 +219,14 @@ OffcanvasWithFooterCustom.args = {
   navlinks: navlinks2,
   navpage: "settings",
   enablefooter: true,
+};
+
+export const OffcanvasWithFooterCustomDesktop = Template.bind({});
+OffcanvasWithFooterCustomDesktop.args = {
+  opened: true,
+  id: "OffcanvasWithFooterCustomDesktop",
+  navlinks: navlinks2,
+  navpage: "settings",
+  enablefooter: true,
+  type: "open",
 };
