@@ -13,6 +13,7 @@ import copy from "rollup-plugin-copy";
 import json from "@rollup/plugin-json";
 import alias from "@rollup/plugin-alias";
 import path from "path";
+// import { spawn } from "child_process";
 
 const tsconfig = require("./tsconfig.json");
 
@@ -36,10 +37,9 @@ export default {
 	output: {
 		sourcemap: true,
 		format: "iife",
-		file: "dist/videogallerycomponent.js",
-		name: "videogallerybootstrap",
+		file: "dist/navbarbootstrap.js",
+		name: "navbarbootstrap",
 	},
-
 	plugins: [
 		json(),
 		copy({
