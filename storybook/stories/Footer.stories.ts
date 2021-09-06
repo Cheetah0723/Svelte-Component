@@ -1,8 +1,8 @@
 import { Story, Meta } from "@storybook/html";
-import { createNavbar, NavbarProps } from "./Navbar";
+import { createFooter, FooterProps } from "./Footer";
 
 export default {
-  title: "Layout/Navbar",
+  title: "Layout/Footer",
   argTypes: {
     id: { control: { disable: true } },
     pagetitle: { control: { type: "text" } },
@@ -12,29 +12,29 @@ export default {
   },
 } as Meta;
 
-const Template: Story<NavbarProps> = (args) => createNavbar(args);
+const Template: Story<FooterProps> = (args) => createFooter(args);
 
-export const BasicNavbar = Template.bind({});
-BasicNavbar.args = {
-  id: "BasicNavbar",
+export const BasicFooter = Template.bind({});
+BasicFooter.args = {
+  id: "BasicFooter",
   companybrandname: "testbrand",
 };
-export const BasicNavbarWithTitle = Template.bind({});
-BasicNavbarWithTitle.args = {
-  id: "BasicNavbarWithTitle",
+export const BasicFooterWithTitle = Template.bind({});
+BasicFooterWithTitle.args = {
+  id: "BasicFooterWithTitle",
   companybrandname: "testbrand2",
   pagetitle: "pagetest",
 };
-export const BasicNavbarWithTitleOpen = Template.bind({});
-BasicNavbarWithTitleOpen.args = {
-  id: "BasicNavbarWithTitleOpen",
+export const BasicFooterWithTitleOpen = Template.bind({});
+BasicFooterWithTitleOpen.args = {
+  id: "BasicFooterWithTitleOpen",
   companybrandname: "testbrand2",
   pagetitle: "pagetest",
   switchopen: true,
 };
-export const NavbarSlotted = Template.bind({});
-NavbarSlotted.args = {
-  id: "NavbarSlotted",
+export const FooterSlotted = Template.bind({});
+FooterSlotted.args = {
+  id: "FooterSlotted",
   companybrandname: "testbrand2",
   pagetitle: "pagetest",
   switchopen: true,

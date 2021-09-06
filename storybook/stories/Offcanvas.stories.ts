@@ -2,7 +2,7 @@ import { Story, Meta } from "@storybook/html";
 import { createOffcanvas, OffcanvasProps } from "./Offcanvas";
 
 export default {
-  title: "Components/Offcanvas",
+  title: "Layout/Offcanvas",
   argTypes: {
     opened: { control: { type: "boolean" } },
     companylogouri: { control: { type: "text" } },

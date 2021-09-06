@@ -1,4 +1,4 @@
-export interface NavbarProps {
+export interface FooterProps {
   id: string;
   pagetitle?: string;
   companybrandname?: string;
@@ -7,25 +7,25 @@ export interface NavbarProps {
   navmenuswitch?: (isOpen) => void;
 }
 
-export const createNavbar = ({
+export const createFooter = ({
   id,
   companylogouri,
   companybrandname,
   pagetitle,
   switchopen,
   navmenuswitch,
-}: NavbarProps) => {
-  if (!document.getElementById("navbarscript")) {
+}: FooterProps) => {
+  if (!document.getElementById("footerscript")) {
     const script = document.createElement("script");
-    script.id = "navbarscript";
-    script.src = "http://localhost:6006/navbar/dist/navbarbootstrap.js";
+    script.id = "footerscript";
+    script.src = "http://localhost:6006/footer/dist/footerbootstrap.js";
     document.body.appendChild(script);
   }
   let c: HTMLElement;
   if (document.getElementById(id)) {
     c = document.getElementById(id);
   } else {
-    c = document.createElement("navbarbootstrap-component");
+    c = document.createElement("footerbootstrap-component");
     c.id = id;
     c.addEventListener("navmenuswitch", (e: any) => navmenuswitch(e.detail));
   }

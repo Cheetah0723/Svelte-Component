@@ -1,4 +1,4 @@
-<svelte:options tag="navbarbootstrap-component" />
+<svelte:options tag="footerbootstrap-component" />
 
 <script lang="ts">
 	/**
