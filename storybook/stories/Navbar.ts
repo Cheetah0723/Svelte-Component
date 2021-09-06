@@ -6,7 +6,7 @@ export const createNavbar = ({ id }: NavbarProps) => {
   if (!document.getElementById("navbarscript")) {
     const script = document.createElement("script");
     script.id = "navbarscript";
-    script.src = "http://localhost:6006/navbar/dist/navbar.js";
+    script.src = "http://localhost:6006/navbar/dist/navbarbootstrap.js";
     document.body.appendChild(script);
   }
   let c: HTMLElement;

@@ -275,7 +275,6 @@
 </div>
 
 <style lang="scss">
-	// bootstrap 5.0
 	@import "../styles/bootstrap.scss";
 	@import "../styles/webcomponent.scss";
 
