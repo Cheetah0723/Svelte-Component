@@ -5,10 +5,10 @@ export default {
   title: "Layout/Footer",
   argTypes: {
     id: { control: { disable: true } },
-    pagetitle: { control: { type: "text" } },
-    companybrandname: { control: { type: "text" } },
-    companylogouri: { control: { type: "text" } },
-    navmenuswitch: { action: "navmenuswitchEvent" },
+    smallrow: { control: { type: "text" } },
+    columns: { control: { type: "text" } },
+    brandandcontacts: { control: { type: "text" } },
+    footerclick: { action: "footerClickEvent" },
   },
 } as Meta;
 

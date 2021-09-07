@@ -1,19 +1,17 @@
 export interface FooterProps {
   id: string;
-  pagetitle?: string;
-  companybrandname?: string;
-  companylogouri?: string;
-  switchopen?: boolean;
-  navmenuswitch?: (isOpen) => void;
+  smallrow?: {};
+  columns?: {};
+  brandandcontacts?: {};
+  footerclick?: (el) => void;
 }
 
 export const createFooter = ({
   id,
-  companylogouri,
-  companybrandname,
-  pagetitle,
-  switchopen,
-  navmenuswitch,
+  smallrow,
+  columns,
+  brandandcontacts,
+  footerclick,
 }: FooterProps) => {
   if (!document.getElementById("footerscript")) {
     const script = document.createElement("script");
@@ -27,36 +25,25 @@ export const createFooter = ({
   } else {
     c = document.createElement("footerbootstrap-component");
     c.id = id;
-    c.addEventListener("navmenuswitch", (e: any) => navmenuswitch(e.detail));
+    c.addEventListener("footerClick", (e: any) => footerclick(e.detail));
   }
-  if (companylogouri) {
-    c.setAttribute("companylogouri", companylogouri);
+  if (smallrow) {
+    c.setAttribute("smallrow", JSON.stringify(smallrow));
   } else {
-    if (c.hasAttribute("companylogouri")) c.removeAttribute("companylogouri");
+    if (c.hasAttribute("smallrow")) c.removeAttribute("smallrow");
   }
 
-  if (companybrandname) {
-    c.setAttribute("companybrandname", companybrandname);
+  if (columns) {
+    c.setAttribute("columns", JSON.stringify(columns));
   } else {
-    if (c.hasAttribute("companybrandname"))
-      c.removeAttribute("companybrandname");
+    if (c.hasAttribute("columns")) c.removeAttribute("columns");
   }
-  if (pagetitle) {
-    c.setAttribute("pagetitle", pagetitle);
+  if (brandandcontacts) {
+    c.setAttribute("brandandcontacts", JSON.stringify(brandandcontacts));
   } else {
-    if (c.hasAttribute("pagetitle")) c.removeAttribute("pagetitle");
-  }
-  if (switchopen) {
-    c.setAttribute("switchopen", "yes");
-  } else {
-    if (c.hasAttribute("switchopen")) c.removeAttribute("switchopen");
+    if (c.hasAttribute("brandandcontacts"))
+      c.removeAttribute("brandandcontacts");
   }
 
-  if (id === "NavbarSlotted") {
-    const slot_right_bar = document.createElement("div");
-    slot_right_bar.setAttribute("slot", "right-bar");
-    slot_right_bar.innerText = "slot right";
-    c.appendChild(slot_right_bar);
-  }
   return c;
 };
