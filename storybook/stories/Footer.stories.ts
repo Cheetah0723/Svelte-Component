@@ -1,6 +1,10 @@
 import { Story, Meta } from "@storybook/html";
 import { createFooter, FooterProps } from "./Footer";
-
+interface IColumn {
+  _id?: string;
+  cells: { label: string; key: string }[];
+  title: string;
+}
 export default {
   title: "Layout/Footer",
   argTypes: {
@@ -14,28 +18,28 @@ export default {
 
 const Template: Story<FooterProps> = (args) => createFooter(args);
 
-export const BasicFooter = Template.bind({});
-BasicFooter.args = {
+const columns1: IColumn[] = [
+  {
+    cells: [
+      {
+        label: "test",
+        key: "test",
+      },
+    ],
+    title: "stringtitle",
+  },
+];
+
+export const Footer = Template.bind({});
+Footer.args = {
   id: "BasicFooter",
-  companybrandname: "testbrand",
 };
-export const BasicFooterWithTitle = Template.bind({});
-BasicFooterWithTitle.args = {
-  id: "BasicFooterWithTitle",
-  companybrandname: "testbrand2",
-  pagetitle: "pagetest",
+export const FooterWithBrand = Template.bind({});
+FooterWithBrand.args = {
+  id: "FooterWithBrand",
 };
-export const BasicFooterWithTitleOpen = Template.bind({});
-BasicFooterWithTitleOpen.args = {
-  id: "BasicFooterWithTitleOpen",
-  companybrandname: "testbrand2",
-  pagetitle: "pagetest",
-  switchopen: true,
-};
-export const FooterSlotted = Template.bind({});
-FooterSlotted.args = {
-  id: "FooterSlotted",
-  companybrandname: "testbrand2",
-  pagetitle: "pagetest",
-  switchopen: true,
+export const FooterWithColumns = Template.bind({});
+FooterWithColumns.args = {
+  id: "FooterWithColumns",
+  columns: columns1,
 };
