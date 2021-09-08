@@ -36,7 +36,6 @@
 		if (!columns) {
 			columns = null;
 		} else {
-			console.log(columns);
 			try {
 				columns = JSON.parse(columns as unknown as string);
 				console.log(columns);
@@ -50,7 +49,6 @@
 				console.error("parseerr?", columns, err);
 			}
 		}
-
 
 		if (!brandandcontacts) {
 			brandandcontacts = null;
