@@ -62,7 +62,11 @@
 		if (!smallrow) {
 			smallrow = null;
 		} else {
-			smallrow = JSON.parse(smallrow as string);
+			try {
+				smallrow = JSON.parse(smallrow as unknown as string);
+			} catch (err) {
+				console.error("parseerr?", columns, err);
+			}
 		}
 	}
 	const component = get_current_component();
