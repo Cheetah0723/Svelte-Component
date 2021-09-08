@@ -21,18 +21,20 @@
 		companyLogoUri: string;
 	}
 	interface ISmallRow {}
+	interface IFooterBottom {}
 
 	import { get_current_component } from "svelte/internal";
 	import { createEventDispatcher } from "svelte";
 
 	export let id: string;
 	export let smallrow: ISmallRow;
-	export let columns: IColumn[];
 	export let brandandcontacts: IBrandAndContacts;
+	export let columns: IColumn[];
+	export let footerbottom: IFooterBottom;
 
 	$: {
 		if (!id) id = "";
-		if (!smallrow) smallrow = "";
+
 		if (!columns) {
 			columns = null;
 		} else {
@@ -64,6 +66,15 @@
 		} else {
 			try {
 				smallrow = JSON.parse(smallrow as unknown as string);
+			} catch (err) {
+				console.error("parseerr?", columns, err);
+			}
+		}
+		if (!footerbottom) {
+			footerbottom = null;
+		} else {
+			try {
+				footerbottom = JSON.parse(footerbottom as unknown as string);
 			} catch (err) {
 				console.error("parseerr?", columns, err);
 			}

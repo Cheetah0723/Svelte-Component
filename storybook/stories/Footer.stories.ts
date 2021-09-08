@@ -30,6 +30,9 @@ const columns1: IColumn[] = [
   },
 ];
 
+const brandandcontacts1 = {};
+const footerbottom1 = {};
+
 export const Footer = Template.bind({});
 Footer.args = {
   id: "BasicFooter",
@@ -37,9 +40,15 @@ Footer.args = {
 export const FooterWithBrand = Template.bind({});
 FooterWithBrand.args = {
   id: "FooterWithBrand",
+  brandandcontacts: brandandcontacts1,
 };
 export const FooterWithColumns = Template.bind({});
 FooterWithColumns.args = {
   id: "FooterWithColumns",
   columns: columns1,
+};
+export const FooterWithBottom = Template.bind({});
+FooterWithBottom.args = {
+  id: "FooterWithBottom",
+  footerbottom: footerbottom1,
 };

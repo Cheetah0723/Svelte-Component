@@ -3,6 +3,7 @@ export interface FooterProps {
   smallrow?: {};
   columns?: {};
   brandandcontacts?: {};
+  footerbottom?: {};
   footerclick?: (el) => void;
 }
 
@@ -11,6 +12,7 @@ export const createFooter = ({
   smallrow,
   columns,
   brandandcontacts,
+  footerbottom,
   footerclick,
 }: FooterProps) => {
   if (!document.getElementById("footerscript")) {
@@ -44,6 +46,10 @@ export const createFooter = ({
     if (c.hasAttribute("brandandcontacts"))
       c.removeAttribute("brandandcontacts");
   }
-
+  if (footerbottom) {
+    c.setAttribute("footerbottom", JSON.stringify(footerbottom));
+  } else {
+    if (c.hasAttribute("footerbottom")) c.removeAttribute("footerbottom");
+  }
   return c;
 };
