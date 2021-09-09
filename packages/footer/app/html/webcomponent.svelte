@@ -23,6 +23,26 @@
 	interface ISmallRow {}
 	interface IFooterBottom {}
 
+	interface IPolicies {
+		label: string;
+		uri: string;
+	}
+
+	interface ISocials {
+		facebook: string;
+		gmail: string;
+		twitter: string;
+		github: string;
+		youtube: string;
+		twitch: string;
+	}
+
+	interface IContacts {
+		phones?: { label?: string; number: string }[];
+		addresses?: { googleMapUri?: string; address: string; shortAddress?: string }[];
+		emails?: { label?: string; address: string }[];
+	}
+
 	import { get_current_component } from "svelte/internal";
 	import { createEventDispatcher } from "svelte";
 
@@ -33,11 +53,15 @@
 	export let footerbottom: IFooterBottom;
 	export let companyname: string;
 	export let companylogouri: string;
-
+	export let socials: ISocials;
+	export let contacts: IContacts;
+	export let copyrighttext: string;
+	export let policies: IPolicies;
 	$: {
 		if (!id) id = "";
 		if (!companyname) companyname = "";
 		if (!companylogouri) companylogouri = "";
+		if (!copyrighttext) copyrighttext = "";
 
 		if (!columns) {
 			columns = null;
@@ -80,7 +104,34 @@
 			try {
 				footerbottom = JSON.parse(footerbottom as unknown as string);
 			} catch (err) {
-				console.error("parseerr?", columns, err);
+				console.error("parseerr?", footerbottom, err);
+			}
+		}
+		if (!socials) {
+			socials = null;
+		} else {
+			try {
+				socials = JSON.parse(socials as unknown as string);
+			} catch (err) {
+				console.error("parseerr?", socials, err);
+			}
+		}
+		if (!contacts) {
+			contacts = null;
+		} else {
+			try {
+				contacts = JSON.parse(contacts as unknown as string);
+			} catch (err) {
+				console.error("parseerr?", contacts, err);
+			}
+		}
+		if (!policies) {
+			policies = null;
+		} else {
+			try {
+				policies = JSON.parse(policies as unknown as string);
+			} catch (err) {
+				console.error("parseerr?", policies, err);
 			}
 		}
 	}
