@@ -247,7 +247,7 @@ const selections = [
 ];
 
 export default {
-  title: "Table/Basic",
+  title: "Contents/Table",
   argTypes: {
     size: { control: { type: "range", min: 1, max: rows.length + 2 } },
     page: { control: { type: "number" } },

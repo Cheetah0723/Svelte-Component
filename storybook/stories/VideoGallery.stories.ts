@@ -60,7 +60,7 @@ const headers = [
 ];
 
 export default {
-  title: "VideoGallery/Basic",
+  title: "Contents/VideoGallery",
   argTypes: {
     size: { control: { type: "range", min: 1, max: cards.length + 2 } },
     page: { control: { type: "number" } },
