@@ -1,7 +1,0 @@
-**/*
-|.github
-!/release/**/*
-!/extra/**/*
-!*.d.ts
-!*.md
-!package.json
