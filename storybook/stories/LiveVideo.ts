@@ -1,16 +1,16 @@
-export interface VideoCardProps {
+export interface LiveVideoPlayerProps {
   mediauri: string;
   width?: number;
   height?: number;
   id: string;
 }
 
-export const createVideoCard = ({
+export const createLiveVideoPlayer = ({
   mediauri,
   width,
   height,
   id,
-}: VideoCardProps) => {
+}: LiveVideoPlayerProps) => {
   if (!document.getElementById("liveplayerscript")) {
     const script = document.createElement("script");
     script.id = "liveplayerscript";

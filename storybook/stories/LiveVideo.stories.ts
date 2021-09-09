@@ -1,5 +1,5 @@
 import { Story, Meta } from "@storybook/html";
-import { createVideoCard, VideoCardProps } from "./LiveVideo";
+import { createLiveVideoPlayer, LiveVideoPlayerProps } from "./LiveVideo";
 
 const mediauri = "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8";
 
@@ -17,21 +17,22 @@ export default {
   },
 } as Meta;
 
-const Template: Story<VideoCardProps> = (args) => createVideoCard(args);
+const Template: Story<LiveVideoPlayerProps> = (args) =>
+  createLiveVideoPlayer(args);
 
-export const BasicVideoCard = Template.bind({});
+export const LiveVideoPlayer = Template.bind({});
 
-BasicVideoCard.args = {
-  id: "BasicVideoCard",
+LiveVideoPlayer.args = {
+  id: "LiveVideoPlayer",
 };
-export const BasicVideoCardWithWidth = Template.bind({});
-BasicVideoCardWithWidth.args = {
+export const LiveVideoPlayerWithWidth = Template.bind({});
+LiveVideoPlayerWithWidth.args = {
   width: 400,
-  id: "BasicVideoCardWithWidth",
+  id: "LiveVideoPlayerWithWidth",
 };
-export const BasicVideoCardWithHeight = Template.bind({});
+export const LiveVideoPlayerWithHeight = Template.bind({});
 
-BasicVideoCardWithHeight.args = {
+LiveVideoPlayerWithHeight.args = {
   height: 400,
-  id: "BasicVideoCardWithHeight",
+  id: "LiveVideoPlayerWithHeight",
 };
