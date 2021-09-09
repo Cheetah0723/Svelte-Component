@@ -9,9 +9,11 @@ export default {
   title: "Layout/Footer",
   argTypes: {
     id: { control: { disable: true } },
-    smallrow: { control: { type: "text" } },
-    columns: { control: { type: "text" } },
-    brandandcontacts: { control: { type: "text" } },
+    smallrow: { control: { type: "object" } },
+    columns: { control: { type: "array" } },
+    companyname: { control: { type: "text" } },
+    companylogouri: { control: { type: "text" } },
+    brandandcontacts: { control: { type: "object" } },
     footerclick: { action: "footerClickEvent" },
   },
 } as Meta;
@@ -25,6 +27,48 @@ const columns1: IColumn[] = [
         label: "test",
         key: "test",
       },
+      {
+        label: "test2",
+        key: "test2",
+      },
+      {
+        label: "test3",
+        key: "test3",
+      },
+    ],
+    title: "stringtitle",
+  },
+  {
+    cells: [
+      {
+        label: "test",
+        key: "test",
+      },
+      {
+        label: "test2",
+        key: "test2",
+      },
+      {
+        label: "test3",
+        key: "test3",
+      },
+    ],
+    title: "stringtitle",
+  },
+  {
+    cells: [
+      {
+        label: "test",
+        key: "test",
+      },
+      {
+        label: "test2",
+        key: "test2",
+      },
+      {
+        label: "test3",
+        key: "test3",
+      },
     ],
     title: "stringtitle",
   },
@@ -36,6 +80,12 @@ const footerbottom1 = {};
 export const Footer = Template.bind({});
 Footer.args = {
   id: "BasicFooter",
+  companyname: "testcompany",
+  companylogouri:
+    "https://getbootstrap.com/docs/5.1/assets/brand/bootstrap-logo.svg",
+  brandandcontacts: brandandcontacts1,
+  columns: columns1,
+  footerbottom: footerbottom1,
 };
 export const FooterWithBrand = Template.bind({});
 FooterWithBrand.args = {

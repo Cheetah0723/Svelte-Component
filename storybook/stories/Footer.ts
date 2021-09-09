@@ -1,6 +1,8 @@
 export interface FooterProps {
   id: string;
   smallrow?: {};
+  companyname?: string;
+  companylogouri?: string;
   columns?: {};
   brandandcontacts?: {};
   footerbottom?: {};
@@ -13,6 +15,8 @@ export const createFooter = ({
   columns,
   brandandcontacts,
   footerbottom,
+  companyname,
+  companylogouri,
   footerclick,
 }: FooterProps) => {
   if (!document.getElementById("footerscript")) {
@@ -34,11 +38,20 @@ export const createFooter = ({
   } else {
     if (c.hasAttribute("smallrow")) c.removeAttribute("smallrow");
   }
-
   if (columns) {
     c.setAttribute("columns", JSON.stringify(columns));
   } else {
     if (c.hasAttribute("columns")) c.removeAttribute("columns");
+  }
+  if (companylogouri) {
+    c.setAttribute("companylogouri", companylogouri);
+  } else {
+    if (c.hasAttribute("companylogouri")) c.removeAttribute("companylogouri");
+  }
+  if (companyname) {
+    c.setAttribute("companyname", companyname);
+  } else {
+    if (c.hasAttribute("companyname")) c.removeAttribute("companyname");
   }
   if (brandandcontacts) {
     c.setAttribute("brandandcontacts", JSON.stringify(brandandcontacts));
