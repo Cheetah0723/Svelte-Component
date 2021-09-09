@@ -1,5 +1,7 @@
 import { Story, Meta } from "@storybook/html";
 import { createFooter, FooterProps } from "./Footer";
+import { INITIAL_VIEWPORTS } from "@storybook/addon-viewport";
+
 interface IColumn {
   _id?: string;
   cells: { label: string; key: string }[];
@@ -15,6 +17,15 @@ export default {
     companylogouri: { control: { type: "text" } },
     brandandcontacts: { control: { type: "object" } },
     footerclick: { action: "footerClickEvent" },
+  },
+  parameters: {
+    //👇 The viewports object from the Essentials addon
+    viewport: {
+      //👇 The viewports you want to use
+      viewports: INITIAL_VIEWPORTS,
+      //👇 Your own default viewport
+      defaultViewport: "desktop",
+    },
   },
 } as Meta;
 
@@ -79,7 +90,7 @@ const footerbottom1 = {};
 
 export const Footer = Template.bind({});
 Footer.args = {
-  id: "BasicFooter",
+  id: "Footer",
   companyname: "testcompany",
   companylogouri:
     "https://getbootstrap.com/docs/5.1/assets/brand/bootstrap-logo.svg",
@@ -87,6 +98,23 @@ Footer.args = {
   columns: columns1,
   footerbottom: footerbottom1,
 };
+
+export const FooterMobile = Template.bind({});
+FooterMobile.args = {
+  id: "FooterMobile",
+  companyname: "testcompany",
+  companylogouri:
+    "https://getbootstrap.com/docs/5.1/assets/brand/bootstrap-logo.svg",
+  brandandcontacts: brandandcontacts1,
+  columns: columns1,
+  footerbottom: footerbottom1,
+};
+FooterMobile.parameters = {
+  viewport: {
+    defaultViewport: "iphonex",
+  },
+};
+
 export const FooterWithBrand = Template.bind({});
 FooterWithBrand.args = {
   id: "FooterWithBrand",
