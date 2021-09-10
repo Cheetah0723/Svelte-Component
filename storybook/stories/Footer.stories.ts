@@ -13,6 +13,7 @@ export default {
     id: { control: { disable: true } },
     smallrow: { control: { type: "object" } },
     columns: { control: { type: "array" } },
+    policies: { control: { type: "array" } },
     companyname: { control: { type: "text" } },
     companylogouri: { control: { type: "text" } },
     brandandcontacts: { control: { type: "object" } },
@@ -85,6 +86,21 @@ const columns1: IColumn[] = [
   },
 ];
 
+const policies1 = [
+  {
+    label: "Privacy Policy",
+    key: "privacypolicy",
+  },
+  {
+    label: "Condizioni Generali",
+    key: "generalcondition",
+  },
+  {
+    label: "Cookie Policy",
+    key: "cookiepolicy",
+  },
+];
+
 const brandandcontacts1 = {};
 const footerbottom1 = {};
 
@@ -97,6 +113,7 @@ Footer.args = {
   brandandcontacts: brandandcontacts1,
   columns: columns1,
   footerbottom: footerbottom1,
+  policies: policies1,
 };
 
 export const FooterMobile = Template.bind({});
@@ -108,6 +125,7 @@ FooterMobile.args = {
   brandandcontacts: brandandcontacts1,
   columns: columns1,
   footerbottom: footerbottom1,
+  policies: policies1,
 };
 FooterMobile.parameters = {
   viewport: {

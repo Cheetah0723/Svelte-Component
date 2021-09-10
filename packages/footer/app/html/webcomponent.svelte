@@ -25,7 +25,7 @@
 
 	interface IPolicies {
 		label: string;
-		uri: string;
+		key: string;
 	}
 
 	interface ISocials {
@@ -56,7 +56,7 @@
 	export let socials: ISocials;
 	export let contacts: IContacts;
 	export let copyrighttext: string;
-	export let policies: IPolicies;
+	export let policies: IPolicies[];
 	$: {
 		if (!id) id = "";
 		if (!companyname) companyname = "";
@@ -152,8 +152,9 @@
 </script>
 
 <footer class="border-top" id="webcomponent">
-	<slot name="footerheader" class="container">
-		<!-- <div class="row">
+	<div class="container">
+		<slot name="footerheader" class="row">
+			<!-- <div class="row">
 			<div class="col" style="max-height:40px">
 				{#if companylogouri}
 					<span><img style="height: 100%;" alt="" src={companylogouri} /></span>
@@ -162,54 +163,66 @@
 				{companyname}
 			</div>
 		</div> -->
-	</slot>
-
-	<slot name="footercontent" class="container">
+		</slot>
 		<div class="row">
-			<div class="col">
-				{#if companylogouri}
-					<span><img style="height: 40px" alt="" src={companylogouri} /></span>
-				{/if}
-
-				{companyname}
-				<div class="text-small">facebook google</div>
-			</div>
-			{#if columns && columns.length}
-				{#each columns as column (column._id)}
-					<div class="col">
-						<h5 style="text-align: center;">{column.title}</h5>
-						<ul class="list-unstyled">
-							{#each column.cells as cell (cell.key)}
-								<li><button class="btn text-small" on:click={() => footerClick(cell.key)}>{cell.label}</button></li>
-							{/each}
-						</ul>
+			<slot name="footercontent">
+				<div class="col" style="margin:20px auto 20px auto">
+					<div class="row">
+						<div class="col">
+							{#if companylogouri}
+								<span><img style="height: 40px" alt="" src={companylogouri} /></span>
+							{/if}
+							{companyname}
+						</div>
 					</div>
-				{/each}
-			{/if}
+
+					<div class="row" style="margin:20px auto 10px auto">
+						<div class="col">
+							{companyname}
+							<div class="text-small">facebook google</div>
+						</div>
+					</div>
+				</div>
+				{#if columns && columns.length}
+					{#each columns as column (column._id)}
+						<div class="col" style="margin:20px auto 20px auto">
+							<h5 style="text-align: center;">{column.title}</h5>
+							<ul class="list-unstyled">
+								{#each column.cells as cell (cell.key)}
+									<li><button class="btn text-small" on:click={() => footerClick(cell.key)}>{cell.label}</button></li>
+								{/each}
+							</ul>
+						</div>
+					{/each}
+				{/if}
+			</slot>
 		</div>
-	</slot>
-	<slot name="footerpolicy" class="container">
-		{#if companyname}
-			<div class="row" style="margin: 20px auto 20px auto;font-size:0.9rem">
-				<div class="col" style="max-height:20px;text-align:center">Condizioni generali</div>
-				<div class="col" style="max-height:20px;text-align:center">privacy policy</div>
-				<div class="col" style="max-height:20px;text-align:center">Cookie</div>
-			</div>
-		{/if}
-	</slot>
-	<slot name="footerbottom" class="container">
-		{#if companyname}
-			<div class="row">
-				<div class="col" style="max-height:20px;text-align:center;font-size:0.8rem">
-					<!-- {#if companylogouri}
+
+		<div class="row">
+			<slot name="footerpolicy">
+				{#if policies?.length}
+					{#each policies as policy (policy.key)}
+						<div class="col" style="max-height:20px;text-align:center;font-size:0.9rem;">
+							<button on:click={() => footerClick(policy.key)} class="btn btn-link">{policy.label}</button>
+						</div>
+					{/each}
+				{/if}
+			</slot>
+		</div>
+		<div class="row">
+			<slot name="footerbottom">
+				{#if companyname}
+					<div class="col" style="max-height:20px;text-align:center;font-size:0.8rem;margin:10px auto 5px auto">
+						<!-- {#if companylogouri}
 						<span><img style="height: 100%;" alt="" src={companylogouri} /></span>
 					{/if} -->
 
-					© 2017-2018 {companyname}
-				</div>
-			</div>
-		{/if}
-	</slot>
+						© 2017-2018 {companyname}
+					</div>
+				{/if}
+			</slot>
+		</div>
+	</div>
 </footer>
 
 <style lang="scss">

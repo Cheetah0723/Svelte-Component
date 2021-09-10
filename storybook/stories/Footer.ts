@@ -74,6 +74,8 @@ export const createFooter = ({
   } else {
     c = document.createElement("footerbootstrap-component");
     c.id = id;
+    c.style.backgroundColor = "#202126";
+    c.style.color = "#888";
     c.addEventListener("footerClick", (e: any) => footerclick(e.detail));
   }
   if (smallrow) {

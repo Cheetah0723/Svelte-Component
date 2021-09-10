@@ -20,7 +20,7 @@
 		"start": "sirv dist",
 		"dev": "rm -rf ./dist && rollup -c -w",
 		"build": "rm -rf ./dist && rollup -c",
-		"copydest": "mkdir -p release && cp dist/footerbootstrap.js ./release/ && cp dist/footerbootstrap.js.map ./release/",
+		"copydest": "rm -rf release && mkdir -p release && cp dist/footerbootstrap.js ./release/ && cp dist/footerbootstrap.js.map ./release/",
 		"build:release": "PRODUCTION=true npm run build && npm run copydest",
 		"prepublish": "npm run build:release"
 	},
