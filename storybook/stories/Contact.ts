@@ -1,14 +1,39 @@
+interface IPhone {
+  label?: string;
+  number: string;
+  callOnClick?: boolean;
+}
+interface IAddress {
+  mapUri?: string;
+  latLang?: number[];
+  address: string;
+  shortAddress?: string;
+}
+interface IEmail {
+  label?: string;
+  mailLink?: boolean;
+  address: string;
+}
+
+interface IConfig {
+  icon?: { fill?: boolean };
+  text?: boolean;
+  dispatcher?: boolean;
+}
+
+interface ISite {
+  label?: string;
+  uri?: string;
+  open?: boolean;
+}
+
 export interface ContactProps {
   id: string;
-  phone?: { type?: string; number: string; _id?: string };
-  address?: {
-    googleMapUri?: string;
-    address: string;
-    shortAddress?: string;
-    _id?: string;
-  };
-  email?: { label?: string; address: string; _id?: string };
-
+  phone?: IPhone;
+  address?: IAddress;
+  email?: IEmail;
+  site?: ISite;
+  config?: IConfig;
   contactclick?: (el) => void;
 }
 
@@ -17,6 +42,8 @@ export const createContact = ({
   phone,
   address,
   email,
+  site,
+  config,
   contactclick,
 }: ContactProps) => {
   if (!document.getElementById("contactscript")) {
@@ -49,6 +76,16 @@ export const createContact = ({
     c.setAttribute("email", JSON.stringify(email));
   } else {
     if (c.hasAttribute("email")) c.removeAttribute("email");
+  }
+  if (site) {
+    c.setAttribute("site", JSON.stringify(site));
+  } else {
+    if (c.hasAttribute("site")) c.removeAttribute("site");
+  }
+  if (config) {
+    c.setAttribute("config", JSON.stringify(config));
+  } else {
+    if (c.hasAttribute("config")) c.removeAttribute("config");
   }
   return c;
 };
