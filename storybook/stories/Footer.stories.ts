@@ -101,6 +101,22 @@ const policies1 = [
   },
 ];
 
+const contacts1 = {
+  sites: [
+    {
+      label: "dariocaruso.info",
+      uri: "https://dariocaruso.info",
+    },
+  ],
+  phones: [
+    {
+      number: "6666666666666",
+    },
+  ],
+  addresses: [],
+  emails: [],
+};
+
 const brandandcontacts1 = {};
 const footerbottom1 = {};
 
@@ -114,6 +130,8 @@ Footer.args = {
   columns: columns1,
   footerbottom: footerbottom1,
   policies: policies1,
+  contacts: contacts1,
+  description: `testo e descrizione di esempio dell'applicazione`,
 };
 
 export const FooterMobile = Template.bind({});
@@ -126,6 +144,7 @@ FooterMobile.args = {
   columns: columns1,
   footerbottom: footerbottom1,
   policies: policies1,
+  description: `testo e descrizione di esempio dell'applicazione`,
 };
 FooterMobile.parameters = {
   viewport: {
@@ -136,11 +155,17 @@ FooterMobile.parameters = {
 export const FooterWithBrand = Template.bind({});
 FooterWithBrand.args = {
   id: "FooterWithBrand",
+  companyname: "testcompany",
+  companylogouri:
+    "https://getbootstrap.com/docs/5.1/assets/brand/bootstrap-logo.svg",
   brandandcontacts: brandandcontacts1,
 };
 export const FooterWithColumns = Template.bind({});
 FooterWithColumns.args = {
   id: "FooterWithColumns",
+  companyname: "testcompany",
+  companylogouri:
+    "https://getbootstrap.com/docs/5.1/assets/brand/bootstrap-logo.svg",
   columns: columns1,
 };
 export const FooterWithBottom = Template.bind({});

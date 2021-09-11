@@ -37,6 +37,7 @@ export interface FooterProps {
   id: string;
   smallrow?: ISmallRow;
   companyname?: string;
+  description?: string;
   companylogouri?: string;
   columns?: IColumn[];
   brandandcontacts?: IBrandAndContacts;
@@ -60,6 +61,7 @@ export const createFooter = ({
   socials,
   contacts,
   copyrighttext,
+  description,
   footerclick,
 }: FooterProps) => {
   if (!document.getElementById("footerscript")) {
@@ -74,8 +76,8 @@ export const createFooter = ({
   } else {
     c = document.createElement("footerbootstrap-component");
     c.id = id;
-    c.style.backgroundColor = "#202126";
-    c.style.color = "#888";
+    // c.style.backgroundColor = "#202126";
+    // c.style.color = "#888";
     c.addEventListener("footerClick", (e: any) => footerclick(e.detail));
   }
   if (smallrow) {
@@ -97,6 +99,11 @@ export const createFooter = ({
     c.setAttribute("companyname", companyname);
   } else {
     if (c.hasAttribute("companyname")) c.removeAttribute("companyname");
+  }
+  if (description) {
+    c.setAttribute("description", description);
+  } else {
+    if (c.hasAttribute("description")) c.removeAttribute("description");
   }
   if (brandandcontacts) {
     c.setAttribute("brandandcontacts", JSON.stringify(brandandcontacts));

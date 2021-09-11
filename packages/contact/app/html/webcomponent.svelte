@@ -17,7 +17,6 @@
 	export let id: string;
 
 	interface IPhone {
-		label?: string;
 		number: string;
 		callOnClick?: boolean;
 	}
@@ -28,7 +27,6 @@
 		shortAddress?: string;
 	}
 	interface IEmail {
-		label?: string;
 		mailLink?: boolean;
 		address: string;
 	}
@@ -142,7 +140,7 @@
 
 <span on:click={() => handleClick()}>
 	{#if address}
-		<span class="iconcell"
+		<span class="iconcell" part="iconcell"
 			>{#if config.icon}<svg
 					style="vertical-align: middle"
 					xmlns="http://www.w3.org/2000/svg"
@@ -159,9 +157,9 @@
 				</svg>
 			{/if}</span
 		>
-		{#if config.text}<span property="address">{address.address}</span>{/if}
+		{#if config.text}<span class="prop" part="prop" property="address">{address.address}</span>{/if}
 	{:else if phone}
-		<span class="iconcell"
+		<span class="iconcell" part="iconcell"
 			>{#if config.icon}
 				<svg
 					style="vertical-align: middle"
@@ -179,9 +177,9 @@
 			{/if}</span
 		>
 
-		{#if config.text}<span property="telephone">{phone.number}</span>{/if}
+		{#if config.text}<span class="prop" part="prop" property="telephone">{phone.number}</span>{/if}
 	{:else if email}
-		<span class="iconcell"
+		<span class="iconcell" part="iconcell"
 			>{#if config.icon}
 				<svg
 					style="vertical-align: middle"
@@ -199,9 +197,9 @@
 			{/if}</span
 		>
 
-		{#if config.text}<span class="prop" property="address">{email.address}</span>{/if}
+		{#if config.text}<span class="prop" part="prop" property="address">{email.address}</span>{/if}
 	{:else if site}
-		<span class="iconcell"
+		<span class="iconcell" part="iconcell"
 			>{#if config.icon}
 				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-globe" viewBox="0 0 16 16">
 					<path
@@ -211,7 +209,7 @@
 			{/if}</span
 		>
 
-		{#if config.text}<span class="prop" property="address">{site.label || site.uri}</span>{/if}
+		{#if config.text}<span class="prop" part="prop" property="address">{site.label || site.uri}</span>{/if}
 	{/if}
 </span>
 

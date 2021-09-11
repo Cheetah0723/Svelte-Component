@@ -38,19 +38,22 @@
 	}
 
 	interface IContacts {
-		phones?: { label?: string; number: string }[];
-		addresses?: { googleMapUri?: string; address: string; shortAddress?: string }[];
-		emails?: { label?: string; address: string }[];
+		phones?: { label?: string; number: string; _id?: string }[];
+		addresses?: { googleMapUri?: string; address: string; shortAddress?: string; _id?: string }[];
+		emails?: { label?: string; address: string; _id?: string }[];
+		sites?: { label?: string; uri: string; open?: boolean; _id?: string }[];
 	}
 
 	import { get_current_component } from "svelte/internal";
 	import { createEventDispatcher } from "svelte";
+	import pkg from "../../package.json";
 
 	export let id: string;
 	export let smallrow: ISmallRow;
 	export let brandandcontacts: IBrandAndContacts;
 	export let columns: IColumn[];
 	export let footerbottom: IFooterBottom;
+	export let description: string;
 	export let companyname: string;
 	export let companylogouri: string;
 	export let socials: ISocials;
@@ -62,6 +65,7 @@
 		if (!companyname) companyname = "";
 		if (!companylogouri) companylogouri = "";
 		if (!copyrighttext) copyrighttext = "";
+		if (!description) description = "";
 
 		if (!columns) {
 			columns = null;
@@ -121,6 +125,31 @@
 		} else {
 			try {
 				contacts = JSON.parse(contacts as unknown as string);
+				let n = 0;
+				if (contacts.phones?.length) {
+					for (const phone of contacts.phones) {
+						n++;
+						if (!phone._id) phone._id = n.toString();
+					}
+				}
+				if (contacts.emails?.length) {
+					for (const email of contacts.emails) {
+						n++;
+						if (!email._id) email._id = n.toString();
+					}
+				}
+				if (contacts.addresses?.length) {
+					for (const address of contacts.addresses) {
+						n++;
+						if (!address._id) address._id = n.toString();
+					}
+				}
+				if (contacts.sites?.length) {
+					for (const site of contacts.sites) {
+						n++;
+						if (!site._id) site._id = n.toString();
+					}
+				}
 			} catch (err) {
 				console.error("parseerr?", contacts, err);
 			}
@@ -149,6 +178,15 @@
 			elClick,
 		});
 	}
+
+	if (!document.getElementById("contactcomponentscript")) {
+		const script = document.createElement("script");
+		script.id = "contactcomponentscript";
+		script.src = `https://unpkg.com/@htmlbricks/contact-component@${pkg.version}/release/contact.js`;
+		if (location.href.includes("localhost")) script.src = `http://localhost:6006/contact/dist/contact.js`;
+
+		document.head.appendChild(script);
+	}
 </script>
 
 <footer class="border-top" id="webcomponent">
@@ -175,13 +213,36 @@
 							{companyname}
 						</div>
 					</div>
-
-					<div class="row" style="margin:20px auto 10px auto">
-						<div class="col">
-							{companyname}
-							<div class="text-small">facebook google</div>
-						</div>
+					<div id="description" style="margin:20px auto 10px auto">
+						{description}
 					</div>
+
+					{#if contacts}
+						<div class="row" style="margin:20px auto 10px auto">
+							<div class="col">
+								{#if contacts.phones?.length}
+									{#each contacts.phones as phone (phone._id)}
+										<contact-component phone={JSON.stringify(phone)} />
+									{/each}
+								{/if}
+								{#if contacts.addresses?.length}
+									{#each contacts.addresses as address (address._id)}
+										<contact-component address={JSON.stringify(address)} />
+									{/each}
+								{/if}
+								{#if contacts.emails?.length}
+									{#each contacts.emails as email (email._id)}
+										<contact-component email={JSON.stringify(email)} />
+									{/each}
+								{/if}
+								{#if contacts.sites?.length}
+									{#each contacts.sites as site (site._id)}
+										<contact-component site={JSON.stringify(site)} />
+									{/each}
+								{/if}
+							</div>
+						</div>
+					{/if}
 				</div>
 				{#if columns && columns.length}
 					{#each columns as column (column._id)}

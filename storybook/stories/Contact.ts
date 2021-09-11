@@ -1,5 +1,4 @@
 interface IPhone {
-  label?: string;
   number: string;
   callOnClick?: boolean;
 }
@@ -10,7 +9,6 @@ interface IAddress {
   shortAddress?: string;
 }
 interface IEmail {
-  label?: string;
   mailLink?: boolean;
   address: string;
 }
@@ -46,9 +44,9 @@ export const createContact = ({
   config,
   contactclick,
 }: ContactProps) => {
-  if (!document.getElementById("contactscript")) {
+  if (!document.getElementById("contactcomponentscript")) {
     const script = document.createElement("script");
-    script.id = "contactscript";
+    script.id = "contactcomponentscript";
     script.src = "http://localhost:6006/contact/dist/contact.js";
     document.body.appendChild(script);
   }

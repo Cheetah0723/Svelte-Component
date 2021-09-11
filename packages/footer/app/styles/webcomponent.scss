@@ -5,3 +5,9 @@
 	padding-top: 80px;
 	background-color: inherit;
 }
+contact-component {
+	display: block;
+	margin-bottom: 20px;
+}
+contact-component::part(prop) {
+}
