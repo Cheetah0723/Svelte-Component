@@ -14,7 +14,7 @@
 	interface IColumn {
 		_id?: string;
 		cells: { label: string; key: string }[];
-		title: string;
+		title?: string;
 	}
 	interface IBrandAndContacts {
 		companyName: string;
@@ -35,6 +35,7 @@
 		github: string;
 		youtube: string;
 		twitch: string;
+		discord: string;
 	}
 
 	interface IContacts {
@@ -216,44 +217,89 @@
 					<div id="description" style="margin:20px auto 10px auto">
 						{description}
 					</div>
-
-					{#if contacts}
-						<div class="row" style="margin:20px auto 10px auto">
-							<div class="col">
-								{#if contacts.phones?.length}
-									{#each contacts.phones as phone (phone._id)}
-										<contact-component phone={JSON.stringify(phone)} />
-									{/each}
-								{/if}
-								{#if contacts.addresses?.length}
-									{#each contacts.addresses as address (address._id)}
-										<contact-component address={JSON.stringify(address)} />
-									{/each}
-								{/if}
-								{#if contacts.emails?.length}
-									{#each contacts.emails as email (email._id)}
-										<contact-component email={JSON.stringify(email)} />
-									{/each}
-								{/if}
-								{#if contacts.sites?.length}
-									{#each contacts.sites as site (site._id)}
-										<contact-component site={JSON.stringify(site)} />
-									{/each}
-								{/if}
-							</div>
-						</div>
-					{/if}
 				</div>
+				{#if contacts}
+					<div class="col" style="margin:20px auto 20px auto">
+						<h5 style="margin-bottom:20px">Contatti</h5>
+						<ul class="list-unstyled">
+							{#if contacts.phones?.length}
+								{#each contacts.phones as phone (phone._id)}
+									<li><contact-component phone={JSON.stringify(phone)} /></li>
+								{/each}
+							{/if}
+							{#if contacts.addresses?.length}
+								{#each contacts.addresses as address (address._id)}
+									<li><contact-component address={JSON.stringify(address)} /></li>
+								{/each}
+							{/if}
+							{#if contacts.emails?.length}
+								{#each contacts.emails as email (email._id)}
+									<li><contact-component email={JSON.stringify(email)} /></li>
+								{/each}
+							{/if}
+							{#if contacts.sites?.length}
+								{#each contacts.sites as site (site._id)}
+									<li><contact-component site={JSON.stringify(site)} /></li>
+								{/each}
+							{/if}
+						</ul>
+					</div>
+				{/if}
+				{#if socials}
+					<div class="col" style="margin:20px auto 20px auto">
+						<h5 style="margin-bottom:20px">Social</h5>
+						<ul class="list-unstyled">
+							{#if socials.facebook}
+								<li>
+									<contact-component
+										social={JSON.stringify({ name: "facebook", label: "pagina facebook", pageUri: "https://facebook.com" })}
+									/>
+								</li>
+							{/if}
+
+							{#if socials.gmail}
+								<li>
+									<contact-component social={JSON.stringify({ name: "gmail", label: "pagina gmail", pageUri: "https://gmail.com" })} />
+								</li>
+							{/if}
+							{#if socials.twitter}
+								<li>
+									<contact-component social={JSON.stringify({ name: "twitter", label: "pagina twitter", pageUri: "https://twitter.com" })} />
+								</li>
+							{/if}
+							{#if socials.github}
+								<li>
+									<contact-component social={JSON.stringify({ name: "github", label: "pagina github", pageUri: "https://github.com" })} />
+								</li>
+							{/if}
+							{#if socials.twitch}
+								<li>
+									<contact-component social={JSON.stringify({ name: "twitch", label: "pagina twitch", pageUri: "https://twitch.com" })} />
+								</li>
+							{/if}
+							{#if socials.youtube}
+								<li>
+									<contact-component social={JSON.stringify({ name: "youtube", label: "pagina youtube", pageUri: "https://youtube.com" })} />
+								</li>
+							{/if}
+							{#if socials.discord}
+								<li>
+									<contact-component social={JSON.stringify({ name: "discord", label: "pagina discord", pageUri: "https://discord.com" })} />
+								</li>
+							{/if}
+						</ul>
+					</div>
+				{/if}
 				{#if columns && columns.length}
 					{#each columns as column (column._id)}
-						<div class="col" style="margin:20px auto 20px auto">
-							<h5 style="text-align: center;">{column.title}</h5>
+						<!-- <div class="col" style="margin:20px auto 20px auto">
+							<h5 style="text-align: center;">{column.title ? column.title : ""}</h5>
 							<ul class="list-unstyled">
 								{#each column.cells as cell (cell.key)}
 									<li><button class="btn text-small" on:click={() => footerClick(cell.key)}>{cell.label}</button></li>
 								{/each}
 							</ul>
-						</div>
+						</div> -->
 					{/each}
 				{/if}
 			</slot>

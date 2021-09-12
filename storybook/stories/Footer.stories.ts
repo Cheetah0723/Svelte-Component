@@ -116,7 +116,10 @@ const contacts1 = {
   addresses: [],
   emails: [],
 };
-
+const socials1 = {
+  facebook: "fbbb",
+  youtube: "yttttttt",
+};
 const brandandcontacts1 = {};
 const footerbottom1 = {};
 
@@ -132,6 +135,7 @@ Footer.args = {
   policies: policies1,
   contacts: contacts1,
   description: `testo e descrizione di esempio dell'applicazione`,
+  socials: socials1,
 };
 
 export const FooterMobile = Template.bind({});

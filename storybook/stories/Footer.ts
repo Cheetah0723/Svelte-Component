@@ -1,7 +1,7 @@
 interface IColumn {
   _id?: string;
   cells: { label: string; key: string }[];
-  title: string;
+  title?: string;
 }
 interface IBrandAndContacts {
   companyName: string;
