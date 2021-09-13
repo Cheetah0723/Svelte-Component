@@ -120,35 +120,40 @@ const socials1 = {
   facebook: "fbbb",
   youtube: "yttttttt",
 };
+
+const company1 = {
+  logoUri: "https://getbootstrap.com/docs/5.1/assets/brand/bootstrap-logo.svg",
+  siteName: "testsite",
+  companyName: "testcompany S.R.L.",
+  registration: "copyright",
+  description: `testo e descrizione di esempio dell'applicazione`,
+  vatNumber: "aa - ffffff",
+  fiscalCode: "f4f5f6fff",
+};
+
 const brandandcontacts1 = {};
 const footerbottom1 = {};
 
 export const Footer = Template.bind({});
 Footer.args = {
   id: "Footer",
-  companyname: "testcompany",
-  companylogouri:
-    "https://getbootstrap.com/docs/5.1/assets/brand/bootstrap-logo.svg",
+  company: company1,
   brandandcontacts: brandandcontacts1,
   columns: columns1,
   footerbottom: footerbottom1,
   policies: policies1,
   contacts: contacts1,
-  description: `testo e descrizione di esempio dell'applicazione`,
   socials: socials1,
 };
 
 export const FooterMobile = Template.bind({});
 FooterMobile.args = {
   id: "FooterMobile",
-  companyname: "testcompany",
-  companylogouri:
-    "https://getbootstrap.com/docs/5.1/assets/brand/bootstrap-logo.svg",
+  company: company1,
   brandandcontacts: brandandcontacts1,
   columns: columns1,
   footerbottom: footerbottom1,
   policies: policies1,
-  description: `testo e descrizione di esempio dell'applicazione`,
 };
 FooterMobile.parameters = {
   viewport: {
@@ -159,21 +164,19 @@ FooterMobile.parameters = {
 export const FooterWithBrand = Template.bind({});
 FooterWithBrand.args = {
   id: "FooterWithBrand",
-  companyname: "testcompany",
-  companylogouri:
-    "https://getbootstrap.com/docs/5.1/assets/brand/bootstrap-logo.svg",
+  company: company1,
   brandandcontacts: brandandcontacts1,
 };
 export const FooterWithColumns = Template.bind({});
 FooterWithColumns.args = {
   id: "FooterWithColumns",
-  companyname: "testcompany",
-  companylogouri:
-    "https://getbootstrap.com/docs/5.1/assets/brand/bootstrap-logo.svg",
+  company: company1,
+
   columns: columns1,
 };
 export const FooterWithBottom = Template.bind({});
 FooterWithBottom.args = {
   id: "FooterWithBottom",
   footerbottom: footerbottom1,
+  company: company1,
 };

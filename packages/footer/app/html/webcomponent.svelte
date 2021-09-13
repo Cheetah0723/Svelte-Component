@@ -45,35 +45,54 @@
 		sites?: { label?: string; uri: string; open?: boolean; _id?: string }[];
 	}
 
+	interface ICompany {
+		logoUri: string;
+		siteName: string;
+		companyName: string;
+		registration?: { since?: number; text?: string };
+		description: string;
+		vatNumber?: string;
+		fiscalCode?: string;
+		since?: number;
+	}
+
 	import { get_current_component } from "svelte/internal";
 	import { createEventDispatcher } from "svelte";
 	import pkg from "../../package.json";
 
 	export let id: string;
+	export let company: ICompany;
 	export let smallrow: ISmallRow;
 	export let brandandcontacts: IBrandAndContacts;
 	export let columns: IColumn[];
 	export let footerbottom: IFooterBottom;
 	export let description: string;
-	export let companyname: string;
-	export let companylogouri: string;
+
 	export let socials: ISocials;
 	export let contacts: IContacts;
 	export let copyrighttext: string;
 	export let policies: IPolicies[];
 	$: {
 		if (!id) id = "";
-		if (!companyname) companyname = "";
-		if (!companylogouri) companylogouri = "";
+
 		if (!copyrighttext) copyrighttext = "";
 		if (!description) description = "";
+
+		if (!company) {
+			company = null;
+		} else {
+			try {
+				company = JSON.parse(company as unknown as string);
+			} catch (err) {
+				console.error("parseerr?", company, err);
+			}
+		}
 
 		if (!columns) {
 			columns = null;
 		} else {
 			try {
 				columns = JSON.parse(columns as unknown as string);
-				console.log(columns);
 
 				let n = 0;
 				for (const c of columns) {
@@ -199,7 +218,7 @@
 					<span><img style="height: 100%;" alt="" src={companylogouri} /></span>
 				{/if}
 
-				{companyname}
+				{company.siteName}
 			</div>
 		</div> -->
 		</slot>
@@ -208,14 +227,20 @@
 				<div class="col" style="margin:20px auto 20px auto">
 					<div class="row">
 						<div class="col">
-							{#if companylogouri}
-								<span><img style="height: 40px" alt="" src={companylogouri} /></span>
+							{#if company.logoUri}
+								<span><img style="height: 40px" alt="" src={company.logoUri} /></span>
 							{/if}
-							{companyname}
+							{company.siteName}
 						</div>
 					</div>
 					<div id="description" style="margin:20px auto 10px auto">
-						{description}
+						{company.description}
+					</div>
+					<div id="company" style="margin:20px auto 10px auto">
+						{company.companyName}
+					</div>
+					<div id="fiscal" style="margin:20px auto 10px auto">
+						{company.vatNumber || company.fiscalCode}
 					</div>
 				</div>
 				{#if contacts}
@@ -318,13 +343,18 @@
 		</div>
 		<div class="row">
 			<slot name="footerbottom">
-				{#if companyname}
+				{#if company.siteName}
 					<div class="col" style="max-height:20px;text-align:center;font-size:0.8rem;margin:10px auto 5px auto">
-						<!-- {#if companylogouri}
-						<span><img style="height: 100%;" alt="" src={companylogouri} /></span>
+						<!-- {#if company.logoUri}
+						<span><img style="height: 100%;" alt="" src={company.logoUri} /></span>
 					{/if} -->
 
-						© 2017-2018 {companyname}
+						{company.registration?.text ||
+							(company.since ? `${company.since?.toString()} - ` : "") +
+								new Date().getFullYear().toString() +
+								" " +
+								company.siteName +
+								(company.companyName ? " - " + company.companyName : "")}
 					</div>
 				{/if}
 			</slot>

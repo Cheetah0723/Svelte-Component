@@ -32,12 +32,19 @@ interface IContacts {
   }[];
   emails?: { label?: string; address: string }[];
 }
-
+export interface ICompany {
+  logoUri: string;
+  siteName: string;
+  companyName: string;
+  registration?: { since?: number; text?: string };
+  description: string;
+  vatNumber?: string;
+  fiscalCode?: string;
+}
 export interface FooterProps {
   id: string;
   smallrow?: ISmallRow;
-  companyname?: string;
-  description?: string;
+  company: ICompany;
   companylogouri?: string;
   columns?: IColumn[];
   brandandcontacts?: IBrandAndContacts;
@@ -55,13 +62,11 @@ export const createFooter = ({
   columns,
   brandandcontacts,
   footerbottom,
-  companyname,
-  companylogouri,
+  company,
   policies,
   socials,
   contacts,
   copyrighttext,
-  description,
   footerclick,
 }: FooterProps) => {
   if (!document.getElementById("footerscript")) {
@@ -90,20 +95,10 @@ export const createFooter = ({
   } else {
     if (c.hasAttribute("columns")) c.removeAttribute("columns");
   }
-  if (companylogouri) {
-    c.setAttribute("companylogouri", companylogouri);
+  if (company) {
+    c.setAttribute("company", JSON.stringify(company));
   } else {
-    if (c.hasAttribute("companylogouri")) c.removeAttribute("companylogouri");
-  }
-  if (companyname) {
-    c.setAttribute("companyname", companyname);
-  } else {
-    if (c.hasAttribute("companyname")) c.removeAttribute("companyname");
-  }
-  if (description) {
-    c.setAttribute("description", description);
-  } else {
-    if (c.hasAttribute("description")) c.removeAttribute("description");
+    if (c.hasAttribute("company")) c.removeAttribute("company");
   }
   if (brandandcontacts) {
     c.setAttribute("brandandcontacts", JSON.stringify(brandandcontacts));
