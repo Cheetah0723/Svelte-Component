@@ -1,7 +1,3 @@
-export interface LayoutProps {
-  id: string;
-  company: ICompany;
-}
 export interface ICompany {
   logoUri: string;
   siteName: string;
@@ -12,7 +8,23 @@ export interface ICompany {
   fiscalCode?: string;
   since?: number;
 }
-export const createLayout = ({ id, company }: LayoutProps) => {
+interface INavLink {
+  key: string;
+  icon?: string;
+  group?: string;
+  label: string;
+  badge?: {
+    text: string;
+    class?: string;
+    classcolor?: string;
+  };
+}
+export interface LayoutProps {
+  id: string;
+  company: ICompany;
+  navlinks: INavLink[];
+}
+export const createLayout = ({ id, company, navlinks }: LayoutProps) => {
   if (!document.getElementById("bootstraplayoutscript")) {
     const script = document.createElement("script");
     script.id = "bootstraplayoutscript";
@@ -30,6 +42,11 @@ export const createLayout = ({ id, company }: LayoutProps) => {
     c.setAttribute("company", JSON.stringify(company));
   } else {
     if (c.hasAttribute("company")) c.removeAttribute("company");
+  }
+  if (navlinks) {
+    c.setAttribute("navlinks", JSON.stringify(navlinks));
+  } else {
+    if (c.hasAttribute("navlinks")) c.removeAttribute("navlinks");
   }
   return c;
 };

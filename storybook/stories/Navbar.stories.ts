@@ -10,6 +10,9 @@ export default {
     companylogouri: { control: { type: "text" } },
     navmenuswitch: { action: "navmenuswitchEvent" },
   },
+  parameters: {
+    layout: "fullscreen",
+  },
 } as Meta;
 
 const Template: Story<NavbarProps> = (args) => createNavbar(args);
@@ -18,6 +21,8 @@ export const BasicNavbar = Template.bind({});
 BasicNavbar.args = {
   id: "BasicNavbar",
   companybrandname: "testbrand",
+  companylogouri:
+    "https://getbootstrap.com/docs/5.1/assets/brand/bootstrap-logo.svg",
 };
 export const BasicNavbarWithTitle = Template.bind({});
 BasicNavbarWithTitle.args = {

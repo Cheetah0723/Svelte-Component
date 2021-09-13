@@ -227,20 +227,20 @@
 				<div class="col" style="margin:20px auto 20px auto">
 					<div class="row">
 						<div class="col">
-							{#if company.logoUri}
+							{#if company?.logoUri}
 								<span><img style="height: 40px" alt="" src={company.logoUri} /></span>
 							{/if}
-							{company.siteName}
+							{company?.siteName || ""}
 						</div>
 					</div>
 					<div id="description" style="margin:20px auto 10px auto">
-						{company.description}
+						{company?.description || ""}
 					</div>
 					<div id="company" style="margin:20px auto 10px auto">
-						{company.companyName}
+						{company?.companyName || ""}
 					</div>
 					<div id="fiscal" style="margin:20px auto 10px auto">
-						{company.vatNumber || company.fiscalCode}
+						{company?.vatNumber || company?.fiscalCode || ""}
 					</div>
 				</div>
 				{#if contacts}
@@ -282,32 +282,32 @@
 								</li>
 							{/if}
 
-							{#if socials.gmail}
+							{#if socials?.gmail}
 								<li>
 									<contact-component social={JSON.stringify({ name: "gmail", label: "pagina gmail", pageUri: "https://gmail.com" })} />
 								</li>
 							{/if}
-							{#if socials.twitter}
+							{#if socials?.twitter}
 								<li>
 									<contact-component social={JSON.stringify({ name: "twitter", label: "pagina twitter", pageUri: "https://twitter.com" })} />
 								</li>
 							{/if}
-							{#if socials.github}
+							{#if socials?.github}
 								<li>
 									<contact-component social={JSON.stringify({ name: "github", label: "pagina github", pageUri: "https://github.com" })} />
 								</li>
 							{/if}
-							{#if socials.twitch}
+							{#if socials?.twitch}
 								<li>
 									<contact-component social={JSON.stringify({ name: "twitch", label: "pagina twitch", pageUri: "https://twitch.com" })} />
 								</li>
 							{/if}
-							{#if socials.youtube}
+							{#if socials?.youtube}
 								<li>
 									<contact-component social={JSON.stringify({ name: "youtube", label: "pagina youtube", pageUri: "https://youtube.com" })} />
 								</li>
 							{/if}
-							{#if socials.discord}
+							{#if socials?.discord}
 								<li>
 									<contact-component social={JSON.stringify({ name: "discord", label: "pagina discord", pageUri: "https://discord.com" })} />
 								</li>
@@ -343,18 +343,18 @@
 		</div>
 		<div class="row">
 			<slot name="footerbottom">
-				{#if company.siteName}
+				{#if company?.siteName}
 					<div class="col" style="max-height:20px;text-align:center;font-size:0.8rem;margin:10px auto 5px auto">
 						<!-- {#if company.logoUri}
 						<span><img style="height: 100%;" alt="" src={company.logoUri} /></span>
 					{/if} -->
 
-						{company.registration?.text ||
+						{company?.registration?.text ||
 							(company.since ? `${company.since?.toString()} - ` : "") +
 								new Date().getFullYear().toString() +
 								" " +
-								company.siteName +
-								(company.companyName ? " - " + company.companyName : "")}
+								(company?.siteName || "") +
+								(company?.companyName ? " - " + (company?.companyName || "") : "")}
 					</div>
 				{/if}
 			</slot>

@@ -25,9 +25,9 @@
 		if (!companylogouri) companylogouri = "";
 		if (!id) id = "";
 		if (!pagetitle) pagetitle = "";
-		if (!switchopen||switchopen==='no') {
+		if (!switchopen || switchopen === "no") {
 			switchopen = "";
-			isOpen=false
+			isOpen = false;
 		} else {
 			isOpen = true;
 		}
@@ -59,7 +59,7 @@
 			</svg>
 		</button>
 		<slot name="brand">
-			{#if companylogouri}<img alt="" src={companylogouri} />{/if}
+			{#if companylogouri}<img style="height: 30px;" alt="" src={companylogouri} />{/if}
 			{companybrandname}
 		</slot>
 	</div>

@@ -130,11 +130,10 @@
 
 				<!-- <button on:click={() => OpenSwitch(false)} type="button" class="btn-close btn-sm text-reset" style="float:right;" /> -->
 			</h4>
+			<hr style="margin-top:9px;margin-bottom: 20px;" />
 
 			<ul class="nav nav-pills flex-column mb-auto">
 				{#if navLinks?.length && navLinks.filter((f) => !f.group)?.length}
-					<hr style="margin-top:20px;margin-bottom: 20px;" />
-
 					{#each navLinks.filter((f) => !f.group) as navLink (navLink.key)}
 						<li class="nav-item">
 							{#if navLink.key === navpage}

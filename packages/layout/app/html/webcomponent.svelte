@@ -10,6 +10,7 @@
 	 * @license: MIT License
 	 *
 	 */
+
 	interface ICompany {
 		logoUri: string;
 		siteName: string;
@@ -20,12 +21,24 @@
 		fiscalCode?: string;
 		since?: number;
 	}
+	interface INavLink {
+		key: string;
+		icon?: string;
+		group?: string;
+		label: string;
+		badge?: {
+			text: string;
+			class?: string;
+			classcolor?: string;
+		};
+	}
 	import { get_current_component } from "svelte/internal";
 	import { createEventDispatcher } from "svelte";
 	import pkg from "../../package.json";
 
 	export let id: string;
 	export let company: ICompany;
+	export let navlinks: INavLink[];
 
 	let navopen: boolean;
 	$: {
@@ -38,6 +51,15 @@
 				company = JSON.parse(company as unknown as string);
 			} catch (err) {
 				console.error("parseerr?", company, err);
+			}
+		}
+		if (!navlinks) {
+			navlinks = null;
+		} else {
+			try {
+				navlinks = JSON.parse(navlinks as unknown as string);
+			} catch (err) {
+				console.error("parseerr?", navlinks, err);
 			}
 		}
 	}
@@ -75,9 +97,18 @@
 </script>
 
 <div>
-	<offcanvas-component on:offcanvasswitch={(el) => openmenu(el.detail)} opened={navopen ? "yes" : "no"} navlinks="[]" />
-	<navbarbootstrap-component switchopen={navopen ? "yes" : "no"} on:navmenuswitch={(el) => openmenu(el.detail)} />
-	<footerbootstrap-component company={JSON.stringify(company)} />
+	<offcanvas-component
+		navlinks={navlinks ? JSON.stringify(navlinks) : "[]"}
+		on:offcanvasswitch={(el) => openmenu(el.detail)}
+		opened={navopen ? "yes" : "no"}
+	/>
+	<navbarbootstrap-component
+		companylogouri={company?.logoUri || ""}
+		companybrandname={company?.siteName || ""}
+		switchopen={navopen ? "yes" : "no"}
+		on:navmenuswitch={(el) => openmenu(el.detail)}
+	/>
+	<footerbootstrap-component style="background-color: burlywood;position:absolute;bottom:0px;width:100vw" company={company ? JSON.stringify(company) : ""} />
 </div>
 
 <style lang="scss">

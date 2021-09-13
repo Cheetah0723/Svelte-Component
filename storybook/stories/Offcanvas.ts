@@ -1,8 +1,13 @@
 interface INavLink {
   key: string;
-  icon: string;
-  group: string;
+  icon?: string;
+  group?: string;
   label: string;
+  badge?: {
+    text: string;
+    class?: string;
+    classcolor?: string;
+  };
 }
 
 export interface OffcanvasProps {
