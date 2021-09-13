@@ -108,6 +108,7 @@
 		switchopen={navopen ? "yes" : "no"}
 		on:navmenuswitch={(el) => openmenu(el.detail)}
 	/>
+	<div><slot name="page">page</slot></div>
 	<footerbootstrap-component style="background-color: burlywood;position:absolute;bottom:0px;width:100vw" company={company ? JSON.stringify(company) : ""} />
 </div>
 

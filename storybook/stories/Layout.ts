@@ -37,6 +37,14 @@ export const createLayout = ({ id, company, navlinks }: LayoutProps) => {
   } else {
     c = document.createElement("bootstraplayout-component");
     c.id = id;
+    if (id === "LayoutAWithPage") {
+      console.log("LayoutAWithPage");
+      const pageItem = document.createElement("div");
+      pageItem.setAttribute("slot", "page");
+
+      pageItem.innerText = "paddddddddddddddddddddddddddddddddddddddddddge";
+      c.appendChild(pageItem);
+    }
   }
   if (company) {
     c.setAttribute("company", JSON.stringify(company));
@@ -48,5 +56,6 @@ export const createLayout = ({ id, company, navlinks }: LayoutProps) => {
   } else {
     if (c.hasAttribute("navlinks")) c.removeAttribute("navlinks");
   }
+
   return c;
 };
