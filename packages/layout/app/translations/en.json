@@ -1,0 +1,9 @@
+{
+	"contributions": {
+		"language": "English",
+		"license": "CC BY 4.0",
+		"contributors": ["Dario Caruso"]
+	},
+	"app_name": "svelte-webcomponent-boilerplate",
+	"hello": "Hello World!"
+}

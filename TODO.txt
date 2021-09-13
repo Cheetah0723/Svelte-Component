@@ -1,0 +1,1 @@
+- rimuovere/gestire eventi su footer e contact
