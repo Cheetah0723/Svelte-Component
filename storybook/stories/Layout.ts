@@ -1,8 +1,18 @@
 export interface LayoutProps {
   id: string;
+  company: ICompany;
 }
-
-export const createLayout = ({ id }: LayoutProps) => {
+export interface ICompany {
+  logoUri: string;
+  siteName: string;
+  companyName: string;
+  registration?: { since?: number; text?: string };
+  description: string;
+  vatNumber?: string;
+  fiscalCode?: string;
+  since?: number;
+}
+export const createLayout = ({ id, company }: LayoutProps) => {
   if (!document.getElementById("bootstraplayoutscript")) {
     const script = document.createElement("script");
     script.id = "bootstraplayoutscript";
@@ -16,6 +26,10 @@ export const createLayout = ({ id }: LayoutProps) => {
     c = document.createElement("bootstraplayout-component");
     c.id = id;
   }
-
+  if (company) {
+    c.setAttribute("company", JSON.stringify(company));
+  } else {
+    if (c.hasAttribute("company")) c.removeAttribute("company");
+  }
   return c;
 };

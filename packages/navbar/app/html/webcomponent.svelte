@@ -25,8 +25,9 @@
 		if (!companylogouri) companylogouri = "";
 		if (!id) id = "";
 		if (!pagetitle) pagetitle = "";
-		if (!switchopen) {
+		if (!switchopen||switchopen==='no') {
 			switchopen = "";
+			isOpen=false
 		} else {
 			isOpen = true;
 		}

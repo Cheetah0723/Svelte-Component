@@ -46,12 +46,12 @@
 		if (!companylogouri) companylogouri = "https://getbootstrap.com/docs/5.1/assets/brand/bootstrap-logo.svg";
 		if (!companytitle) companytitle = "company";
 		if (!enablefooter) enablefooter = false;
-		if (opened) {
+		if (opened && (opened as unknown as string) !== "no") {
 			opened = true;
 			if (sendOff) clearInterval(sendOff);
 			if (!switched)
 				dispatch("offcanvasswitch", {
-					open: opened,
+					isOpen: opened,
 				});
 			switched = true;
 		} else {
@@ -103,7 +103,7 @@
 		switched = false;
 
 		dispatch("offcanvasswitch", {
-			open: opened,
+			isOpen: opened,
 		});
 	}
 </script>

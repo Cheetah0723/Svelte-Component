@@ -7,11 +7,19 @@ export default {
     id: { control: { disable: true } },
   },
 } as Meta;
-
+const company1 = {
+  logoUri: "https://getbootstrap.com/docs/5.1/assets/brand/bootstrap-logo.svg",
+  siteName: "testsite",
+  companyName: "testcompany S.R.L.",
+  registration: "copyright",
+  description: `testo e descrizione di esempio dell'applicazione`,
+  vatNumber: "aa - ffffff",
+  fiscalCode: "f4f5f6fff",
+};
 const Template: Story<LayoutProps> = (args) => createLayout(args);
 
 export const LayoutA = Template.bind({});
 LayoutA.args = {
   id: "LayoutA",
-  phone: { number: 465564 },
+  company: company1,
 };
