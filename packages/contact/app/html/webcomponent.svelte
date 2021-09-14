@@ -73,9 +73,7 @@
 				if (!config.icon) config.icon = { fill: false };
 				if (config.text !== false) config.text = true;
 				if (config.dispatcher !== false) config.dispatcher = true;
-			} catch (err) {
-				console.error("parseerr?", config, err);
-			}
+			} catch (err) {}
 		}
 
 		if (phone) {
@@ -84,18 +82,14 @@
 
 			try {
 				phone = JSON.parse(phone as unknown as string);
-			} catch (err) {
-				console.error("parseerr?", phone, err);
-			}
+			} catch (err) {}
 		} else if (social) {
 			action = "social";
 			payload = social;
 
 			try {
 				social = JSON.parse(social as unknown as string);
-			} catch (err) {
-				console.error("parseerr?", social, err);
-			}
+			} catch (err) {}
 			if (social.pageUri) {
 				openWindow = true;
 				windowUri = social.pageUri;
@@ -106,9 +100,7 @@
 
 			try {
 				address = JSON.parse(address as unknown as string);
-			} catch (err) {
-				console.error("parseerr?", address, err);
-			}
+			} catch (err) {}
 			if (address.mapUri || address.latLang) {
 				openWindow = true;
 				if (address.latLang) windowUri = `https://maps.google.com?lat=${address.latLang[0]}&lng=${address.latLang[1]}`;
@@ -119,9 +111,7 @@
 			payload = email;
 			try {
 				email = JSON.parse(email as unknown as string);
-			} catch (err) {
-				console.error("parseerr?", email, err);
-			}
+			} catch (err) {}
 			if (email.mailLink) {
 				openWindow = true;
 				windowUri = email.address;
@@ -131,9 +121,7 @@
 			payload = site;
 			try {
 				site = JSON.parse(site as unknown as string);
-			} catch (err) {
-				console.error("parseerr?", email, err);
-			}
+			} catch (err) {}
 			if (site.open && site.uri) {
 				openWindow = true;
 				windowUri = site.uri;

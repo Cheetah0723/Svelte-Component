@@ -25,7 +25,7 @@ export default {
       //👇 The viewports you want to use
       viewports: INITIAL_VIEWPORTS,
       //👇 Your own default viewport
-      defaultViewport: "desktop",
+      // defaultViewport: "desktop",
     },
   },
 } as Meta;

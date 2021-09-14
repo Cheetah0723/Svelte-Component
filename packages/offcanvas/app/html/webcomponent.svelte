@@ -77,8 +77,6 @@
 				navlinks = null;
 			}
 		} catch (err) {}
-
-		console.log(navlinks);
 	}
 
 	const component = get_current_component();
