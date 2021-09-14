@@ -94,7 +94,7 @@
 			password = "";
 		}
 		if (!logouri) {
-			logouri = "https://upload.wikimedia.org/wikipedia/commons/8/80/Wikipedia-logo-v2.svg";
+			logouri = "";
 		}
 		// validation
 		checkValidity = false;
@@ -358,9 +358,14 @@
 <div id="webcomponent" class="text-center">
 	<main class="form-signin">
 		<!-- TODO: ad slot -->
-		<div class="mb-4 text-center">
-			<img src={logouri} alt="" width="90" />
-		</div>
+		<slot name="header">
+			{#if logouri}
+				<div class="mb-4 text-center">
+					<img src={logouri} alt="" width="90" />
+				</div>
+			{/if}
+		</slot>
+
 		{#if type === "login"}
 			<h1 class="h3 mb-3 fw-normal">{getWord("loginTitle")}</h1>
 		{:else if type === "register"}
@@ -426,7 +431,7 @@
 				</label>
 			</div>
 			<button class="w-100 btn btn-lg btn-primary" on:click={login}>{getWord("loginButton").toUpperCase()}</button>
-			<p>
+			<p style="margin-bottom:0px">
 				<button class="btn btn-link" on:click={() => switchType("register")}>{getWord("registerSwitch")}</button>
 			</p>
 		{:else if type === "register"}
@@ -434,7 +439,7 @@
 				<label />
 			</div>
 			<button class="w-100 btn btn-lg btn-primary" on:click={register}>{getWord("registerButton").toUpperCase()}</button>
-			<p>
+			<p style="margin-bottom:0px">
 				<button class="btn btn-link" on:click={() => switchType("login")}>{getWord("loginSwitch")}</button>
 			</p>
 		{/if}

@@ -16,6 +16,9 @@ export default {
     register: { action: "registerEvent" },
     id: { control: { disable: true } },
   },
+  parameters: {
+    layout: "fullscreen",
+  },
 } as Meta;
 
 const Template: Story<LoginRegisterProps> = (args) => createLoginRegister(args);
