@@ -27,6 +27,7 @@ export default {
       //👇 Your own default viewport
       // defaultViewport: "desktop",
     },
+    layout: "fullscreen",
   },
 } as Meta;
 
