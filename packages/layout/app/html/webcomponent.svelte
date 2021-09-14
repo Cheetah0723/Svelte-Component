@@ -32,35 +32,90 @@
 			classcolor?: string;
 		};
 	}
+	interface ISocials {
+		facebook: string;
+		gmail: string;
+		twitter: string;
+		github: string;
+		youtube: string;
+		twitch: string;
+		discord: string;
+	}
+	interface IContacts {
+		phones?: { label?: string; number: string; _id?: string }[];
+		addresses?: { googleMapUri?: string; address: string; shortAddress?: string; _id?: string }[];
+		emails?: { label?: string; address: string; _id?: string }[];
+		sites?: { label?: string; uri: string; open?: boolean; _id?: string }[];
+	}
+
 	import { get_current_component } from "svelte/internal";
 	import { createEventDispatcher } from "svelte";
 	import pkg from "../../package.json";
+	export let socials: ISocials;
+	export let contacts: IContacts;
 
 	export let id: string;
+	export let style: string;
 	export let company: ICompany;
 	export let navlinks: INavLink[];
 
 	let navopen: boolean;
 	$: {
 		if (!id) id = "";
+		if (!style) style = "";
 		navopen = false;
 		if (!company) {
 			company = null;
 		} else {
 			try {
 				company = JSON.parse(company as unknown as string);
-			} catch (err) {
-				console.error("parseerr?", company, err);
-			}
+			} catch (err) {}
 		}
 		if (!navlinks) {
 			navlinks = null;
 		} else {
 			try {
 				navlinks = JSON.parse(navlinks as unknown as string);
-			} catch (err) {
-				console.error("parseerr?", navlinks, err);
-			}
+			} catch (err) {}
+		}
+		if (!socials) {
+			socials = null;
+		} else {
+			try {
+				socials = JSON.parse(socials as unknown as string);
+			} catch (err) {}
+		}
+		if (!contacts) {
+			contacts = null;
+		} else {
+			try {
+				contacts = JSON.parse(contacts as unknown as string);
+				let n = 0;
+				if (contacts.phones?.length) {
+					for (const phone of contacts.phones) {
+						n++;
+						if (!phone._id) phone._id = n.toString();
+					}
+				}
+				if (contacts.emails?.length) {
+					for (const email of contacts.emails) {
+						n++;
+						if (!email._id) email._id = n.toString();
+					}
+				}
+				if (contacts.addresses?.length) {
+					for (const address of contacts.addresses) {
+						n++;
+						if (!address._id) address._id = n.toString();
+					}
+				}
+				if (contacts.sites?.length) {
+					for (const site of contacts.sites) {
+						n++;
+						if (!site._id) site._id = n.toString();
+					}
+				}
+			} catch (err) {}
 		}
 	}
 
@@ -109,7 +164,12 @@
 		on:navmenuswitch={(el) => openmenu(el.detail)}
 	/>
 	<div><slot name="page">page</slot></div>
-	<footerbootstrap-component style="background-color: burlywood;position:absolute;bottom:0px;width:100vw" company={company ? JSON.stringify(company) : ""} />
+	<footerbootstrap-component
+		socials={socials ? JSON.stringify(socials) : ""}
+		contacts={contacts ? JSON.stringify(contacts) : ""}
+		style="background-color: burlywood;position:absolute;bottom:0px;width:100vw"
+		company={company ? JSON.stringify(company) : ""}
+	/>
 </div>
 
 <style lang="scss">

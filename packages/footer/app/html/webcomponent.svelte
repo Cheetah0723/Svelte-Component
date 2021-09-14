@@ -83,9 +83,7 @@
 		} else {
 			try {
 				company = JSON.parse(company as unknown as string);
-			} catch (err) {
-				console.error("parseerr?", company, err);
-			}
+			} catch (err) {}
 		}
 
 		if (!columns) {
@@ -99,9 +97,7 @@
 					if (!c._id) c._id = "ccc_" + n.toString();
 					n++;
 				}
-			} catch (err) {
-				console.error("parseerr?", columns, err);
-			}
+			} catch (err) {}
 		}
 
 		if (!brandandcontacts) {
@@ -109,36 +105,28 @@
 		} else {
 			try {
 				brandandcontacts = JSON.parse(brandandcontacts as unknown as string);
-			} catch (err) {
-				console.error("parseerr?", columns, err);
-			}
+			} catch (err) {}
 		}
 		if (!smallrow) {
 			smallrow = null;
 		} else {
 			try {
 				smallrow = JSON.parse(smallrow as unknown as string);
-			} catch (err) {
-				console.error("parseerr?", columns, err);
-			}
+			} catch (err) {}
 		}
 		if (!footerbottom) {
 			footerbottom = null;
 		} else {
 			try {
 				footerbottom = JSON.parse(footerbottom as unknown as string);
-			} catch (err) {
-				console.error("parseerr?", footerbottom, err);
-			}
+			} catch (err) {}
 		}
 		if (!socials) {
 			socials = null;
 		} else {
 			try {
 				socials = JSON.parse(socials as unknown as string);
-			} catch (err) {
-				console.error("parseerr?", socials, err);
-			}
+			} catch (err) {}
 		}
 		if (!contacts) {
 			contacts = null;
@@ -170,18 +158,14 @@
 						if (!site._id) site._id = n.toString();
 					}
 				}
-			} catch (err) {
-				console.error("parseerr?", contacts, err);
-			}
+			} catch (err) {}
 		}
 		if (!policies) {
 			policies = null;
 		} else {
 			try {
 				policies = JSON.parse(policies as unknown as string);
-			} catch (err) {
-				console.error("parseerr?", policies, err);
-			}
+			} catch (err) {}
 		}
 	}
 	const component = get_current_component();

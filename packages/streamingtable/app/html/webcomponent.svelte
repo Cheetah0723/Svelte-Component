@@ -163,9 +163,7 @@
 			// for (let video of videos) {
 			// 	video.load();
 			// }
-		} catch (err) {
-			console.error("cards data error:", err);
-		}
+		} catch (err) {}
 		// sortByKeyToggle = (key: string) => {
 		// 	console.log(key);
 		// 	const h = tableHeaders.find((f) => f.key === key);

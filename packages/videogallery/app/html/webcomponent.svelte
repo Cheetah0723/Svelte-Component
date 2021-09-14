@@ -119,9 +119,7 @@
 			// for (let video of videos) {
 			// 	video.load();
 			// }
-		} catch (err) {
-			console.error("cards data error:", err);
-		}
+		} catch (err) {}
 
 		// console.log("end computed");
 		// console.log(size, page, pages, cardItems.length, initialDate, lastDate);

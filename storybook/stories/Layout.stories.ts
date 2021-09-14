@@ -66,17 +66,41 @@ const navlinks2 = [
   },
 ];
 
+const contacts1 = {
+  sites: [
+    {
+      label: "dariocaruso.info",
+      uri: "https://dariocaruso.info",
+    },
+  ],
+  phones: [
+    {
+      number: "6666666666666",
+    },
+  ],
+  addresses: [],
+  emails: [],
+};
+
+const socials1 = {
+  facebook: "fbbb",
+  youtube: "yttttttt",
+};
 const Template: Story<LayoutProps> = (args) => createLayout(args);
 
 export const LayoutA = Template.bind({});
 LayoutA.args = {
   id: "LayoutA",
   company: company1,
+  contacts: contacts1,
+  socials: socials1,
   navlinks: navlinks2,
 };
 export const LayoutAWithPage = Template.bind({});
 LayoutAWithPage.args = {
   id: "LayoutAWithPage",
   company: company1,
+  contacts: contacts1,
+  socials: socials1,
   navlinks: navlinks2,
 };

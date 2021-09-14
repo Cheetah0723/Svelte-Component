@@ -71,16 +71,12 @@
 			if (navlinks) {
 				try {
 					navLinks = JSON.parse(navlinks);
-				} catch (err) {
-					console.error(err);
-				}
+				} catch (err) {}
 			} else {
 				navLinks = [];
 				navlinks = null;
 			}
-		} catch (err) {
-			console.error(err);
-		}
+		} catch (err) {}
 
 		console.log(navlinks);
 	}
