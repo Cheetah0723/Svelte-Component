@@ -22,7 +22,7 @@ BasicNavbar.args = {
   id: "BasicNavbar",
   companybrandname: "testbrand",
   companylogouri:
-    "https://getbootstrap.com/docs/5.1/assets/brand/bootstrap-logo.svg",
+    "https://upload.wikimedia.org/wikipedia/commons/8/80/Wikipedia-logo-v2.svg",
 };
 export const BasicNavbarWithTitle = Template.bind({});
 BasicNavbarWithTitle.args = {

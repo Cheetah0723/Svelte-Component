@@ -122,7 +122,7 @@
 	if (!document.getElementById("footerscript")) {
 		const script = document.createElement("script");
 		script.id = "footerscript";
-		script.src = `https://unpkg.com/@htmlbricks/footerbootstrap-component@${pkg.version}/release/footerbootstrap.js`;
+		script.src = `https://cdn.jsdelivr.net/npm/@htmlbricks/footerbootstrap-component@${pkg.version}/release/footerbootstrap.js`;
 		if (location.href.includes("localhost")) script.src = `http://localhost:6006/footer/dist/footerbootstrap.js`;
 
 		document.head.appendChild(script);
@@ -131,7 +131,7 @@
 	if (!document.getElementById("offcanvasscript")) {
 		const script = document.createElement("script");
 		script.id = "offcanvasscript";
-		script.src = `https://unpkg.com/@htmlbricks/offcanvas-component@${pkg.version}/release/offcanvas.js`;
+		script.src = `https://cdn.jsdelivr.net/npm/@htmlbricks/offcanvas-component@${pkg.version}/release/offcanvas.js`;
 		if (location.href.includes("localhost")) script.src = `http://localhost:6006/offcanvas/dist/offcanvas.js`;
 
 		document.head.appendChild(script);
@@ -140,7 +140,7 @@
 	if (!document.getElementById("navbarscript")) {
 		const script = document.createElement("script");
 		script.id = "navbarscript";
-		script.src = `https://unpkg.com/@htmlbricks/navbarbootstrap-component@${pkg.version}/release/navbarbootstrap.js`;
+		script.src = `https://cdn.jsdelivr.net/npm/@htmlbricks/navbarbootstrap-component@${pkg.version}/release/navbarbootstrap.js`;
 		if (location.href.includes("localhost")) script.src = `http://localhost:6006/navbar/dist/navbarbootstrap.js`;
 
 		document.head.appendChild(script);

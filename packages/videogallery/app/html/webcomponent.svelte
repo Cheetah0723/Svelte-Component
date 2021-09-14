@@ -171,14 +171,14 @@
 	if (!document.getElementById("paginationbootstrapcomponentjs")) {
 		const script = document.createElement("script");
 		script.id = "paginationbootstrapcomponentjs";
-		script.src = `https://unpkg.com/@htmlbricks/paginationbootstrap-component@${pkg.version}/release/paginationbootstrap.js`;
+		script.src = `https://cdn.jsdelivr.net/npm/@htmlbricks/paginationbootstrap-component@${pkg.version}/release/paginationbootstrap.js`;
 		document.head.appendChild(script);
 	}
 
 	if (!document.getElementById("videocardbootstrapbootstrapcomponentjs")) {
 		const script = document.createElement("script");
 		script.id = "videocardbootstrapbootstrapcomponentjs";
-		script.src = `https://unpkg.com/@htmlbricks/videocardbootstrap-component@${pkg.version}/release/videocardbootstrap.js`;
+		script.src = `https://cdn.jsdelivr.net/npm/@htmlbricks/videocardbootstrap-component@${pkg.version}/release/videocardbootstrap.js`;
 		document.head.appendChild(script);
 	}
 </script>

@@ -122,7 +122,8 @@ const socials1 = {
 };
 
 const company1 = {
-  logoUri: "https://getbootstrap.com/docs/5.1/assets/brand/bootstrap-logo.svg",
+  logoUri:
+    "https://upload.wikimedia.org/wikipedia/commons/8/80/Wikipedia-logo-v2.svg",
   siteName: "testsite",
   companyName: "testcompany S.R.L.",
   registration: "copyright",

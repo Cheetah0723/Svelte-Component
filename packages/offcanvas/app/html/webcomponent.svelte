@@ -43,7 +43,7 @@
 	$: {
 		if (!id) id = null;
 		if (!type) type = "autohide";
-		if (!companylogouri) companylogouri = "https://getbootstrap.com/docs/5.1/assets/brand/bootstrap-logo.svg";
+		if (!companylogouri) companylogouri = "https://upload.wikimedia.org/wikipedia/commons/8/80/Wikipedia-logo-v2.svg";
 		if (!companytitle) companytitle = "company";
 		if (!enablefooter) enablefooter = false;
 		if (opened && (opened as unknown as string) !== "no") {

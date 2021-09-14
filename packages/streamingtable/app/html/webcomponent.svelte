@@ -373,7 +373,7 @@
 	if (!document.getElementById("paginationbootstrapcomponentjs")) {
 		const script = document.createElement("script");
 		script.id = "paginationbootstrapcomponentjs";
-		script.src = `https://unpkg.com/@htmlbricks/paginationbootstrap-component@${pkg.version}/release/paginationbootstrap.js`;
+		script.src = `https://cdn.jsdelivr.net/npm/@htmlbricks/paginationbootstrap-component@${pkg.version}/release/paginationbootstrap.js`;
 		document.head.appendChild(script);
 	}
 	function changeSort(key: string) {

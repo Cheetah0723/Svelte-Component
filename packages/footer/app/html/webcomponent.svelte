@@ -186,7 +186,7 @@
 	if (!document.getElementById("contactcomponentscript")) {
 		const script = document.createElement("script");
 		script.id = "contactcomponentscript";
-		script.src = `https://unpkg.com/@htmlbricks/contact-component@${pkg.version}/release/contact.js`;
+		script.src = `https://cdn.jsdelivr.net/npm/@htmlbricks/contact-component@${pkg.version}/release/contact.js`;
 		if (location.href.includes("localhost")) script.src = `http://localhost:6006/contact/dist/contact.js`;
 
 		document.head.appendChild(script);
