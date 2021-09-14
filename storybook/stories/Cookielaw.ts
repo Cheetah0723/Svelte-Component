@@ -1,12 +1,12 @@
 export interface CookielawProps {
   id: string;
-
+  allowdecline: boolean;
   acceptCookieLaw?: (el) => void;
 }
 
 export const createCookielaw = ({
   id,
-
+  allowdecline,
   acceptCookieLaw,
 }: CookielawProps) => {
   if (!document.getElementById("cookielawcomponentscript")) {
@@ -27,11 +27,11 @@ export const createCookielaw = ({
     );
   }
 
-  // if (phone) {
-  //   c.setAttribute("phone", JSON.stringify(phone));
-  // } else {
-  //   if (c.hasAttribute("phone")) c.removeAttribute("phone");
-  // }
+  if (allowdecline || allowdecline === false) {
+    c.setAttribute("allowdecline", allowdecline ? "yes" : "no");
+  } else {
+    if (c.hasAttribute("allowdecline")) c.removeAttribute("allowdecline");
+  }
 
   return c;
 };

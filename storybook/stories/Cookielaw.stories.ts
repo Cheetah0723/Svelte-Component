@@ -5,6 +5,7 @@ export default {
   title: "Components/Cookielaw",
   argTypes: {
     id: { control: { disable: true } },
+    allowdecline: { control: { type: "boolean" } },
 
     acceptCookieLaw: { action: "acceptCookieLawEvent" },
   },
@@ -15,7 +16,12 @@ export default {
 
 const Template: Story<CookielawProps> = (args) => createCookielaw(args);
 
-export const Cookielaw = Template.bind({});
-Cookielaw.args = {
-  id: "Cookielaw",
+export const CookielawSimple = Template.bind({});
+CookielawSimple.args = {
+  id: "CookielawSimple",
+};
+export const CookielawWithDecline = Template.bind({});
+CookielawWithDecline.args = {
+  id: "CookielawWithDecline",
+  allowdecline: true,
 };
