@@ -48,6 +48,11 @@
 		sites?: { label?: string; uri: string; open?: boolean; _id?: string }[];
 	}
 
+	interface IPage {
+		href: string;
+		pageName: string;
+	}
+
 	import { get_current_component } from "svelte/internal";
 	import { createEventDispatcher } from "svelte";
 	import pkg from "../../package.json";
@@ -58,10 +63,22 @@
 	export let style: string;
 	export let company: ICompany;
 	export let navlinks: INavLink[];
+	export let page: IPage;
 
 	let navopen: boolean;
 	$: {
 		if (!id) id = "";
+		if (!page) {
+			page = {
+				href: location.href,
+				pageName: "home",
+			};
+		} else {
+			try {
+				page = Object.assign({ href: location.href }, JSON.parse(page as unknown as string));
+			} catch (err) {}
+		}
+
 		if (!style) style = "";
 		navopen = false;
 		if (!company) {
@@ -145,6 +162,15 @@
 
 		document.head.appendChild(script);
 	}
+
+	if (!document.getElementById("cookielawcomponentscript")) {
+		const script = document.createElement("script");
+		script.id = "cookielawcomponentscript";
+		script.src = `https://cdn.jsdelivr.net/npm/@htmlbricks/cookielaw-component@${pkg.version}/release/cookielaw.js`;
+		if (location.href.includes("localhost")) script.src = `http://localhost:6006/cookielaw/dist/cookielaw.js`;
+
+		document.head.appendChild(script);
+	}
 	function openmenu(o) {
 		if (o.isOpen || o.isOpen === false) navopen = o.isOpen;
 		console.log("evvvv", navopen, o);
@@ -153,6 +179,7 @@
 
 <div>
 	<offcanvas-component
+		navpage={page.pageName || ""}
 		navlinks={navlinks ? JSON.stringify(navlinks) : "[]"}
 		on:offcanvasswitch={(el) => openmenu(el.detail)}
 		opened={navopen ? "yes" : "no"}
@@ -163,7 +190,12 @@
 		switchopen={navopen ? "yes" : "no"}
 		on:navmenuswitch={(el) => openmenu(el.detail)}
 	/>
-	<div><slot name="page">page</slot></div>
+
+	<div id="page">
+		<slot name="page">page</slot>
+	</div>
+
+	<cookielaw-component />
 	<footerbootstrap-component
 		socials={socials ? JSON.stringify(socials) : ""}
 		contacts={contacts ? JSON.stringify(contacts) : ""}

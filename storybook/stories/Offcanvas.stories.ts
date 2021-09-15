@@ -13,6 +13,7 @@ export default {
     pagechange: { action: "pagechangeEvent" },
     id: { control: { disable: true } },
     type: { control: { options: ["autohide", "small", "open"] } },
+    navpage: { control: { type: "text" } },
   },
   parameters: {
     layout: "fullscreen",

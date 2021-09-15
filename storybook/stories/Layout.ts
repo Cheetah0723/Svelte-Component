@@ -39,12 +39,18 @@ interface IContacts {
   emails?: { label?: string; address: string; _id?: string }[];
   sites?: { label?: string; uri: string; open?: boolean; _id?: string }[];
 }
+interface IPage {
+  href: string;
+  pageName: string;
+}
+
 export interface LayoutProps {
   id: string;
   company: ICompany;
   contacts: IContacts;
   socials: ISocials;
   navlinks: INavLink[];
+  page: IPage;
 }
 export const createLayout = ({
   id,
@@ -52,6 +58,7 @@ export const createLayout = ({
   navlinks,
   contacts,
   socials,
+  page,
 }: LayoutProps) => {
   if (!document.getElementById("bootstraplayoutscript")) {
     const script = document.createElement("script");
@@ -93,6 +100,11 @@ export const createLayout = ({
     c.setAttribute("socials", JSON.stringify(socials));
   } else {
     if (c.hasAttribute("socials")) c.removeAttribute("socials");
+  }
+  if (page) {
+    c.setAttribute("page", JSON.stringify(page));
+  } else {
+    if (c.hasAttribute("page")) c.removeAttribute("page");
   }
   return c;
 };

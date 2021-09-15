@@ -104,4 +104,5 @@ LayoutAWithPage.args = {
   contacts: contacts1,
   socials: socials1,
   navlinks: navlinks2,
+  page: { pageName: "settings" },
 };
