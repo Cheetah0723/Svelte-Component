@@ -28,6 +28,26 @@ const list1 = [
     key: "list1",
     label: "list1",
   },
+  {
+    key: "list2",
+    label: "list2",
+  },
+  {
+    key: "list3",
+    label: "list3",
+    group: "list1",
+    badge: "3",
+  },
+  {
+    key: "list4",
+    label: "list4",
+    badge: "555",
+  },
+  {
+    key: "list5",
+    label: "list5",
+    group: "list1",
+  },
 ];
 
 const groups1 = [

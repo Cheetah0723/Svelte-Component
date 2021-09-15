@@ -9,7 +9,7 @@ export interface DropdownProps {
   id: string;
   show?: "yes" | "no";
   list?: IListItem[];
-  groups: { key: string; label: string }[];
+  groups: { key: string; label?: string }[];
   clickOnDropdownList: (e) => void;
   dropDownSwitch: (e) => void;
 }

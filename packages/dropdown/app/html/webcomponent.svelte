@@ -26,7 +26,7 @@
 	export let show: "yes" | "no";
 	export let list: IListItem[];
 	export let direction: "left" | "right" | "top" | "bottom";
-	export let groups: { key: string; label: string }[];
+	export let groups: { key: string; label?: string }[];
 
 	let opened = false;
 	$: {
@@ -93,17 +93,42 @@
 	{#if list?.length}
 		<ul class="dropdown-menu {opened ? 'show' : ''}">
 			{#each list.filter((f) => !f.group) as listItem (listItem.key)}
-				<li><button on:click={() => clickOnList(listItem.key)} class="dropdown-item">{listItem.label}</button></li>
+				<li>
+					<button on:click={() => clickOnList(listItem.key)} class="dropdown-item"
+						>{listItem.label}
+						{#if listItem.badge}
+							<span style="float:right" class="badge rounded-pill bg-secondary">{listItem.badge}</span>
+						{/if}
+					</button>
+				</li>
 			{/each}
 			{#if groups?.length}
 				{#each groups as group (group.key)}
-					{#each list.filter((f) => f.group && f.group === group.key) as listItem (listItem.key)}
-						<li><button on:click={() => clickOnList(listItem.key)} class="dropdown-item">{listItem.label}</button></li>
-					{/each}
+					{#if list.filter((f) => f.group && f.group === group.key)?.length}
+						{#if list.filter((f) => !f.group)?.length}<div class="dropdown-divider" />{/if}
+						{#if group.label} <div style="font-weight:bold">{group.label}</div> {/if}
+						{#each list.filter((f) => f.group && f.group === group.key) as listItem (listItem.key)}
+							<li>
+								<button on:click={() => clickOnList(listItem.key)} class="dropdown-item">
+									{listItem.label}
+									{#if listItem.badge}
+										<span style="float:right" class="badge rounded-pill bg-secondary">{listItem.badge}</span>
+									{/if}
+								</button>
+							</li>
+						{/each}
+					{/if}
 				{/each}
 			{:else}
 				{#each list.filter((f) => f.group).sort((a, b) => (a.key === b.key ? 1 : -1)) as listItem (listItem.key)}
-					<li><button on:click={() => clickOnList(listItem.key)} class="dropdown-item">{listItem.label}</button></li>
+					<li>
+						<button on:click={() => clickOnList(listItem.key)} class="dropdown-item"
+							>{listItem.label}
+							{#if listItem.badge}
+								<span style="float:right" class="badge rounded-pill bg-secondary">{listItem.badge}</span>
+							{/if}
+						</button>
+					</li>
 				{/each}
 			{/if}
 		</ul>
