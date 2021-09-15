@@ -17,6 +17,8 @@ export default {
       },
       options: ["yes", "no"],
     },
+    dropDownSwitch: { action: "dropDownSwitchEvent" },
+
     clickOnDropdownList: { action: "clickOnDropdownListEvent" },
   },
 } as Meta;

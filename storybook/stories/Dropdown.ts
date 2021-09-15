@@ -11,12 +11,14 @@ export interface DropdownProps {
   list?: IListItem[];
   groups: { key: string; label: string }[];
   clickOnDropdownList: (e) => void;
+  dropDownSwitch: (e) => void;
 }
 export const createDropdown = ({
   id,
   show,
   list,
   groups,
+  dropDownSwitch,
   clickOnDropdownList,
 }: DropdownProps) => {
   if (!document.getElementById("bootstrapdropdownscript")) {
@@ -34,6 +36,7 @@ export const createDropdown = ({
     c.addEventListener("clickOnDropdownList", (e: any) =>
       clickOnDropdownList(e.detail)
     );
+    c.addEventListener("dropDownSwitch", (e: any) => dropDownSwitch(e.detail));
   }
 
   if (show) {

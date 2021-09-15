@@ -71,16 +71,19 @@
 		component.dispatchEvent && component.dispatchEvent(new CustomEvent(name, { detail }));
 	}
 
-	//test@tt.com
 	function clickOnList(key: string) {
 		dispatch("clickOnDropdownList", { key });
 	}
+	function openDrop() {
+		opened = !opened;
+		dispatch("dropDownSwitch", { opened });
+	}
 </script>
 
-<div class="dropdown">
+<div class="btn-group dropup">
 	<button
 		class="btn btn-secondary dropdown-toggle"
-		on:click={() => (opened = !opened)}
+		on:click={() => openDrop()}
 		type="button"
 		data-bs-toggle="dropdown"
 		aria-expanded={opened ? "true" : "false"}
@@ -89,9 +92,20 @@
 	</button>
 	{#if list?.length}
 		<ul class="dropdown-menu {opened ? 'show' : ''}">
-			{#each list as listItem (listItem.key)}
+			{#each list.filter((f) => !f.group) as listItem (listItem.key)}
 				<li><button on:click={() => clickOnList(listItem.key)} class="dropdown-item">{listItem.label}</button></li>
 			{/each}
+			{#if groups?.length}
+				{#each groups as group (group.key)}
+					{#each list.filter((f) => f.group && f.group === group.key) as listItem (listItem.key)}
+						<li><button on:click={() => clickOnList(listItem.key)} class="dropdown-item">{listItem.label}</button></li>
+					{/each}
+				{/each}
+			{:else}
+				{#each list.filter((f) => f.group).sort((a, b) => (a.key === b.key ? 1 : -1)) as listItem (listItem.key)}
+					<li><button on:click={() => clickOnList(listItem.key)} class="dropdown-item">{listItem.label}</button></li>
+				{/each}
+			{/if}
 		</ul>
 	{/if}
 </div>
