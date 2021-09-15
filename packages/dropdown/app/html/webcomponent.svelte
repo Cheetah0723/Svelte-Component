@@ -72,7 +72,8 @@
 	}
 
 	function clickOnList(key: string) {
-		dispatch("clickOnDropdownList", { key });
+		const el = list.find((f) => f.key === key);
+		dispatch("clickOnDropdownList", el);
 	}
 	function openDrop() {
 		opened = !opened;
