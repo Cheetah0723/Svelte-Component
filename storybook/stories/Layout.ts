@@ -43,7 +43,16 @@ interface IPage {
   href: string;
   pageName: string;
 }
-
+interface IUserMenuListItem {
+  key: string;
+  label: string;
+  badge?: number;
+  group?: string;
+}
+interface IUserMenu {
+  imgUri: string;
+  list?: IUserMenuListItem[];
+}
 export interface LayoutProps {
   id: string;
   company: ICompany;
@@ -51,6 +60,7 @@ export interface LayoutProps {
   socials: ISocials;
   navlinks: INavLink[];
   page: IPage;
+  usermenu: IUserMenu;
 }
 export const createLayout = ({
   id,
@@ -58,6 +68,7 @@ export const createLayout = ({
   navlinks,
   contacts,
   socials,
+  usermenu,
   page,
 }: LayoutProps) => {
   if (!document.getElementById("bootstraplayoutscript")) {
@@ -105,6 +116,11 @@ export const createLayout = ({
     c.setAttribute("page", JSON.stringify(page));
   } else {
     if (c.hasAttribute("page")) c.removeAttribute("page");
+  }
+  if (usermenu) {
+    c.setAttribute("usermenu", JSON.stringify(usermenu));
+  } else {
+    if (c.hasAttribute("usermenu")) c.removeAttribute("usermenu");
   }
   return c;
 };

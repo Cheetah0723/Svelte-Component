@@ -15,6 +15,32 @@ export default {
   },
 } as Meta;
 
+const usermenu1 = {
+  list: [
+    {
+      key: "list1",
+      label: "list1",
+    },
+    {
+      key: "list2",
+      label: "list2",
+    },
+    {
+      key: "list3",
+      label: "list3",
+      group: "list1",
+      badge: "3",
+    },
+    {
+      key: "list4",
+      label: "list4",
+      badge: "555",
+    },
+  ],
+  imgUri:
+    "https://upload.wikimedia.org/wikipedia/commons/8/80/Wikipedia-logo-v2.svg",
+};
+
 const Template: Story<NavbarProps> = (args) => createNavbar(args);
 
 export const BasicNavbar = Template.bind({});
@@ -43,4 +69,12 @@ NavbarSlotted.args = {
   companybrandname: "testbrand2",
   pagetitle: "pagetest",
   switchopen: true,
+};
+export const NavbarWithUserMenu = Template.bind({});
+NavbarWithUserMenu.args = {
+  id: "NavbarWithUserMenu",
+  companybrandname: "testbrand",
+  companylogouri:
+    "https://upload.wikimedia.org/wikipedia/commons/8/80/Wikipedia-logo-v2.svg",
+  usermenu: usermenu1,
 };

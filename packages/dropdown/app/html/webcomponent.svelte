@@ -50,7 +50,7 @@
 				list = JSON.parse(list as unknown as string);
 			} catch (err) {}
 		}
-		if (show === "no") {
+		if (show === "no" || show === undefined) {
 			show = "no";
 		} else {
 			show = "yes";
@@ -81,15 +81,16 @@
 	}
 </script>
 
-<div class="btn-group dropup">
+<div class="dropdown">
 	<button
+		part="dropdownbutton"
 		class="btn btn-secondary dropdown-toggle"
 		on:click={() => openDrop()}
 		type="button"
 		data-bs-toggle="dropdown"
 		aria-expanded={opened ? "true" : "false"}
 	>
-		<slot name="dropdownbutton">Dropdown button</slot>
+		<slot name="dropdownbutton">dropdown</slot>
 	</button>
 	{#if list?.length}
 		<ul class="dropdown-menu {opened ? 'show' : ''}">

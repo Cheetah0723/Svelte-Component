@@ -82,7 +82,31 @@ const contacts1 = {
   addresses: [],
   emails: [],
 };
-
+const usermenu1 = {
+  list: [
+    {
+      key: "list1",
+      label: "list1",
+    },
+    {
+      key: "list2",
+      label: "list2",
+    },
+    {
+      key: "list3",
+      label: "list3",
+      group: "list1",
+      badge: "3",
+    },
+    {
+      key: "list4",
+      label: "list4",
+      badge: "555",
+    },
+  ],
+  imgUri:
+    "https://upload.wikimedia.org/wikipedia/commons/8/80/Wikipedia-logo-v2.svg",
+};
 const socials1 = {
   facebook: "fbbb",
   youtube: "yttttttt",
@@ -96,6 +120,7 @@ LayoutA.args = {
   contacts: contacts1,
   socials: socials1,
   navlinks: navlinks2,
+  usermenu: usermenu1,
 };
 export const LayoutAWithPage = Template.bind({});
 LayoutAWithPage.args = {
@@ -105,4 +130,5 @@ LayoutAWithPage.args = {
   socials: socials1,
   navlinks: navlinks2,
   page: { pageName: "settings" },
+  usermenu: usermenu1,
 };

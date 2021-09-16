@@ -53,6 +53,17 @@
 		pageName: string;
 	}
 
+	interface IUserMenuListItem {
+		key: string;
+		label: string;
+		badge?: number;
+		group?: string;
+	}
+	interface IUserMenu {
+		imgUri: string;
+		list?: IUserMenuListItem[];
+	}
+
 	import { get_current_component } from "svelte/internal";
 	import { createEventDispatcher } from "svelte";
 	import pkg from "../../package.json";
@@ -64,6 +75,7 @@
 	export let company: ICompany;
 	export let navlinks: INavLink[];
 	export let page: IPage;
+	export let usermenu: IUserMenu;
 
 	let navopen: boolean;
 	$: {
@@ -78,7 +90,13 @@
 				page = Object.assign({ href: location.href }, JSON.parse(page as unknown as string));
 			} catch (err) {}
 		}
-
+		if (!usermenu) {
+			usermenu = null;
+		} else {
+			try {
+				usermenu = JSON.parse(usermenu as unknown as string);
+			} catch (err) {}
+		}
 		if (!style) style = "";
 		navopen = false;
 		if (!company) {
@@ -187,6 +205,7 @@
 	<navbarbootstrap-component
 		companylogouri={company?.logoUri || ""}
 		companybrandname={company?.siteName || ""}
+		usermenu={JSON.stringify(usermenu) || ""}
 		switchopen={navopen ? "yes" : "no"}
 		on:navmenuswitch={(el) => openmenu(el.detail)}
 	/>

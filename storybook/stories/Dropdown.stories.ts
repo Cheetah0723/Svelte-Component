@@ -65,3 +65,10 @@ BasicDropdown.args = {
   list: list1,
   groups: groups1,
 };
+export const BasicDropdownOpen = Template.bind({});
+BasicDropdownOpen.args = {
+  id: "BasicDropdownOpen",
+  list: list1,
+  groups: groups1,
+  show: "yes",
+};

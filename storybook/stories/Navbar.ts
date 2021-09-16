@@ -1,9 +1,21 @@
+interface IUserMenuListItem {
+  key: string;
+  label: string;
+  badge?: number;
+  group?: string;
+}
+interface IUserMenu {
+  imgUri: string;
+  list?: IUserMenuListItem[];
+}
+
 export interface NavbarProps {
   id: string;
   pagetitle?: string;
   companybrandname?: string;
   companylogouri?: string;
   switchopen?: boolean;
+  usermenu?: IUserMenu;
   navmenuswitch?: (isOpen) => void;
 }
 
@@ -13,6 +25,7 @@ export const createNavbar = ({
   companybrandname,
   pagetitle,
   switchopen,
+  usermenu,
   navmenuswitch,
 }: NavbarProps) => {
   if (!document.getElementById("navbarscript")) {
@@ -51,10 +64,14 @@ export const createNavbar = ({
   } else {
     if (c.hasAttribute("switchopen")) c.removeAttribute("switchopen");
   }
-
+  if (usermenu) {
+    c.setAttribute("usermenu", JSON.stringify(usermenu));
+  } else {
+    if (c.hasAttribute("usermenu")) c.removeAttribute("usermenu");
+  }
   if (id === "NavbarSlotted") {
     const slot_right_bar = document.createElement("div");
-    slot_right_bar.setAttribute("slot", "right-bar");
+    slot_right_bar.setAttribute("slot", "right-slot");
     slot_right_bar.innerText = "slot right";
     c.appendChild(slot_right_bar);
   }

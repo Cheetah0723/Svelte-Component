@@ -10,14 +10,27 @@
 	 * @license: MIT License
 	 *
 	 */
+	interface IUserMenuListItem {
+		key: string;
+		label: string;
+		badge?: number;
+		group?: string;
+	}
+	interface IUserMenu {
+		imgUri: string;
+		list?: IUserMenuListItem[];
+	}
+
 	import { get_current_component } from "svelte/internal";
 	import { createEventDispatcher } from "svelte";
+	import pkg from "../../package.json";
 
 	export let companybrandname: string;
 	export let companylogouri: string;
 	export let id: string;
 	export let pagetitle: string;
 	export let switchopen: string;
+	export let usermenu: IUserMenu;
 
 	let isOpen: boolean;
 	$: {
@@ -31,7 +44,23 @@
 		} else {
 			isOpen = true;
 		}
+		if (!usermenu) {
+			usermenu = null;
+		} else {
+			try {
+				usermenu = JSON.parse(usermenu as unknown as string);
+			} catch (err) {}
+		}
 	}
+	if (!document.getElementById("bootstrapdropdownscript")) {
+		const script = document.createElement("script");
+		script.id = "bootstrapdropdownscript";
+		script.src = `https://cdn.jsdelivr.net/npm/@htmlbricks/bootstrapdropdown-component@${pkg.version}/release/bootstrapdropdown.js`;
+		if (location.href.includes("localhost")) script.src = `http://localhost:6006/dropdown/dist/bootstrapdropdown.js`;
+
+		document.head.appendChild(script);
+	}
+
 	const component = get_current_component();
 	const svelteDispatch = createEventDispatcher();
 
@@ -49,31 +78,25 @@
 </script>
 
 <nav id="webcomponent">
-	<div style="flex-grow: 1;text-align:left;" class="navitem">
-		<button on:click={() => switchMenu()} class="btn"
-			><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
-				<path
-					fill-rule="evenodd"
-					d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
-				/>
-			</svg>
-		</button>
+	<div style="text-align:left" class="navitem">
+		<button style="padding:0px" on:click={() => switchMenu()} class="btn btn-lg">☰</button>
+	</div>
+	<div class="navitem">
 		<slot name="brand">
 			{#if companylogouri}<img style="height: 30px;" alt="" src={companylogouri} />{/if}
 			{companybrandname}
 		</slot>
 	</div>
 
-	<div class="navitem" style="flex-grow: 5">
-		<slot name="right-sm-bar">
+	<div class="navitem">
+		<slot name="right-slot">
 			<!-- <div style="text-align:right;margin-right:10px">{pagetitle}</div> -->
 		</slot>
-		<slot name="right-lg-bar">
-			<!-- <div style="text-align:right;margin-right:10px">{pagetitle}</div> -->
-		</slot>
-		<slot name="right-bar">
-			<!-- <div style="text-align:right;margin-right:10px">{pagetitle}</div> -->
-		</slot>
+		{#if usermenu}
+			<bootstrapdropdown-component list={usermenu.list?.length ? JSON.stringify(usermenu.list) : ""}>
+				<div slot="dropdownbutton">user</div>
+			</bootstrapdropdown-component>
+		{/if}
 	</div>
 </nav>
 
