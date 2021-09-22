@@ -131,4 +131,5 @@ LayoutAWithPage.args = {
   navlinks: navlinks2,
   page: { pageName: "settings" },
   usermenu: usermenu1,
+  cookielaw: "yes",
 };

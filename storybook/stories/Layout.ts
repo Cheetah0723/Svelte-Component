@@ -61,6 +61,7 @@ export interface LayoutProps {
   navlinks: INavLink[];
   page: IPage;
   usermenu: IUserMenu;
+  cookielaw: string;
 }
 export const createLayout = ({
   id,
@@ -70,6 +71,7 @@ export const createLayout = ({
   socials,
   usermenu,
   page,
+  cookielaw,
 }: LayoutProps) => {
   if (!document.getElementById("bootstraplayoutscript")) {
     const script = document.createElement("script");
@@ -121,6 +123,11 @@ export const createLayout = ({
     c.setAttribute("usermenu", JSON.stringify(usermenu));
   } else {
     if (c.hasAttribute("usermenu")) c.removeAttribute("usermenu");
+  }
+  if (cookielaw) {
+    c.setAttribute("cookielaw", cookielaw);
+  } else {
+    if (c.hasAttribute("cookielaw")) c.removeAttribute("cookielaw");
   }
   return c;
 };

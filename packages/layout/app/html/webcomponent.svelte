@@ -76,6 +76,7 @@
 	export let navlinks: INavLink[];
 	export let page: IPage;
 	export let usermenu: IUserMenu;
+	export let cookielaw: string;
 
 	let navopen: boolean;
 	$: {
@@ -89,6 +90,9 @@
 			try {
 				page = Object.assign({ href: location.href }, JSON.parse(page as unknown as string));
 			} catch (err) {}
+		}
+		if (!cookielaw) {
+			cookielaw = null;
 		}
 		if (!usermenu) {
 			usermenu = null;
@@ -193,8 +197,9 @@
 	<div id="page">
 		<slot name="page">page</slot>
 	</div>
-
-	<cookielaw-component />
+	{#if cookielaw}
+		<cookielaw-component />
+	{/if}
 	<footerbootstrap-component
 		socials={socials ? JSON.stringify(socials) : ""}
 		contacts={contacts ? JSON.stringify(contacts) : ""}

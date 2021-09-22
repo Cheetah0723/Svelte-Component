@@ -31,18 +31,21 @@ export const createLiveVideoPlayer = ({
     if (c.hasAttribute("mediauri")) c.removeAttribute("mediauri");
   }
 
-  if (mediauri) {
-    c.setAttribute("mediauri", mediauri.toString());
+  if (height) {
+    c.setAttribute("height", height.toString());
   } else {
-    if (c.hasAttribute("mediauri")) c.removeAttribute("mediauri");
+    if (c.hasAttribute("height")) c.removeAttribute("height");
   }
   if (width) {
-    c.setAttribute("mediauri", mediauri.toString());
+    c.setAttribute("width", mediauri.toString());
   } else {
-    if (c.hasAttribute("mediauri")) c.removeAttribute("mediauri");
+    if (c.hasAttribute("width")) c.removeAttribute("width");
   }
-
-  c.setAttribute("mediauri", mediauri.toString());
+  if (width) {
+    c.setAttribute("width", mediauri.toString());
+  } else {
+    if (c.hasAttribute("width")) c.removeAttribute("width");
+  }
   let block = false;
   if (width) {
     block = true;
