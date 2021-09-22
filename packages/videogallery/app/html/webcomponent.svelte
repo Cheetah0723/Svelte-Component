@@ -244,12 +244,12 @@
 				{#each cardItems.slice(page * size, (page + 1) * size) as item (item._id)}
 					<div class="g-col-12 g-col-xxl-3 g-col-xl-4 g-col-md-6">
 						<videocardbootstrap-component
-							title={item.title}
-							description={item.description}
+							title={item.title || ""}
+							description={item.description || ""}
 							time={item.time ? moment(item.time).format() : undefined}
-							dateformat={dateFormat}
-							pageuri={item.pageUri}
-							videosrc={item.videoSrc}
+							dateformat={dateFormat || ""}
+							pageuri={item.pageUri || ""}
+							videosrc={item.videoSrc || ""}
 						/>
 					</div>
 				{/each}
