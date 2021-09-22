@@ -193,7 +193,7 @@
 	}
 </script>
 
-<footer class="border-top" id="webcomponent">
+<footer id="webcomponent">
 	<div class="container">
 		<slot name="footerheader" class="row">
 			<!-- <div class="row">

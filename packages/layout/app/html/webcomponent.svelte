@@ -198,7 +198,7 @@
 	<footerbootstrap-component
 		socials={socials ? JSON.stringify(socials) : ""}
 		contacts={contacts ? JSON.stringify(contacts) : ""}
-		style="background-color: burlywood;position:absolute;bottom:0px;width:100vw"
+		style="width:100vw"
 		company={company ? JSON.stringify(company) : ""}
 	/>
 </div>
