@@ -16,6 +16,7 @@
 	export let title: string;
 	export let description: string;
 	export let videosrc: string;
+	export let provider: "youtube" | "";
 	export let pageuri: string;
 	export let linklabel: string;
 	export let time: string;
@@ -29,6 +30,9 @@
 	}
 	if (!pageuri) {
 		pageuri = null;
+	}
+	if (!provider) {
+		provider = null;
 	}
 	if (!time) {
 		time = null;
@@ -47,11 +51,16 @@
 
 <div class="card h-100">
 	<!-- svelte-ignore a11y-media-has-caption -->
-
-	<video controls class="w-full"
-		><source src={videosrc} type="video/mp4" />
-		Your browser does not support the video tag.
-	</video>
+	{#if provider === "youtube"}
+		<div class="ratio ratio-16x9">
+			<iframe src={videosrc} title="YouTube video" allowfullscreen />
+		</div>
+	{:else}
+		<video controls class="w-full"
+			><source src={videosrc} type="video/mp4" />
+			Your browser does not support the video tag.
+		</video>
+	{/if}
 
 	<div class="card-body">
 		{#if title}

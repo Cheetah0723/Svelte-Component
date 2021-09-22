@@ -5,6 +5,7 @@ export interface VideoCardProps {
   title?: string;
   description?: string;
   time?: string;
+  provider?: "youtube";
 }
 
 export const createVideoCard = ({
@@ -13,6 +14,7 @@ export const createVideoCard = ({
   title,
   description,
   time,
+  provider,
 }: VideoCardProps) => {
   if (!document.getElementById("videocardbootstrapbootstrapcomponentjs")) {
     const script = document.createElement("script");
@@ -34,7 +36,11 @@ export const createVideoCard = ({
   } else {
     if (c.hasAttribute("title")) c.removeAttribute("title");
   }
-
+  if (provider) {
+    c.setAttribute("provider", provider);
+  } else {
+    if (c.hasAttribute("provider")) c.removeAttribute("provider");
+  }
   if (description) {
     c.setAttribute("description", description);
   } else {

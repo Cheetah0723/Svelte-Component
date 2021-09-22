@@ -6,7 +6,7 @@ export default {
   argTypes: {
     videosrc: { control: { type: "text" } },
     title: { control: { type: "text" } },
-
+    provider: { control: { type: "text" } },
     description: { control: { type: "text" } },
     time: { control: { type: "date" } },
     id: { control: { disable: true } },
@@ -18,7 +18,7 @@ const videosrc =
 const title = "aa";
 const description = "6";
 const datetest = "2021-08-15T18:55:22.135Z";
-
+const youtubevideosrc = "https://www.youtube.com/embed/tgbNymZ7vqY";
 const Template: Story<VideoCardProps> = (args) => createVideoCard(args);
 
 export const BasicVideoCard = Template.bind({});
@@ -28,4 +28,13 @@ BasicVideoCard.args = {
   description,
   time: datetest,
   id: "BasicVideoCard",
+};
+export const YoutubeCard = Template.bind({});
+YoutubeCard.args = {
+  videosrc: youtubevideosrc,
+  title,
+  description,
+  time: datetest,
+  id: "YoutubeCard",
+  provider: "youtube",
 };

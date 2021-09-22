@@ -21,7 +21,12 @@ const cards = [
     description: "fffffff",
     testnested: { nested: "dddd" },
   },
-  { title: "bb4", time: "2021-08-06T22:46:34.565Z" },
+  {
+    title: "bb4",
+    time: "2021-08-06T22:46:34.565Z",
+    videoSrc: "https://www.youtube.com/embed/tgbNymZ7vqY",
+    provider: "youtube",
+  },
   { title: "aa5", time: "2021-08-06T22:46:34.565Z" },
   { title: "bb6", time: "2021-08-06T22:46:34.565Z" },
   { title: "bb7", time: "2021-08-06T22:46:34.565Z" },

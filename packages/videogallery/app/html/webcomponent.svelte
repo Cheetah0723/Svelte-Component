@@ -24,6 +24,7 @@
 		time?: Date;
 		pageUri?: string;
 		_id: string;
+		provider?: "youtube";
 	}
 
 	export let cards: string;
@@ -179,6 +180,8 @@
 		const script = document.createElement("script");
 		script.id = "videocardbootstrapbootstrapcomponentjs";
 		script.src = `https://cdn.jsdelivr.net/npm/@htmlbricks/videocardbootstrap-component@${pkg.version}/release/videocardbootstrap.js`;
+		if (location.href.includes("localhost")) script.src = `http://localhost:6006/videocard/dist/videocardbootstrap.js`;
+
 		document.head.appendChild(script);
 	}
 </script>
@@ -250,6 +253,7 @@
 							dateformat={dateFormat || ""}
 							pageuri={item.pageUri || ""}
 							videosrc={item.videoSrc || ""}
+							provider={item.provider || ""}
 						/>
 					</div>
 				{/each}
