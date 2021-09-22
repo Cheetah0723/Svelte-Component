@@ -154,41 +154,21 @@
 		}
 	}
 
-	if (!document.getElementById("footerscript")) {
-		const script = document.createElement("script");
-		script.id = "footerscript";
-		script.src = `https://cdn.jsdelivr.net/npm/@htmlbricks/footerbootstrap-component@${pkg.version}/release/footerbootstrap.js`;
-		if (location.href.includes("localhost")) script.src = `http://localhost:6006/footer/dist/footerbootstrap.js`;
+	function addComponent(componentName: string, scriptJsName: string, componentId: string, localPackageDir?: string) {
+		if (!document.getElementById(componentId)) {
+			const script = document.createElement("script");
+			script.id = componentId;
+			script.src = `https://cdn.jsdelivr.net/npm/@htmlbricks/${componentName}@${pkg.version}/release/${scriptJsName}`;
+			if (localPackageDir && location.href.includes("localhost")) script.src = `http://localhost:6006/${localPackageDir}/dist/${scriptJsName}`;
 
-		document.head.appendChild(script);
+			document.head.appendChild(script);
+		}
 	}
+	addComponent("footerbootstrap-component", "footerbootstrap.js", "footerscript", "footer");
+	addComponent("offcanvas-component", "offcanvas.js", "offcanvasscript", "offcanvas");
+	addComponent("navbarbootstrap-component", "navbarbootstrap.js", "navbarscript", "navbar");
+	addComponent("cookielaw-component", "cookielaw.js", "cookielawcomponentscript", "cookielaw");
 
-	if (!document.getElementById("offcanvasscript")) {
-		const script = document.createElement("script");
-		script.id = "offcanvasscript";
-		script.src = `https://cdn.jsdelivr.net/npm/@htmlbricks/offcanvas-component@${pkg.version}/release/offcanvas.js`;
-		if (location.href.includes("localhost")) script.src = `http://localhost:6006/offcanvas/dist/offcanvas.js`;
-
-		document.head.appendChild(script);
-	}
-
-	if (!document.getElementById("navbarscript")) {
-		const script = document.createElement("script");
-		script.id = "navbarscript";
-		script.src = `https://cdn.jsdelivr.net/npm/@htmlbricks/navbarbootstrap-component@${pkg.version}/release/navbarbootstrap.js`;
-		if (location.href.includes("localhost")) script.src = `http://localhost:6006/navbar/dist/navbarbootstrap.js`;
-
-		document.head.appendChild(script);
-	}
-
-	if (!document.getElementById("cookielawcomponentscript")) {
-		const script = document.createElement("script");
-		script.id = "cookielawcomponentscript";
-		script.src = `https://cdn.jsdelivr.net/npm/@htmlbricks/cookielaw-component@${pkg.version}/release/cookielaw.js`;
-		if (location.href.includes("localhost")) script.src = `http://localhost:6006/cookielaw/dist/cookielaw.js`;
-
-		document.head.appendChild(script);
-	}
 	function openmenu(o) {
 		if (o.isOpen || o.isOpen === false) navopen = o.isOpen;
 		console.log("evvvv", navopen, o);

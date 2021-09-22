@@ -52,15 +52,15 @@
 			} catch (err) {}
 		}
 	}
-	if (!document.getElementById("bootstrapdropdownscript")) {
+
+	if (!document.getElementById("spectrumelements")) {
 		const script = document.createElement("script");
-		script.id = "bootstrapdropdownscript";
-		script.src = `https://cdn.jsdelivr.net/npm/@htmlbricks/bootstrapdropdown-component@${pkg.version}/release/bootstrapdropdown.js`;
-		if (location.href.includes("localhost")) script.src = `http://localhost:6006/dropdown/dist/bootstrapdropdown.js`;
+		script.id = "spectrumelements";
+		script.src = `https://jspm.dev/@spectrum-web-components/bundle/elements.js`;
+		script.type = "module";
 
 		document.head.appendChild(script);
 	}
-
 	const component = get_current_component();
 	const svelteDispatch = createEventDispatcher();
 
@@ -77,30 +77,45 @@
 	}
 </script>
 
-<nav id="webcomponent">
-	<div style="text-align:left" class="navitem">
-		<button style="padding:0px" on:click={() => switchMenu()} class="btn btn-lg">☰</button>
-	</div>
-	<div class="navitem">
-		<slot name="brand">
-			{#if companylogouri}<img style="height: 30px;" alt="" src={companylogouri} />{/if}
-			{companybrandname}
-		</slot>
-	</div>
+<sp-theme>
+	<nav id="navbar">
+		<div style="text-align:left" class="navitem">
+			<button style="font-size:20px;border:none" on:click={() => switchMenu()}>☰</button>
+		</div>
+		<div class="navitem">
+			<slot name="brand">
+				{#if companylogouri}<img style="height: 30px;vertical-align: middle;" alt="" src={companylogouri} />{/if}
+				{companybrandname}
+			</slot>
+		</div>
 
-	<div class="navitem">
-		<slot name="right-slot">
-			<!-- <div style="text-align:right;margin-right:10px">{pagetitle}</div> -->
-		</slot>
-		{#if usermenu}
-			<bootstrapdropdown-component list={usermenu.list?.length ? JSON.stringify(usermenu.list) : ""}>
+		<div class="navitem">
+			<slot name="right-slot">
+				<!-- <div style="text-align:right;margin-right:10px">{pagetitle}</div> -->
+			</slot>
+			{#if usermenu}
+				<sp-action-menu size="m">
+					<sp-avatar style="width:30px;pointer-events: none;" slot="icon" label="Dog the User" src={usermenu.imgUri} />
+					{#each usermenu.list as menuItem (menuItem.key)}
+						<sp-menu-item style="min-width:{menuItem.badge ? '140px' : ''}">
+							<span style="line-height: 24px">{menuItem.label}</span>
+							{#if menuItem.badge}
+								<sp-button style="float: right;" size="s" variant="secondary">{menuItem.badge}</sp-button>
+							{/if}
+						</sp-menu-item>
+					{/each}
+				</sp-action-menu>
+				<!-- <bootstrapdropdown-component list={usermenu.list?.length ? JSON.stringify(usermenu.list) : ""}>
 				<div slot="dropdownbutton">user</div>
-			</bootstrapdropdown-component>
-		{/if}
-	</div>
-</nav>
+			</bootstrapdropdown-component> -->
+			{/if}
+		</div>
+	</nav>
+	<!-- Insert content requiring theme application here. -->
+	<!-- End content requiring theme application. -->
+</sp-theme>
 
 <style lang="scss">
-	@import "../styles/bootstrap.scss";
+	// @import "../styles/bootstrap.scss";
 	@import "../styles/webcomponent.scss";
 </style>
