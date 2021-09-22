@@ -2,7 +2,7 @@
 	"name": "@htmlbricks/paginationbootstrap-component",
 	"displayName": "Svelte Boostrap Pagination WebComponent",
 	"description": "Svelte Boostrap Pagination WebComponent",
-	"version": "0.0.20",
+	"version": "0.0.21",
 	"main": "release/paginationbootstrap.js",
 	"publishConfig": {
 		"access": "public"
