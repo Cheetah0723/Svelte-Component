@@ -133,3 +133,13 @@ LayoutAWithPage.args = {
   usermenu: usermenu1,
   cookielaw: "yes",
 };
+export const LayoutAWithoutBurger = Template.bind({});
+LayoutAWithoutBurger.args = {
+  id: "LayoutAWithoutBurger",
+  company: company1,
+  contacts: contacts1,
+  socials: socials1,
+  page: { pageName: "settings" },
+  usermenu: usermenu1,
+  cookielaw: "yes",
+};

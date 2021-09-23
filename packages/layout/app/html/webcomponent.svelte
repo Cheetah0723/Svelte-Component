@@ -180,13 +180,17 @@
 </script>
 
 <div>
-	<offcanvas-component
-		navpage={page.pageName || ""}
-		navlinks={navlinks ? JSON.stringify(navlinks) : "[]"}
-		on:offcanvasswitch={(el) => openmenu(el.detail)}
-		opened={navopen ? "yes" : "no"}
-	/>
+	{#if navlinks}
+		<offcanvas-component
+			navpage={page.pageName || ""}
+			navlinks={navlinks ? JSON.stringify(navlinks) : "[]"}
+			on:offcanvasswitch={(el) => openmenu(el.detail)}
+			opened={navopen ? "yes" : "no"}
+		/>
+	{/if}
+
 	<navbarbootstrap-component
+		noburger={navlinks ? "" : "yes"}
 		companylogouri={company?.logoUri || ""}
 		companybrandname={company?.siteName || ""}
 		usermenu={JSON.stringify(usermenu) || ""}
