@@ -15,6 +15,7 @@ export interface NavbarProps {
   companybrandname?: string;
   companylogouri?: string;
   switchopen?: boolean;
+  noburger?: boolean;
   usermenu?: IUserMenu;
   navmenuswitch?: (isOpen) => void;
 }
@@ -26,6 +27,7 @@ export const createNavbar = ({
   pagetitle,
   switchopen,
   usermenu,
+  noburger,
   navmenuswitch,
 }: NavbarProps) => {
   if (!document.getElementById("navbarscript")) {
@@ -68,6 +70,11 @@ export const createNavbar = ({
     c.setAttribute("usermenu", JSON.stringify(usermenu));
   } else {
     if (c.hasAttribute("usermenu")) c.removeAttribute("usermenu");
+  }
+  if (noburger) {
+    c.setAttribute("noburger", "yes");
+  } else {
+    if (c.hasAttribute("noburger")) c.removeAttribute("noburger");
   }
   if (id === "NavbarSlotted") {
     const slot_right_bar = document.createElement("div");

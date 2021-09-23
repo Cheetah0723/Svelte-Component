@@ -31,6 +31,7 @@
 	export let pagetitle: string;
 	export let switchopen: string;
 	export let usermenu: IUserMenu;
+	export let noburger: string;
 
 	let isOpen: boolean;
 	$: {
@@ -43,6 +44,9 @@
 			isOpen = false;
 		} else {
 			isOpen = true;
+		}
+		if (!noburger) {
+			noburger = null;
 		}
 		if (!usermenu) {
 			usermenu = null;
@@ -80,7 +84,9 @@
 <sp-theme>
 	<nav id="navbar">
 		<div style="text-align:left" class="navitem">
-			<button style="font-size:20px;border:none" on:click={() => switchMenu()}>☰</button>
+			{#if !noburger}
+				<button style="font-size:20px;border:none" on:click={() => switchMenu()}>☰</button>
+			{/if}
 		</div>
 		<div class="navitem">
 			<slot name="brand">

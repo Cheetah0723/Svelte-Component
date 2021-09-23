@@ -8,6 +8,7 @@ export default {
     pagetitle: { control: { type: "text" } },
     companybrandname: { control: { type: "text" } },
     companylogouri: { control: { type: "text" } },
+    noburger: { control: { type: "boolean" } },
     navmenuswitch: { action: "navmenuswitchEvent" },
   },
   parameters: {
@@ -77,4 +78,13 @@ NavbarWithUserMenu.args = {
   companylogouri:
     "https://upload.wikimedia.org/wikipedia/commons/8/80/Wikipedia-logo-v2.svg",
   usermenu: usermenu1,
+};
+export const NavbarNoBurger = Template.bind({});
+NavbarNoBurger.args = {
+  id: "NavbarNoBurger",
+  companybrandname: "testbrand",
+  companylogouri:
+    "https://upload.wikimedia.org/wikipedia/commons/8/80/Wikipedia-logo-v2.svg",
+  usermenu: usermenu1,
+  noburger: true,
 };
