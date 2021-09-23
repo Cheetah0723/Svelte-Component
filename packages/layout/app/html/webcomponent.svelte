@@ -203,7 +203,7 @@
 	<footerbootstrap-component
 		socials={socials ? JSON.stringify(socials) : ""}
 		contacts={contacts ? JSON.stringify(contacts) : ""}
-		style="width:100vw;display:block"
+		style="display:block"
 		company={company ? JSON.stringify(company) : ""}
 	/>
 </div>
