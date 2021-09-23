@@ -93,6 +93,14 @@ export const createLayout = ({
       pageItem.innerText = "paddddddddddddddddddddddddddddddddddddddddddge";
       c.appendChild(pageItem);
     }
+    if (id === "LayoutAWithoutNavSlotted") {
+      console.log("LayoutAWithoutNavSlotted");
+      const pageItem = document.createElement("div");
+      pageItem.setAttribute("slot", "right-slot");
+
+      pageItem.innerText = "right-";
+      c.appendChild(pageItem);
+    }
   }
   if (company) {
     c.setAttribute("company", JSON.stringify(company));

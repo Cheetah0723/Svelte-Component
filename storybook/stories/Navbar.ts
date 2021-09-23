@@ -82,5 +82,11 @@ export const createNavbar = ({
     slot_right_bar.innerText = "slot right";
     c.appendChild(slot_right_bar);
   }
+  if (id === "NavbarNoBurger") {
+    const slot_right_bar = document.createElement("div");
+    slot_right_bar.setAttribute("slot", "right-slot");
+    slot_right_bar.innerText = "s";
+    c.appendChild(slot_right_bar);
+  }
   return c;
 };

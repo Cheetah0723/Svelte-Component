@@ -96,9 +96,11 @@
 		</div>
 
 		<div class="navitem">
-			<slot name="right-slot">
-				<!-- <div style="text-align:right;margin-right:10px">{pagetitle}</div> -->
-			</slot>
+			<div style="display: inline-block;">
+				<slot name="right-slot">
+					<!-- <div style="text-align:right;margin-right:10px">{pagetitle}</div> -->
+				</slot>
+			</div>
 			{#if usermenu}
 				<sp-action-menu size="m">
 					<sp-avatar style="width:30px;pointer-events: none;" slot="icon" label="Dog the User" src={usermenu.imgUri} />

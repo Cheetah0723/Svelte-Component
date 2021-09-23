@@ -196,7 +196,9 @@
 		usermenu={JSON.stringify(usermenu) || ""}
 		switchopen={navopen ? "yes" : "no"}
 		on:navmenuswitch={(el) => openmenu(el.detail)}
-	/>
+	>
+		<span slot="right-slot"><slot name="right-slot" /></span>
+	</navbarbootstrap-component>
 
 	<div id="page">
 		<slot name="page">page</slot>
