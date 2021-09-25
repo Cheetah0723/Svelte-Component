@@ -301,14 +301,14 @@
 				{/if}
 				{#if columns && columns.length}
 					{#each columns as column (column._id)}
-						<!-- <div class="col" style="margin:20px auto 20px auto">
-							<h5 style="text-align: center;">{column.title ? column.title : ""}</h5>
+						<div class="col" style="margin:20px auto 20px auto">
+							<h5>{column.title ? column.title : ""}</h5>
 							<ul class="list-unstyled">
 								{#each column.cells as cell (cell.key)}
 									<li><button class="btn text-small" on:click={() => footerClick(cell.key)}>{cell.label}</button></li>
 								{/each}
 							</ul>
-						</div> -->
+						</div>
 					{/each}
 				{/if}
 			</slot>
@@ -318,7 +318,7 @@
 			<slot name="footerpolicy">
 				{#if policies?.length}
 					{#each policies as policy (policy.key)}
-						<div class="col" style="max-height:20px;text-align:center;font-size:0.9rem;">
+						<div class="col" style="margin:20px auto 20px auto;max-height:20px;text-align:center;font-size:0.9rem;">
 							<button on:click={() => footerClick(policy.key)} class="btn btn-link">{policy.label}</button>
 						</div>
 					{/each}

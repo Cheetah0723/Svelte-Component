@@ -51,6 +51,61 @@ const columns1: IColumn[] = [
     ],
     title: "stringtitle",
   },
+];
+const columns2: IColumn[] = [
+  {
+    cells: [
+      {
+        label: "test",
+        key: "test",
+      },
+      {
+        label: "test2",
+        key: "test2",
+      },
+      {
+        label: "test3",
+        key: "test3",
+      },
+    ],
+    title: "stringtitle",
+  },
+  {
+    cells: [
+      {
+        label: "test",
+        key: "test",
+      },
+      {
+        label: "test2",
+        key: "test2",
+      },
+      {
+        label: "test3",
+        key: "test3",
+      },
+    ],
+    title: "stringtitle",
+  },
+];
+const columns3: IColumn[] = [
+  {
+    cells: [
+      {
+        label: "test",
+        key: "test",
+      },
+      {
+        label: "test2",
+        key: "test2",
+      },
+      {
+        label: "test3",
+        key: "test3",
+      },
+    ],
+    title: "stringtitle",
+  },
   {
     cells: [
       {
@@ -173,6 +228,7 @@ export const FooterWithColumns = Template.bind({});
 FooterWithColumns.args = {
   id: "FooterWithColumns",
   company: company1,
+  contacts: contacts1,
 
   columns: columns1,
 };
