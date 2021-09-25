@@ -1,8 +1,11 @@
 import { Story, Meta } from "@storybook/html";
-import { createLoginRegister, LoginRegisterProps } from "./LoginRegister";
+import {
+  createLoginRegisterPage,
+  LoginRegisterPageProps,
+} from "./LoginRegisterPage";
 
 export default {
-  title: "Pages/LoginRegister",
+  title: "Pages/LoginRegisterPage",
   argTypes: {
     type: {
       options: ["login", "register"],
@@ -21,7 +24,8 @@ export default {
   },
 } as Meta;
 
-const Template: Story<LoginRegisterProps> = (args) => createLoginRegister(args);
+const Template: Story<LoginRegisterPageProps> = (args) =>
+  createLoginRegisterPage(args);
 
 export const Login = Template.bind({});
 Login.args = {
