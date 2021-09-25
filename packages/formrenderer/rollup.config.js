@@ -37,8 +37,8 @@ export default {
 	output: {
 		sourcemap: true,
 		format: "iife",
-		file: "dist/cookielaw.js",
-		name: "cookielaw",
+		file: "dist/formrenderer.js",
+		name: "formrenderer",
 	},
 	plugins: [
 		json(),
@@ -95,11 +95,11 @@ export default {
 		// If we're building for production (npm run build
 		// instead of npm run dev), minify
 		production &&
-		terser({
-			output: {
-				comments: false,
-			},
-		}),
+			terser({
+				output: {
+					comments: false,
+				},
+			}),
 	],
 
 	watch: {

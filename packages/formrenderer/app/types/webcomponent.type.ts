@@ -1,49 +1,64 @@
-/**
- * Node Module (Library) Boilerplate
- * =====================
- *
- * Create your node module (library) with this friendly boilerplate. Use this respository as template for your new node library/module
- *
- * @contributors: Patryk Rzucidło [@ptkdev] <support@ptkdev.io> (https://ptk.dev)
- *
- * @license: MIT License
- *
- */
-
-/**
- * ModuleInterface
- * =====================
- *
- */
-export interface ModuleInterface {
+export type FormSchemaEntry = {
 	/**
-	 * Input text
-	 * =====================
-	 * Set text
-	 *
-	 * @interface [ModuleInterface](https://github.com/ptkdev-boilerplate/svelte-webcomponent-boilerplate/blob/main/app/webcomponent/types/module.type.ts)
-	 *
-	 * @param {string} text - input text
-	 *
+	 * This will be both the key of the object when submitting the form's data,
+	 * and also the id in the DOM.
 	 */
-	text: string
-}
+	id: string;
 
-/**
- * ModuleResponseInterface
- * =====================
- *
- */
-export interface ModuleResponseInterface {
 	/**
-	 * Output text
-	 * =====================
-	 * Get text
-	 *
-	  * @interface [ModuleResponseInterface](https://github.com/ptkdev-boilerplate/svelte-webcomponent-boilerplate/blob/main/app/webcomponent/types/module.type.ts)
-	 *
-	 * @return {fn} string - run app() for output text
-	 *
+	 * Identifies the component type that will be used,
+	 * available default ones are:
+	 *  - text
+	 *  - number
+	 *  - email
+	 *  - select
+	 * 	- radio
+	 *  - checkbox
+	 *  - textarea
 	 */
-	app(): string
-}
+	type: string;
+
+	/**
+	 * The descriptive label that will show alongside the form control.
+	 */
+	label?: string;
+
+	/**
+	 * Optional default value.
+	 */
+	value?: string | number | boolean;
+
+	/**
+	 * This form control will show only if these dependencies are satisfied.
+	 */
+	dependencies?: {
+		id: string;
+		values?: any[];
+	}[];
+
+	readonly?: boolean;
+
+	/**
+	 * This doesn't matter if the dependencies requirements aren't met.
+	 */
+	required?: boolean;
+
+	validationRegex?: string;
+	/**
+	 * Shows if value is not valid.
+	 */
+	validationTip?: string;
+
+	placeholder?: string;
+
+	/**
+	 * Other parameters that may be specific to a certain kind of form control.
+	 */
+	params?: Record<string, any>;
+};
+
+export type FormSchema = FormSchemaEntry[];
+
+export type FormRendererProps = {
+	schema: FormSchema;
+};

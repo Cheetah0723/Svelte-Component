@@ -1,9 +1,9 @@
 {
-	"name": "@htmlbricks/cookielaw-component",
-	"displayName": "Svelte cookielaw WebComponent",
-	"description": "Svelte cookielaw WebComponent",
+	"name": "@htmlbricks/formrenderer-component",
+	"displayName": "Svelte formrenderer WebComponent",
+	"description": "Svelte formrenderer WebComponent",
 	"version": "0.0.30",
-	"main": "release/cookielaw.js",
+	"main": "release/formrenderer.js",
 	"publishConfig": {
 		"access": "public"
 	},
@@ -20,7 +20,7 @@
 		"start": "sirv dist",
 		"dev": "rm -rf ./dist && rollup -c -w",
 		"build": "rm -rf ./dist && rollup -c",
-		"copydest": "rm -rf release && mkdir -p release && cp dist/cookielaw.js ./release/ && cp dist/cookielaw.js.map ./release/",
+		"copydest": "rm -rf release && mkdir -p release && cp dist/formrenderer.js ./release/ && cp dist/formrenderer.js.map ./release/",
 		"build:release": "PRODUCTION=true npm run build && npm run copydest",
 		"prepublish": "npm run build:release"
 	},
