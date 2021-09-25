@@ -24,38 +24,69 @@ export default {
   },
 } as Meta;
 
+const company1 = {
+  logoUri:
+    "https://upload.wikimedia.org/wikipedia/commons/8/80/Wikipedia-logo-v2.svg",
+  siteName: "testsite",
+  companyName: "testcompany S.R.L.",
+  registration: "copyright",
+  description: `testo e descrizione di esempio dell'applicazione`,
+  vatNumber: "aa - ffffff",
+  fiscalCode: "f4f5f6fff",
+};
+
+const contacts1 = {
+  sites: [
+    {
+      label: "dariocaruso.info",
+      uri: "https://dariocaruso.info",
+    },
+  ],
+  phones: [
+    {
+      number: "6666666666666",
+    },
+  ],
+  addresses: [],
+  emails: [],
+};
+
+const socials1 = {
+  facebook: "fbbb",
+  youtube: "yttttttt",
+};
+
 const Template: Story<LoginRegisterPageProps> = (args) =>
   createLoginRegisterPage(args);
 
-export const Login = Template.bind({});
-Login.args = {
+export const LoginPage = Template.bind({});
+LoginPage.args = {
   type: "login",
-  logouri:
-    "https://upload.wikimedia.org/wikipedia/commons/a/af/Free_Content_Logo.svg",
-  id: "login",
+  company: company1,
+  id: "LoginPage",
 };
-export const Register = Template.bind({});
-Register.args = {
-  type: "register",
-  id: "Register",
+export const RegisterPage = Template.bind({});
+RegisterPage.args = {
+  company: company1,
+  id: "RegisterPage",
 };
-export const LoginEn = Template.bind({});
-LoginEn.args = {
+export const LoginEnPage = Template.bind({});
+LoginEnPage.args = {
   type: "login",
   language: "en",
-  id: "LoginEn",
+  id: "LoginEnPage",
 };
 
-export const LoginEnWithFetch = Template.bind({});
-LoginEnWithFetch.args = {
+export const LoginPageEnWithFetch = Template.bind({});
+LoginPageEnWithFetch.args = {
   type: "login",
   language: "en",
   loginuri: "https://kernel.free.beeceptor.com/login",
   registeruri: "https://kernel.free.beeceptor.com/register",
-  id: "LoginEnWithFetch",
+  id: "LoginPageEnWithFetch",
 };
-export const LoginEnWithOauth = Template.bind({});
-LoginEnWithOauth.args = {
+export const LoginPageEnWithOauth = Template.bind({});
+LoginPageEnWithOauth.args = {
   type: "login",
   language: "en",
   loginuri: "https://kernel.free.beeceptor.com/login",
@@ -69,5 +100,5 @@ LoginEnWithOauth.args = {
     { provider: "facebook" },
     { provider: "twitter" },
   ],
-  id: "LoginEnWithOauth",
+  id: "LoginPageEnWithOauth",
 };

@@ -71,7 +71,6 @@
 	export let contacts: IContacts;
 
 	export let id: string;
-	export let style: string;
 	export let company: ICompany;
 	export let navlinks: INavLink[];
 	export let page: IPage;
@@ -84,7 +83,7 @@
 		if (!page) {
 			page = {
 				href: location.href,
-				pageName: "login",
+				pageName: "home",
 			};
 		}
 		if (!cookielaw) {
@@ -93,10 +92,13 @@
 		if (!usermenu) {
 			usermenu = null;
 		}
-		if (!style) style = "";
 		navopen = false;
 		if (!company) {
 			company = null;
+		} else {
+			try {
+				company = JSON.parse(company as unknown as string);
+			} catch (err) {}
 		}
 		if (!navlinks) {
 			navlinks = null;
@@ -134,7 +136,7 @@
 	{#if navlinks}
 		<offcanvas-component
 			navpage={page.pageName || ""}
-			navlinks={navlinks ? JSON.stringify(navlinks) : "[]"}
+			navlinks={navlinks || "[]"}
 			on:offcanvasswitch={(el) => openmenu(el.detail)}
 			opened={navopen ? "yes" : "no"}
 		/>
@@ -144,7 +146,7 @@
 		noburger={navlinks ? "" : "yes"}
 		companylogouri={company?.logoUri || ""}
 		companybrandname={company?.siteName || ""}
-		usermenu={JSON.stringify(usermenu) || ""}
+		usermenu={usermenu || ""}
 		switchopen={navopen ? "yes" : "no"}
 		on:navmenuswitch={(el) => openmenu(el.detail)}
 	>
@@ -157,7 +159,12 @@
 	{#if cookielaw}
 		<cookielaw-component />
 	{/if}
-	<footerbootstrap-component socials={socials || ""} contacts={contacts || ""} style="display:block" company={company || ""} />
+	<footerbootstrap-component
+		socials={socials ? JSON.stringify(socials) : ""}
+		contacts={contacts ? JSON.stringify(contacts) : ""}
+		style="display:block"
+		company={company ? JSON.stringify(company) : ""}
+	/>
 </div>
 
 <style lang="scss">

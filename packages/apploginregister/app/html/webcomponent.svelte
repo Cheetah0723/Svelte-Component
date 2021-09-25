@@ -71,7 +71,6 @@
 	export let contacts: IContacts;
 
 	export let id: string;
-	export let style: string;
 	export let company: ICompany;
 	export let navlinks: INavLink[];
 	export let page: IPage;
@@ -163,7 +162,6 @@
 		if (!usermenu) {
 			usermenu = null;
 		}
-		if (!style) style = "";
 		navopen = false;
 		if (!company) {
 			company = null;
