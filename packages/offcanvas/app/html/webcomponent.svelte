@@ -91,6 +91,7 @@
 		dispatch("pagechange", {
 			page,
 		});
+		OpenSwitch(false);
 	}
 	function OpenSwitch(open: boolean) {
 		opened = open;
