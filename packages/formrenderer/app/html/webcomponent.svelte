@@ -17,9 +17,7 @@
 	import FormSchemaRenderer from "./FormSchemaRenderer.svelte";
 
 	export let schema: FormSchema;
-	$: {
-		schema = typeof schema === "string" ? JSON.parse(schema) : schema;
-	}
+	$: schema = typeof schema === "string" ? JSON.parse(schema) : schema;
 
 	const component = get_current_component();
 

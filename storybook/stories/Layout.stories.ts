@@ -5,6 +5,8 @@ export default {
   title: "Layout/MainLayout",
   argTypes: {
     id: { control: { disable: true } },
+    pagechange: { action: "pagechangeEvent" },
+    offcanvasswitch: { action: "offcanvasswitchEvent" },
   },
   parameters: {
     layout: "fullscreen",

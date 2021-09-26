@@ -62,6 +62,8 @@ export interface LayoutProps {
   page: IPage;
   usermenu: IUserMenu;
   cookielaw: string;
+  offcanvasswitch: (p) => void;
+  pagechange: (p) => void;
 }
 export const createLayout = ({
   id,
@@ -72,6 +74,8 @@ export const createLayout = ({
   usermenu,
   page,
   cookielaw,
+  pagechange,
+  offcanvasswitch,
 }: LayoutProps) => {
   if (!document.getElementById("bootstraplayoutscript")) {
     const script = document.createElement("script");
@@ -85,6 +89,11 @@ export const createLayout = ({
   } else {
     c = document.createElement("bootstraplayout-component");
     c.id = id;
+
+    c.addEventListener("offcanvasswitch", (e: any) =>
+      offcanvasswitch(e.detail)
+    );
+    c.addEventListener("pagechange", (e: any) => pagechange(e.detail));
     if (id === "LayoutAWithPage") {
       console.log("LayoutAWithPage");
       const pageItem = document.createElement("div");

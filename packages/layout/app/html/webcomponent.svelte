@@ -110,7 +110,13 @@
 			contacts = null;
 		}
 	}
-
+	const component = get_current_component();
+	const svelteDispatch = createEventDispatcher();
+	function dispatch(name, detail) {
+		// console.log(`svelte: ${name}`);
+		svelteDispatch(name, detail);
+		component.dispatchEvent && component.dispatchEvent(new CustomEvent(name, { detail }));
+	}
 	function addComponent(componentName: string, scriptJsName: string, componentId: string, localPackageDir?: string) {
 		if (!document.getElementById(componentId)) {
 			const script = document.createElement("script");
@@ -129,6 +135,7 @@
 	function openmenu(o) {
 		if (o.isOpen || o.isOpen === false) navopen = o.isOpen;
 		console.log("evvvv", navopen, o);
+		dispatch("offcanvasswitch", o);
 	}
 </script>
 
@@ -139,6 +146,7 @@
 			navlinks={navlinks || "[]"}
 			on:offcanvasswitch={(el) => openmenu(el.detail)}
 			opened={navopen ? "yes" : "no"}
+			on:pagechange={(p) => dispatch("pagechange", p.detail)}
 		/>
 	{/if}
 
