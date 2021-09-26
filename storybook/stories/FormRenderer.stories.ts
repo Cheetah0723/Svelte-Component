@@ -1,14 +1,26 @@
-import type { FormRendererProps } from "../../packages/formrenderer/app/types/webcomponent.type";
+import type { FormSchema } from "../../packages/formrenderer/app/types/webcomponent.type";
 
-const createFormRenderer = ({ schema }: FormRendererProps) => {
+interface IFormRender {
+  schema: FormSchema;
+  id: string;
+  sumitEvent: (a) => void;
+}
+
+const createFormRenderer = (data: IFormRender) => {
   if (!document.getElementById("formrendererscript")) {
     const script = document.createElement("script");
     script.id = "formrendererscript";
     script.src = "http://localhost:6006/formrenderer/dist/formrenderer.js";
     document.body.appendChild(script);
   }
-
-  let c = document.createElement("formrenderer-component");
+  let c;
+  if (document.getElementById(data.id)) {
+    c = document.getElementById(data.id);
+  } else {
+    c = document.createElement("formrenderer-component");
+    c.id = data.id;
+    c.addEventListener("submit", (c: any) => data.sumitEvent(c.detail));
+  }
 
   if (schema) {
     c.setAttribute("schema", JSON.stringify(schema));
@@ -21,7 +33,7 @@ const createFormRenderer = ({ schema }: FormRendererProps) => {
 
 import { Story, Meta } from "@storybook/html";
 
-const schema: FormRendererProps["schema"] = [
+const schema: FormSchema = [
   {
     id: "name-row",
     type: "row",
@@ -69,10 +81,11 @@ export default {
   },
 } as Meta;
 
-const Template: Story<FormRendererProps> = (args) => createFormRenderer(args);
+const Template: Story<IFormRender> = (args) => createFormRenderer(args);
 
 export const FormRenderer = Template.bind({});
 
 FormRenderer.args = {
   schema,
+  id: "FormRenderer",
 };
