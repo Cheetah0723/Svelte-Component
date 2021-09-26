@@ -1,8 +1,11 @@
 import { Story, Meta } from "@storybook/html";
-import { createLoginRegister, LoginRegisterProps } from "./LoginRegister";
+import {
+  createLoginRegister,
+  LoginRegisterProps,
+} from "./LoginRegisterComponent";
 
 export default {
-  title: "Pages/LoginRegister",
+  title: "Components/LoginRegisterComponent",
   argTypes: {
     type: {
       options: ["login", "register"],

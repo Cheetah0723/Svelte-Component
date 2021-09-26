@@ -1,4 +1,4 @@
-<svelte:options tag="bootstraplayout-component" />
+<svelte:options tag="apploginregister-component" />
 
 <script lang="ts">
 	/**
@@ -76,14 +76,84 @@
 	export let page: IPage;
 	export let usermenu: IUserMenu;
 	export let cookielaw: string;
+	export let type: "login" | "register";
+
+	export let language: string;
+
+	export let sessionkey: string;
+
+	export let redirectonlogin: string;
+	export let redirectoncreate: string;
+	export let loginuri: string;
+	export let registeruri: string;
+	export let requestmethod: string;
+	export let appendqueryparams: string;
+	export let appendbodyparams: string;
+	export let logouri: string;
+	export let oauth2providers: string;
+
+	export let passwordpattern: string;
+	export let userpattern: string;
+	export let usertype: "email" | "username";
 
 	let navopen: boolean;
 	$: {
 		if (!id) id = "";
+		if (!oauth2providers) {
+			oauth2providers = null;
+		}
+		if (!passwordpattern) {
+			passwordpattern = null;
+		}
+		if (!userpattern) {
+			userpattern = null;
+		}
+		if (!usertype) {
+			usertype = "email";
+		}
+		if (!redirectonlogin) {
+			redirectonlogin = null;
+		}
+		if (!redirectoncreate) {
+			redirectoncreate = null;
+		}
+		if (!type) {
+			type = "login";
+		}
+
+		if (!sessionkey) {
+			sessionkey = "_lg";
+		}
+		if (!language) {
+			language = "";
+		}
+		if (!appendqueryparams) {
+			appendqueryparams = "";
+		}
+		if (!appendbodyparams) {
+			appendbodyparams = "";
+		}
+		if (!loginuri) {
+			loginuri = "";
+		}
+		if (!registeruri) {
+			registeruri = "";
+		}
+
+		if (appendqueryparams) {
+			appendqueryparams = "";
+		}
+		if (!logouri) {
+			logouri = "";
+		}
+		if (!requestmethod) {
+			requestmethod = "POST";
+		}
+
 		if (!page) {
 			page = {
 				href: location.href,
-				pageName: "home",
+				pageName: "login",
 			};
 		}
 		if (!cookielaw) {
@@ -95,10 +165,6 @@
 		navopen = false;
 		if (!company) {
 			company = null;
-		} else {
-			try {
-				company = JSON.parse(company as unknown as string);
-			} catch (err) {}
 		}
 		if (!navlinks) {
 			navlinks = null;
@@ -121,51 +187,14 @@
 			document.head.appendChild(script);
 		}
 	}
-	addComponent("footerbootstrap-component", "footerbootstrap.js", "footerscript", "footer");
-	addComponent("offcanvas-component", "offcanvas.js", "offcanvasscript", "offcanvas");
-	addComponent("navbarbootstrap-component", "navbarbootstrap.js", "navbarscript", "navbar");
-	addComponent("cookielaw-component", "cookielaw.js", "cookielawcomponentscript", "cookielaw");
-
-	function openmenu(o) {
-		if (o.isOpen || o.isOpen === false) navopen = o.isOpen;
-		console.log("evvvv", navopen, o);
-	}
+	addComponent("bootstraplayout-component", "bootstraplayout.js", "bootstraplayoutscript", "layout");
+	addComponent("loginregister-component", "loginregister.js", "loginregistercomponentscript", "loginregister");
 </script>
 
-<div>
-	{#if navlinks}
-		<offcanvas-component
-			navpage={page.pageName || ""}
-			navlinks={navlinks || "[]"}
-			on:offcanvasswitch={(el) => openmenu(el.detail)}
-			opened={navopen ? "yes" : "no"}
-		/>
-	{/if}
-
-	<navbarbootstrap-component
-		noburger={navlinks ? "" : "yes"}
-		companylogouri={company?.logoUri || ""}
-		companybrandname={company?.siteName || ""}
-		usermenu={usermenu || ""}
-		switchopen={navopen ? "yes" : "no"}
-		on:navmenuswitch={(el) => openmenu(el.detail)}
-	>
-		<span slot="right-slot"><slot name="right-slot" /></span>
-	</navbarbootstrap-component>
-
-	<div id="page">
-		<slot name="page">page</slot>
-	</div>
-	{#if cookielaw}
-		<cookielaw-component />
-	{/if}
-	<footerbootstrap-component
-		socials={socials ? JSON.stringify(socials) : ""}
-		contacts={contacts ? JSON.stringify(contacts) : ""}
-		style="display:block"
-		company={company ? JSON.stringify(company) : ""}
-	/>
-</div>
+<bootstraplayout-component socials={socials || ""} contacts={contacts || ""} style="display:block" company={company || ""}
+	>d
+	<loginregister-component slot="page" />
+</bootstraplayout-component>
 
 <style lang="scss">
 	// @import "../styles/bootstrap.scss";
