@@ -83,19 +83,21 @@
 
 <sp-theme>
 	<nav id="navbar">
-		<div style="text-align:left" class="navitem">
+		<div style="text-align:left" class="navitem" part="left-slot">
 			{#if !noburger}
 				<button style="font-size:20px;border:none" on:click={() => switchMenu()}>☰</button>
 			{/if}
+			<slot name="left-slot" />
 		</div>
-		<div class="navitem">
+		<div part="center-slot" class="navitem">
 			<slot name="brand">
 				{#if companylogouri}<img style="height: 30px;vertical-align: middle;" alt="" src={companylogouri} />{/if}
 				{companybrandname}
 			</slot>
+			<slot name="center-slot" />
 		</div>
 
-		<div class="navitem">
+		<div part="right-slot" class="navitem">
 			<div style="display: inline-block;">
 				<slot name="right-slot">
 					<!-- <div style="text-align:right;margin-right:10px">{pagetitle}</div> -->

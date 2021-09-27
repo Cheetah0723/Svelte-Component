@@ -173,7 +173,9 @@
 		on:navmenuswitch={(el) => openmenu(el.detail)}
 		on:userClick={(el) => dispatch("userClick", el.detail)}
 	>
-		<span slot="right-slot"><slot name="right-slot" /></span>
+		<span slot="left-slot"><slot name="nav-left-slot" /></span>
+		<span slot="center-slot"><slot name="nav-center-slot" /></span>
+		<span slot="right-slot"><slot name="nav-right-slot" /></span>
 	</navbarbootstrap-component>
 
 	<div style={onescreen ? "flex: 2" : ""} part="page" id="page">

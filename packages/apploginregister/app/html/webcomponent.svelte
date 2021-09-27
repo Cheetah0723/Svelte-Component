@@ -198,6 +198,10 @@
 </script>
 
 <bootstraplayout-component onescreen="yes" socials={socials || ""} contacts={contacts || ""} company={company || ""} style="display:block">
+	<span slot="nav-right-slot"><slot name="nav-right-slot" /></span>
+	<span slot="nav-left-slot"><slot name="nav-left-slot" /></span>
+	<span slot="nav-center-slot"><slot name="nav-center-slot" /></span>
+
 	<loginregister-component
 		part="loginbox"
 		on:login={(l) => {

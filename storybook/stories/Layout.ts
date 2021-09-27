@@ -105,7 +105,7 @@ export const createLayout = ({
     if (id === "LayoutAWithoutNavSlotted") {
       console.log("LayoutAWithoutNavSlotted");
       const pageItem = document.createElement("div");
-      pageItem.setAttribute("slot", "right-slot");
+      pageItem.setAttribute("slot", "nav-right-slot");
 
       pageItem.innerText = "right-";
       c.appendChild(pageItem);
