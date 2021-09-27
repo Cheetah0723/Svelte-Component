@@ -108,7 +108,9 @@
 						<sp-menu-item style="min-width:{menuItem.badge ? '140px' : ''}">
 							<span style="line-height: 24px">{menuItem.label}</span>
 							{#if menuItem.badge}
-								<sp-button style="float: right;" size="s" variant="secondary">{menuItem.badge}</sp-button>
+								<sp-button on:click={() => dispatch("userClick", menuItem.key)} style="float: right;" size="s" variant="secondary"
+									>{menuItem.badge}</sp-button
+								>
 							{/if}
 						</sp-menu-item>
 					{/each}

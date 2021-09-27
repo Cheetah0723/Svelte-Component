@@ -167,6 +167,7 @@
 		usermenu={usermenu || ""}
 		switchopen={navopen ? "yes" : "no"}
 		on:navmenuswitch={(el) => openmenu(el.detail)}
+		on:userClick={(el) => dispatch("userClick", el.detail)}
 	>
 		<span slot="right-slot"><slot name="right-slot" /></span>
 	</navbarbootstrap-component>
