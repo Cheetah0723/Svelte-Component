@@ -2,7 +2,7 @@
 	"name": "@htmlbricks/bootstrapdropdown-component",
 	"displayName": "Svelte Boostrap Dropdown WebComponent",
 	"description": "Svelte Boostrap 5 Dropdown WebComponent",
-	"version": "0.0.32",
+	"version": "0.0.33",
 	"main": "release/bootstrapdropdown.js",
 	"publishConfig": {
 		"access": "public"
