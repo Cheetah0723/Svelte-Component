@@ -105,12 +105,10 @@
 				<sp-action-menu size="m" style="margin-right:5px">
 					<sp-avatar style="width:30px;pointer-events: none;" slot="icon" label="Dog the User" src={usermenu.imgUri} />
 					{#each usermenu.list as menuItem (menuItem.key)}
-						<sp-menu-item style="min-width:{menuItem.badge ? '140px' : ''}">
+						<sp-menu-item on:click={() => dispatch("userClick", menuItem.key)} style="min-width:{menuItem.badge ? '140px' : ''}">
 							<span style="line-height: 24px">{menuItem.label}</span>
 							{#if menuItem.badge}
-								<sp-button on:click={() => dispatch("userClick", menuItem.key)} style="float: right;" size="s" variant="secondary"
-									>{menuItem.badge}</sp-button
-								>
+								<sp-button style="float: right;" size="s" variant="secondary">{menuItem.badge}</sp-button>
 							{/if}
 						</sp-menu-item>
 					{/each}
