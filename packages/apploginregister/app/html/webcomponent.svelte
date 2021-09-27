@@ -176,7 +176,13 @@
 			contacts = null;
 		}
 	}
-
+	const component = get_current_component();
+	const svelteDispatch = createEventDispatcher();
+	function dispatch(name, detail) {
+		// console.log(`svelte: ${name}`);
+		svelteDispatch(name, detail);
+		component.dispatchEvent && component.dispatchEvent(new CustomEvent(name, { detail }));
+	}
 	function addComponent(componentName: string, scriptJsName: string, componentId: string, localPackageDir?: string) {
 		if (!document.getElementById(componentId)) {
 			const script = document.createElement("script");
@@ -193,7 +199,15 @@
 
 <bootstraplayout-component socials={socials || ""} contacts={contacts || ""} style="display:block" company={company || ""}
 	>d
-	<loginregister-component slot="page" />
+	<loginregister-component
+		on:login={(l) => {
+			dispatch("login", l.detail);
+		}}
+		on:register={(l) => {
+			dispatch("register", l.detail);
+		}}
+		slot="page"
+	/>
 </bootstraplayout-component>
 
 <style lang="scss">

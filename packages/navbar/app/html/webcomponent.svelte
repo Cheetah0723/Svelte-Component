@@ -102,7 +102,7 @@
 				</slot>
 			</div>
 			{#if usermenu}
-				<sp-action-menu size="m">
+				<sp-action-menu size="m" style="margin-right:5px">
 					<sp-avatar style="width:30px;pointer-events: none;" slot="icon" label="Dog the User" src={usermenu.imgUri} />
 					{#each usermenu.list as menuItem (menuItem.key)}
 						<sp-menu-item style="min-width:{menuItem.badge ? '140px' : ''}">

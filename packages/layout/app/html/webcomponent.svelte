@@ -64,6 +64,12 @@
 		list?: IUserMenuListItem[];
 	}
 
+	interface IColumn {
+		_id?: string;
+		cells: { label: string; key: string }[];
+		title?: string;
+	}
+
 	import { get_current_component } from "svelte/internal";
 	import { createEventDispatcher } from "svelte";
 	import pkg from "../../package.json";
@@ -76,6 +82,7 @@
 	export let page: IPage;
 	export let usermenu: IUserMenu;
 	export let cookielaw: string;
+	export let columns: IColumn[];
 
 	let navopen: boolean;
 	$: {
@@ -91,6 +98,9 @@
 		}
 		if (!usermenu) {
 			usermenu = null;
+		}
+		if (!columns) {
+			columns = null;
 		}
 		navopen = false;
 		if (!company) {
@@ -172,6 +182,8 @@
 		contacts={contacts ? JSON.stringify(contacts) : ""}
 		style="display:block"
 		company={company ? JSON.stringify(company) : ""}
+		columns={columns || ""}
+		on:footerClick={(el) => dispatch("footerClick", el.detail)}
 	/>
 </div>
 
