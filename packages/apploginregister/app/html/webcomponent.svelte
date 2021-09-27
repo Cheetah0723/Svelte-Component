@@ -197,9 +197,9 @@
 	addComponent("loginregister-component", "loginregister.js", "loginregistercomponentscript", "loginregister");
 </script>
 
-<bootstraplayout-component socials={socials || ""} contacts={contacts || ""} style="display:block" company={company || ""}
-	>d
+<bootstraplayout-component onescreen="yes" socials={socials || ""} contacts={contacts || ""} company={company || ""} style="display:block">
 	<loginregister-component
+		part="loginbox"
 		on:login={(l) => {
 			dispatch("login", l.detail);
 		}}

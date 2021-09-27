@@ -83,6 +83,7 @@
 	export let usermenu: IUserMenu;
 	export let cookielaw: string;
 	export let columns: IColumn[];
+	export let onescreen: "yes";
 
 	let navopen: boolean;
 	$: {
@@ -101,6 +102,9 @@
 		}
 		if (!columns) {
 			columns = null;
+		}
+		if (!onescreen) {
+			onescreen = null;
 		}
 		navopen = false;
 		if (!company) {
@@ -149,7 +153,7 @@
 	}
 </script>
 
-<div>
+<div style={onescreen ? "display: flex;flex-direction: column;	height: 100vh;" : "display:block"} part="container">
 	{#if navlinks}
 		<offcanvas-component
 			navpage={page.pageName || ""}
@@ -159,8 +163,8 @@
 			on:pagechange={(p) => dispatch("pagechange", p.detail)}
 		/>
 	{/if}
-
 	<navbarbootstrap-component
+		part="navbar"
 		noburger={navlinks ? "" : "yes"}
 		companylogouri={company?.logoUri || ""}
 		companybrandname={company?.siteName || ""}
@@ -172,13 +176,14 @@
 		<span slot="right-slot"><slot name="right-slot" /></span>
 	</navbarbootstrap-component>
 
-	<div id="page">
+	<div style={onescreen ? "flex: 2" : ""} part="page" id="page">
 		<slot name="page">page</slot>
 	</div>
 	{#if cookielaw}
 		<cookielaw-component />
 	{/if}
 	<footerbootstrap-component
+		part="footer"
 		socials={socials ? JSON.stringify(socials) : ""}
 		contacts={contacts ? JSON.stringify(contacts) : ""}
 		style="display:block"
