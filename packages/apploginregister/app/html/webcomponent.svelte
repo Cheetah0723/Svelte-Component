@@ -203,6 +203,8 @@
 	<span slot="nav-center-slot"><slot name="nav-center-slot" /></span>
 
 	<loginregister-component
+		sessionkey={sessionkey || ""}
+		loginuri={loginuri || ""}
 		part="loginbox"
 		on:login={(l) => {
 			dispatch("login", l.detail);

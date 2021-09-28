@@ -34,15 +34,14 @@
 	export let oauth2providers: string;
 
 	export let passwordpattern: string;
-	export let userpattern: string;
-	export let usertype: "email" | "username";
+
 	// export let expectmailconfirm: string;
 	let oauth2ProvidersObj: {
 		provider: string;
 		uri: string;
 	}[];
 
-	let user: string;
+	let email: string;
 	let checkValidity: boolean;
 	let rememberMe: boolean;
 
@@ -57,12 +56,7 @@
 		if (!passwordpattern) {
 			passwordpattern = null;
 		}
-		if (!userpattern) {
-			userpattern = null;
-		}
-		if (!usertype) {
-			usertype = "email";
-		}
+
 		if (!redirectonlogin) {
 			redirectonlogin = null;
 		}
@@ -87,8 +81,8 @@
 				oauth2ProvidersObj = null;
 			}
 		}
-		if (!user) {
-			user = "";
+		if (!email) {
+			email = "";
 		}
 		if (!password) {
 			password = "";
@@ -163,21 +157,10 @@
 	// }
 	// console.log(getCookie(cookierequestkeys));
 
-	function checkValidityFn(type: "password" | "user") {
-		console.log(usertype, user, type);
-
+	function checkValidityFn(type: "password" | "email") {
 		checkValidity = true;
-		if (type === "user") {
-			if (usertype === "username" && user.length && user.length > 3) return true;
-			console.log(usertype, user);
-			if (
-				usertype === "email" &&
-				user.length &&
-				user.length > 3 &&
-				user.split("@").length === 2 &&
-				user.split(".")[user.split(".").length - 1]?.length > 1
-			)
-				return true;
+		if (type === "email") {
+			if (email.length && email.length > 3 && email.split("@").length === 2 && email.split(".")[email.split(".").length - 1]?.length > 1) return true;
 		} else if (type === "password") {
 			if (password.length && password.length > 3) return true;
 		}
@@ -190,7 +173,7 @@
 	}
 
 	async function login() {
-		if (checkValidityFn("user") && checkValidityFn("password")) {
+		if (checkValidityFn("email") && checkValidityFn("password")) {
 			console.log("request");
 			if (loginuri) {
 				try {
@@ -209,7 +192,7 @@
 							referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
 						});
 					} else {
-						let body = { user, password, rememberMe };
+						let body = { email, password, rememberMe };
 						if (appendbodyparams) Object.assign(body, JSON.parse(appendbodyparams));
 
 						response = await fetch(`${loginuri}`, {
@@ -230,7 +213,10 @@
 					const serverAnswer = await response.json();
 					const answer = serverAnswer;
 					// answer.requestSent = { user, password, rememberMe, uri: loginuri };
-					if (!answer.ok) throw new Error("invalid login");
+					if (!answer.ok && !answer.token) {
+						console.log(answer);
+						throw new Error("invalid login");
+					}
 
 					if (rememberMe) setLoginOnStorage(JSON.stringify(answer));
 					else setLoginSession(JSON.stringify(answer));
@@ -238,7 +224,9 @@
 					if (redirectonlogin) location.href = redirectonlogin;
 					dispatch("login", answer);
 				} catch (err) {
-					console.error("invalid login", { user, password, rememberMe });
+					console.error(err);
+
+					console.error("invalid login", { email, password, rememberMe });
 				}
 			} else {
 				// const cookie = {
@@ -249,13 +237,13 @@
 				// if (redirectonlogin) location.href = redirectonlogin;
 
 				dispatch("login", {
-					user,
+					email,
 					password,
 					rememberMe,
 				});
 			}
 		} else {
-			console.error("invalid login", { user, password, rememberMe });
+			console.error("invalid login", { email, password, rememberMe });
 		}
 	}
 
@@ -267,7 +255,7 @@
 		sessionStorage.setItem(sessionkey, tokenStringified);
 	}
 	async function register() {
-		if (checkValidityFn("user") && checkValidityFn("password")) {
+		if (checkValidityFn("email") && checkValidityFn("password")) {
 			if (registeruri) {
 				try {
 					let response;
@@ -285,7 +273,7 @@
 							referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
 						});
 					} else {
-						let body = { user, password };
+						let body = { email, password };
 						if (appendbodyparams) Object.assign(body, JSON.parse(appendbodyparams));
 
 						response = await fetch(`${registeruri}`, {
@@ -304,9 +292,9 @@
 					}
 					const answer = await response.json();
 					answer.ok = true;
-					answer.requestSent = { user, password };
+					answer.requestSent = { email, password };
 					const cookie = {
-						user,
+						email,
 						password,
 					};
 					// setLoginCookie(JSON.stringify(cookie));
@@ -314,7 +302,8 @@
 					if (redirectoncreate) location.href = redirectoncreate;
 					dispatch("register", answer);
 				} catch (err) {
-					console.error("invalid register", { user, password, uri: registeruri });
+					console.error(err);
+					console.error("invalid register", { email, password, uri: registeruri });
 				}
 			} else {
 				// const cookie = {
@@ -325,12 +314,12 @@
 				// if (redirectoncreate) location.href = redirectoncreate;
 
 				dispatch("register", {
-					user,
+					email,
 					password,
 				});
 			}
 		} else {
-			console.error("invalid register", { user, password });
+			console.error("invalid register", { email, password });
 		}
 	}
 	const component = get_current_component();
@@ -343,7 +332,7 @@
 	}
 
 	function switchType(t: "login" | "register") {
-		user = "";
+		email = "";
 		password = "";
 		rememberMe = false;
 		checkValidity = false;
@@ -391,24 +380,13 @@
 		{/if}
 
 		<div class="form-floating">
-			{#if usertype === "email"}
-				<input
-					type="email"
-					class="form-control {checkValidity ? (checkValidityFn('user') ? 'is-valid' : 'is-invalid') : ''}"
-					bind:value={user}
-					placeholder="name@example.com"
-					pattern={userpattern ? userpattern : ""}
-				/>
-			{:else if usertype === "username"}
-				<input
-					type="text"
-					class="form-control {checkValidity ? (checkValidityFn('user') ? 'is-valid' : 'is-invalid') : ''}"
-					bind:value={user}
-					placeholder="name@example.com"
-					required
-					pattern={userpattern ? userpattern : ""}
-				/>
-			{/if}
+			<input
+				type="text"
+				class="form-control {checkValidity ? (checkValidityFn('email') ? 'is-valid' : 'is-invalid') : ''}"
+				bind:value={email}
+				placeholder="name@example.com"
+				required
+			/>
 
 			<label for="floatingInput">Email</label>
 		</div>
