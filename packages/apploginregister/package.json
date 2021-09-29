@@ -2,7 +2,7 @@
 	"name": "@htmlbricks/apploginregister-component",
 	"displayName": "Svelte Bootstrap Layout WebComponent",
 	"description": "Svelte Bootstrap 5 WebComponent",
-	"version": "0.0.38",
+	"version": "0.0.39",
 	"main": "release/apploginregister.js",
 	"publishConfig": {
 		"access": "public"
