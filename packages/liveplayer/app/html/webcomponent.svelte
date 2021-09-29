@@ -96,7 +96,9 @@
 			if (!res || (res.status && (res.status > 299 || res.status < 199))) throw new Error("wrong uri");
 
 			isLive = true;
+			dispatch("liveStatus", { live: true });
 		} catch (err) {
+			if (isLive !== false) dispatch("liveStatus", { live: false });
 			isLive = false;
 
 			timeo = setTimeout(relo, 5000);

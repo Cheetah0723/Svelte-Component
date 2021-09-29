@@ -21,6 +21,8 @@ export default {
     width: { control: { type: "range", min: 100, max: 2000, step: 25 } },
     height: { control: { type: "range", min: 100, max: 2000, step: 25 } },
     mediatype: { control: { type: "string" } },
+    liveStatus: { action: "liveStatusEvent" },
+
     id: { control: { disable: true } },
   },
 } as Meta;

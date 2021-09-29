@@ -4,6 +4,7 @@ export interface LiveVideoPlayerProps {
   width?: number;
   height?: number;
   id: string;
+  liveStatus: (e) => void;
 }
 
 export const createLiveVideoPlayer = ({
@@ -12,6 +13,7 @@ export const createLiveVideoPlayer = ({
   height,
   id,
   replacewithtext,
+  liveStatus,
 }: LiveVideoPlayerProps) => {
   if (!document.getElementById("liveplayerscript")) {
     const script = document.createElement("script");
@@ -25,6 +27,7 @@ export const createLiveVideoPlayer = ({
   } else {
     c = document.createElement("liveplayer-component");
     c.id = id;
+    c.addEventListener("liveStatus", (e: any) => liveStatus(e.detail));
   }
 
   if (replacewithtext) {
