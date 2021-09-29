@@ -1,5 +1,6 @@
 export interface LiveVideoPlayerProps {
-  mediauri: string;
+  mediauri?: string;
+  replacewithtext?: {};
   width?: number;
   height?: number;
   id: string;
@@ -10,6 +11,7 @@ export const createLiveVideoPlayer = ({
   width,
   height,
   id,
+  replacewithtext,
 }: LiveVideoPlayerProps) => {
   if (!document.getElementById("liveplayerscript")) {
     const script = document.createElement("script");
@@ -25,26 +27,15 @@ export const createLiveVideoPlayer = ({
     c.id = id;
   }
 
+  if (replacewithtext) {
+    c.setAttribute("replacewithtext", JSON.stringify(replacewithtext));
+  } else {
+    if (c.hasAttribute("replacewithtext")) c.removeAttribute("replacewithtext");
+  }
   if (mediauri) {
     c.setAttribute("mediauri", mediauri.toString());
   } else {
     if (c.hasAttribute("mediauri")) c.removeAttribute("mediauri");
-  }
-
-  if (height) {
-    c.setAttribute("height", height.toString());
-  } else {
-    if (c.hasAttribute("height")) c.removeAttribute("height");
-  }
-  if (width) {
-    c.setAttribute("width", mediauri.toString());
-  } else {
-    if (c.hasAttribute("width")) c.removeAttribute("width");
-  }
-  if (width) {
-    c.setAttribute("width", mediauri.toString());
-  } else {
-    if (c.hasAttribute("width")) c.removeAttribute("width");
   }
   let block = false;
   if (width) {

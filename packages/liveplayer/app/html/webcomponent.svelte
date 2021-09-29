@@ -14,22 +14,49 @@
 	// import { get_current_component } from "svelte/internal";
 
 	import Hls from "hls.js";
+	import { onDestroy, onMount } from "svelte";
+	import { createEventDispatcher, current_component, get_current_component } from "svelte/internal";
 
 	export let mediauri: string;
 	export let mediatype: string;
 	export let id: string;
+	export let forcecover: string;
+	export let replacewithtext: {
+		title: string;
+		subtitle: string;
+		text: string;
+	};
 	if (!id) id = null;
 	// const component = get_current_component();
+	let liveUri;
 
+	let timeo;
+	let isLive;
 	$: {
 		if (!mediauri) {
 			mediauri = null;
 		}
+		if (!forcecover) {
+			forcecover = null;
+		}
 		if (!mediatype) {
 			mediatype = null;
 		}
+		if (!replacewithtext) {
+			replacewithtext = null;
+		} else {
+			try {
+				replacewithtext = JSON.parse(replacewithtext as any as string);
+			} catch (err) {}
+		}
 	}
-
+	const component = get_current_component();
+	const svelteDispatch = createEventDispatcher();
+	function dispatch(name, detail) {
+		// console.log(`svelte: ${name}`);
+		svelteDispatch(name, detail);
+		component.dispatchEvent && component.dispatchEvent(new CustomEvent(name, { detail }));
+	}
 	function setHls(video) {
 		if (video && Hls.isSupported()) {
 			const hls = new Hls({});
@@ -52,15 +79,130 @@
 		}
 	}
 
+	async function loadLive() {
+		function relo() {
+			if (!isLive || !mediauri)
+				loadLive().catch((err) => {
+					console.error("reload uri", err);
+				});
+		}
+		try {
+			if (!mediauri) {
+				timeo = setTimeout(relo, 5000);
+				return;
+			}
+			console.info("checking live");
+			const res = await fetch(mediauri);
+			if (!res || (res.status && (res.status > 299 || res.status < 199))) throw new Error("wrong uri");
+
+			isLive = true;
+		} catch (err) {
+			isLive = false;
+
+			timeo = setTimeout(relo, 5000);
+		}
+
+		return;
+	}
+
+	onMount(() => {
+		loadLive()
+			.catch(() => {
+				console.error("merr");
+				// return timeo ? clearTimeout(timeo) : undefined;
+			})
+			.then(() => {
+				console.log("start live checker");
+
+				// return timeo ? clearTimeout(timeo) : undefined;
+			});
+		return () => {
+			if (timeo) {
+				console.log("destroy live checker");
+				clearTimeout(timeo);
+			}
+		};
+	});
+
 	// onMount(async () => {
 	// 	setHls();
 	// });
 </script>
 
-{#if mediauri}
-	<!-- svelte-ignore a11y-media-has-caption -->
-	<video use:setHls style="width: 100%;max-height:100%" />
-{/if}
+<!-- svelte-ignore a11y-media-has-caption -->
+<div part="container" style="width: 100%;height:100%;">
+	{#if mediauri && isLive && !forcecover}
+		<video part="video" use:setHls style="width: 100%;height:100%;background-color:black" />
+	{:else if replacewithtext?.title || replacewithtext?.subtitle || replacewithtext?.text}
+		<div
+			part="replacewithtext"
+			style="	background-color: black; color: white;display: flex; align-items: center; justify-content: center; flex-direction:column;aspect-ratio:16/9;height:100%;margin:auto;background-color:grey"
+		>
+			{#if replacewithtext?.title && replacewithtext?.subtitle && replacewithtext?.text}
+				<slot name="replacewithtext">
+					<div style="flex: 1">
+						<div style="display: flex;height:100%;align-items: center; justify-content: center; flex-direction:column">
+							<div><slot name="replacetitle">{replacewithtext?.title || ""}</slot></div>
+						</div>
+					</div>
+					<div style="flex:1">
+						<div style="display: flex;height:100%;align-items: center; justify-content: center; flex-direction:column">
+							<div style="flex:1">
+								<div style="display: flex;height:100%;align-items: center; justify-content: center; flex-direction:column">
+									<div><slot name="replacesubtitle">{replacewithtext?.subtitle || ""}</slot></div>
+								</div>
+							</div>
+							<div style="flex:1">
+								<div style="display: flex;height:100%;align-items: center; justify-content: center; flex-direction:column">
+									<div><slot name="replacetext">{replacewithtext?.text || ""}</slot></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</slot>
+			{:else if replacewithtext?.title && replacewithtext?.subtitle}
+				<slot name="replacewithtext">
+					<div style="flex: 1">
+						<div style="display: flex;height:100%;align-items: center; justify-content: center; flex-direction:column">
+							<div><slot name="replacetitle">{replacewithtext?.title || ""}</slot></div>
+						</div>
+					</div>
+					<div style="flex:1">
+						<div style="display: flex;height:100%;align-items: center; justify-content: center; flex-direction:column">
+							<div style="flex:1">
+								<div style="display: flex;height:100%;align-items: center; justify-content: center; flex-direction:column">
+									<div><slot name="replacesubtitle">{replacewithtext?.subtitle || ""}</slot></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</slot>
+			{:else if replacewithtext?.title}
+				<slot name="replacewithtext">
+					<div style="flex: 1">
+						<div style="display: flex;height:100%;align-items: center; justify-content: center; flex-direction:column">
+							<div><slot name="replacetitle">{replacewithtext?.title || ""}</slot></div>
+						</div>
+					</div>
+				</slot>
+			{/if}
+		</div>
+	{:else if !replacewithtext || (!replacewithtext.title && !replacewithtext.subtitle && !replacewithtext.text)}
+		<div
+			part="replacewithtext"
+			style="	background-color: black; color: white;display: flex; align-items: center; justify-content: center; flex-direction:column;aspect-ratio:16/9;height:100%;margin:auto;background-color:grey"
+		>
+			offline
+		</div>
+	{:else}
+		<div
+			part="replacewithtext"
+			style="	background-color: black; color: white;display: flex; align-items: center; justify-content: center; flex-direction:column;aspect-ratio:16/9;height:100%;margin:auto;background-color:grey"
+		>
+			nouri
+		</div>
+	{/if}
+</div>
 
 <style lang="scss">
 	@import "../styles/webcomponent.scss";
