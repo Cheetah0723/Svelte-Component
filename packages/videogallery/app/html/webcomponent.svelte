@@ -131,9 +131,9 @@
 					}
 					return false;
 				});
-			} else if (filter && externalfilter) {
+			} else if (externalfilter) {
 				console.info(filter);
-				dispatch("textFilterVideos", { filter: filter });
+				dispatch("textFilterVideos", { filter: filter || null });
 			}
 			if (cardItems.length && (!externalfilter || !pages)) {
 				console.log("calcpage", cardItems.length, !externalfilter || !pages, pages);
@@ -182,7 +182,7 @@
 		const newDate = node.target.value;
 
 		dispatch("dateFilterVideos", {
-			start: newDate,
+			start: moment(newDate, "YYYY-MM-DD").startOf("day").toDate(),
 			dateKey: "start",
 		});
 
@@ -193,7 +193,7 @@
 	function changeEndDate(node) {
 		const newDate = node.target.value;
 		dispatch("dateFilterVideos", {
-			end: newDate,
+			end: moment(newDate, "YYYY-MM-DD").startOf("day").toDate(),
 			dateKey: "end",
 		});
 		// console.log(newDate);
@@ -249,7 +249,7 @@
 </script>
 
 <div class="container-fluid" part="container">
-	{#if cardItems && cardItems.length}
+	{#if cardItems && (cardItems.length || cardItems.length === 0)}
 		<div class="d-none d-md-block">
 			<div class="grid">
 				<div class="g-col-4 g-col-xxl-2">
