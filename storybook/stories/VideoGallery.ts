@@ -1,10 +1,15 @@
+interface IRestApi {}
+
 export interface VideoGalleryProps {
   id: string;
   cards: any[];
   size?: number;
   page?: number;
+  externalfilter?: boolean;
   primarycolor?: string;
-  pagechange?: () => void;
+  dateFilterVideos?: (e) => void;
+  textFilterVideos?: (e) => void;
+  pagechange?: (e) => void;
 }
 
 export const createVideoGallery = ({
@@ -13,7 +18,10 @@ export const createVideoGallery = ({
   size,
   page,
   primarycolor,
+  externalfilter,
   pagechange,
+  textFilterVideos,
+  dateFilterVideos,
 }: VideoGalleryProps) => {
   if (!document.getElementById("videogallerycomponentscript")) {
     const script = document.createElement("script");
@@ -29,10 +37,26 @@ export const createVideoGallery = ({
   } else {
     c = document.createElement("videogallery-bootstrap-component");
     c.id = id;
-    c.addEventListener("pagechange", pagechange);
+    c.addEventListener("pagechange", (p: any) => pagechange(p.detail));
+    c.addEventListener("textFilterVideos", (p: any) =>
+      textFilterVideos(p.detail)
+    );
+    c.addEventListener("dateFilterVideos", (p: any) =>
+      dateFilterVideos(p.detail)
+    );
   }
 
-  c.setAttribute("cards", JSON.stringify(cards));
+  if (cards) {
+    c.setAttribute("cards", JSON.stringify(cards));
+  } else {
+    if (c.hasAttribute("cards")) c.removeAttribute("cards");
+  }
+
+  if (externalfilter) {
+    c.setAttribute("externalfilter", "yes");
+  } else {
+    if (c.hasAttribute("externalfilter")) c.removeAttribute("externalfilter");
+  }
   if (size) {
     c.setAttribute("size", size.toString());
   } else {

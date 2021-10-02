@@ -26,29 +26,23 @@
 		_id: string;
 		provider?: "youtube";
 	}
-
+	// interface IRestApi {
+	// 	uri: string;
+	// 	pagination?: boolean;
+	// 	capabilities: string;
+	// 	convert: { page: string, items:string }
+	// }
 	export let cards: string;
 	export let size: number;
 	export let page: number;
+	export let pages: number;
 	export let linkLabel: string;
 	export let dateFormat: string;
 	export let primarycolor: string;
 	export let filter: string;
 	export let id: string;
-
-	if (!linkLabel) {
-		linkLabel = "";
-	}
-	if (!primarycolor) {
-		primarycolor = null;
-	}
-	if (!dateFormat) {
-		dateFormat = "dddd DD MMMM YYYY HH:mm";
-	}
-	if (!id) {
-		id = null;
-	}
-	let pages = 0;
+	// export let restapi: string;
+	export let externalfilter: string;
 
 	let cardItems: ICard[];
 	let initialDate: Date;
@@ -58,6 +52,26 @@
 	let enableDate = true;
 
 	$: {
+		if (!linkLabel) {
+			linkLabel = "";
+		}
+		if (!primarycolor) {
+			primarycolor = null;
+		}
+		if (!dateFormat) {
+			dateFormat = "dddd DD MMMM YYYY HH:mm";
+		}
+		if (!id) {
+			id = null;
+		}
+		if (!pages) {
+			pages = 1;
+		} else {
+			pages = Number(pages);
+		}
+		if (!externalfilter) {
+			externalfilter = null;
+		}
 		if (!size) {
 			size = 12;
 		} else {
@@ -71,8 +85,12 @@
 		if (!filter) {
 			filter = null;
 		}
-
+		if (!cardItems) {
+			cardItems = [];
+		}
 		try {
+			// if (!restapi) {
+			// 	restapi = null;
 			cardItems = JSON.parse(cards);
 			let cc = 0;
 			for (const c of cardItems) {
@@ -92,7 +110,7 @@
 				cc++;
 			}
 
-			if (enableDate) {
+			if (enableDate && !externalfilter) {
 				cardItems = cardItems.sort((b, a) => {
 					return a.time.valueOf() - b.time.valueOf();
 				});
@@ -104,17 +122,25 @@
 				}
 				cardItems = cardItems.filter((f) => f.time.valueOf() >= firstCardData.valueOf() && f.time.valueOf() <= lastCardData.valueOf());
 			}
-			if (filter) {
+			if (filter && !externalfilter) {
+				console.info(filter);
+
 				cardItems = cardItems.filter((c) => {
 					if (c.title?.toLowerCase().includes(filter.toLowerCase()) || c.description?.toLowerCase().includes(filter.toLowerCase())) {
 						return true;
 					}
 					return false;
 				});
+			} else if (filter && externalfilter) {
+				console.info(filter);
+				dispatch("textFilterVideos", { filter: filter });
 			}
-			if (cardItems.length) {
+			if (cardItems.length && (!externalfilter || !pages)) {
+				console.log("calcpage", cardItems.length, !externalfilter || !pages, pages);
+
 				pages = Math.floor(cardItems.length / size) + (cardItems.length % size ? 1 : 0);
 			}
+			// }
 
 			// const videos = component.getElementsByTagName("video");
 			// for (let video of videos) {
@@ -127,7 +153,7 @@
 
 		// will only get called when the `color` changed.
 	}
-	import { get_current_component } from "svelte/internal";
+	import { get_current_component, onMount } from "svelte/internal";
 
 	const component = get_current_component();
 	const svelteDispatch = createEventDispatcher();
@@ -141,27 +167,37 @@
 	function changePage(el) {
 		// console.log("changepage");
 
-		page = el.detail.page;
+		if (!externalfilter) page = el.detail.page;
 		dispatch("pagechange", {
-			page,
+			page: el.detail.page,
 			cards: getCurrentCards(),
 		});
 	}
 
 	function getCurrentCards() {
-		return cardItems.slice(page * size, (page + 1) * size);
+		return !externalfilter ? cardItems.slice(page * size, (page + 1) * size) : cardItems;
 	}
 
 	function changeStartDate(node) {
 		const newDate = node.target.value;
+
+		dispatch("dateFilterVideos", {
+			start: newDate,
+			dateKey: "start",
+		});
+
 		// console.log(newDate);
-		firstCardData = moment(newDate, "YYYY-MM-DD").startOf("day").toDate();
+		if (!externalfilter) firstCardData = moment(newDate, "YYYY-MM-DD").startOf("day").toDate();
 		filter = null;
 	}
 	function changeEndDate(node) {
 		const newDate = node.target.value;
+		dispatch("dateFilterVideos", {
+			end: newDate,
+			dateKey: "end",
+		});
 		// console.log(newDate);
-		lastCardData = moment(newDate, "YYYY-MM-DD").endOf("day").toDate();
+		if (!externalfilter) lastCardData = moment(newDate, "YYYY-MM-DD").endOf("day").toDate();
 		filter = null;
 	}
 	// async function getHelloWorld() {
@@ -184,10 +220,36 @@
 
 		document.head.appendChild(script);
 	}
+
+	// onMount(async () => {
+	// 	await reloadCards();
+	// });
+
+	// async function fetchData(uri: string) {
+	// 	const fetched = await fetch(uri);
+	// 	const data = fetched.json();
+	// 	return data;
+	// }
+
+	// async function reloadCards() {
+	// 	if (restapi) {
+	// 		const restObj: IRestApi = JSON.parse(restapi);
+	// 		console.info("fetch cards", restObj.uri);
+	// 		if (restObj.pagination) {
+	// 		}
+
+	// 		const data = await fetchData(restObj.uri);
+	// 		cardItems = data;
+
+	// 		console.log(data);
+	// 	}
+
+	// 	console.info("reload cards");
+	// }
 </script>
 
-<div id="webcomponent">
-	<div class="container-fluid">
+<div class="container-fluid" part="container">
+	{#if cardItems && cardItems.length}
 		<div class="d-none d-md-block">
 			<div class="grid">
 				<div class="g-col-4 g-col-xxl-2">
@@ -225,7 +287,7 @@
 				<div class="g-col-12">
 					<div class="input-group mb-3">
 						<span class="input-group-text" id="search">&#x1F50E;</span>
-						<input type="text" value={filter} class="form-control" placeholder="..." aria-label="Search" aria-describedby="search" />
+						<input type="text" bind:value={filter} class="form-control" placeholder="..." aria-label="Search" aria-describedby="search" />
 					</div>
 				</div>
 			</div>
@@ -244,7 +306,7 @@
 		</div>
 		{#if cardItems && cardItems.length}
 			<div class="grid">
-				{#each cardItems.slice(page * size, (page + 1) * size) as item (item._id)}
+				{#each !externalfilter ? cardItems.slice(page * size, (page + 1) * size) : cardItems as item (item._id)}
 					<div class="g-col-12 g-col-xxl-3 g-col-xl-4 g-col-md-6">
 						<videocardbootstrap-component
 							title={item.title || ""}
@@ -262,7 +324,7 @@
 				<paginationbootstrap-component on:pagechange={changePage} page={page.toString()} pages={pages.toString()} primarycolor={primarycolor || ""} />
 			</nav>
 		{/if}
-	</div>
+	{/if}
 </div>
 
 <style lang="scss">

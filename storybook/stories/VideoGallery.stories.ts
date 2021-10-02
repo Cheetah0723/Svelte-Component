@@ -69,8 +69,12 @@ export default {
   argTypes: {
     size: { control: { type: "range", min: 1, max: cards.length + 2 } },
     page: { control: { type: "number" } },
+    resturi: { control: { type: "object" } },
     primarycolor: { control: { type: "color" } },
     pagechange: { action: "pagechangeEvent" },
+    externalfilter: { control: { type: "boolean" } },
+    textFilterVideos: { action: "textFilterVideosEvent" },
+    dateFilterVideos: { action: "dateFilterVideosEvent" },
     id: { control: { disable: true } },
   },
 } as Meta;
@@ -82,4 +86,12 @@ BasicVideoGallery.args = {
   cards,
   headers,
   id: "BasicVideoGallery",
+};
+
+export const BasicVideoGalleryRest = Template.bind({});
+BasicVideoGalleryRest.args = {
+  cards,
+  headers,
+  id: "BasicVideoGalleryRest",
+  externalfilter: true,
 };
