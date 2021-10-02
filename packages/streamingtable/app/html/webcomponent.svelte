@@ -40,10 +40,12 @@
 	}
 
 	export let id: string;
+	export let externalfilter: string;
 
 	export let rows: string;
 	export let size: number;
 	export let page: number;
+	export let pages: number;
 	export let primarycolor: string;
 	export let headers: string;
 	export let actions: string;
@@ -56,7 +58,6 @@
 	if (!id) {
 		id = null;
 	}
-	let pages = 0;
 	let selectActionsbuttons: any[];
 	let rowItems: IRow[];
 
@@ -75,6 +76,14 @@
 	let sortedBy: string;
 	let sortedDirection: string;
 	$: {
+		if (!externalfilter) {
+			externalfilter = null;
+		}
+		if (!pages) {
+			pages = 1;
+		} else {
+			pages = Number(pages);
+		}
 		console.log("compute");
 		if (!selectactions) {
 			selectActionsbuttons = null;
@@ -155,7 +164,7 @@
 					});
 			}
 
-			if (rowItems.length) {
+			if (rowItems.length && (!externalfilter || !pages)) {
 				pages = Math.floor(rowItems.length / size) + (rowItems.length % size ? 1 : 0);
 			}
 
@@ -200,11 +209,11 @@
 	function changePage(el) {
 		// console.log("changepage");
 
-		page = el.detail.page;
+		if (!externalfilter) page = el.detail.page;
 		selectedItems.length = 0;
 
 		dispatch("pagechange", {
-			page,
+			page: el.detail.page,
 			rows: getCurrentCards(),
 		});
 	}
@@ -526,7 +535,7 @@
 				</thead>
 				<tbody>
 					{#if rowItems?.length}
-						{#each rowItems.slice(page * size, (page + 1) * size) as item (item._id)}
+						{#each !externalfilter ? rowItems.slice(page * size, (page + 1) * size) : rowItems as item (item._id)}
 							<tr>
 								{#if enableselect && selectActionsbuttons}
 									<td style="box-shadow: none;">
