@@ -131,7 +131,7 @@ LayoutAWithPage.args = {
   contacts: contacts1,
   socials: socials1,
   navlinks: navlinks2,
-  page: { pageName: "settings" },
+  pagename: "settings",
   usermenu: usermenu1,
   cookielaw: "yes",
 };
@@ -141,7 +141,7 @@ LayoutAWithoutBurger.args = {
   company: company1,
   contacts: contacts1,
   socials: socials1,
-  page: { pageName: "settings" },
+  pagename: "settings",
   usermenu: usermenu1,
   cookielaw: "yes",
 };
@@ -151,7 +151,7 @@ LayoutAWithoutNavSlotted.args = {
   company: company1,
   contacts: contacts1,
   socials: socials1,
-  page: { pageName: "settings" },
+  pagename: "settings",
   usermenu: usermenu1,
   cookielaw: "yes",
 };

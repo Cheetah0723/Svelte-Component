@@ -39,10 +39,7 @@ interface IContacts {
   emails?: { label?: string; address: string; _id?: string }[];
   sites?: { label?: string; uri: string; open?: boolean; _id?: string }[];
 }
-interface IPage {
-  href: string;
-  pageName: string;
-}
+
 interface IUserMenuListItem {
   key: string;
   label: string;
@@ -59,7 +56,7 @@ export interface LayoutProps {
   contacts: IContacts;
   socials: ISocials;
   navlinks: INavLink[];
-  page: IPage;
+  pagename: string;
   usermenu: IUserMenu;
   cookielaw: string;
   offcanvasswitch: (p) => void;
@@ -72,7 +69,7 @@ export const createLayout = ({
   contacts,
   socials,
   usermenu,
-  page,
+  pagename,
   cookielaw,
   pagechange,
   offcanvasswitch,
@@ -131,10 +128,10 @@ export const createLayout = ({
   } else {
     if (c.hasAttribute("socials")) c.removeAttribute("socials");
   }
-  if (page) {
-    c.setAttribute("page", JSON.stringify(page));
+  if (pagename) {
+    c.setAttribute("pagename", pagename);
   } else {
-    if (c.hasAttribute("page")) c.removeAttribute("page");
+    if (c.hasAttribute("pagename")) c.removeAttribute("page");
   }
   if (usermenu) {
     c.setAttribute("usermenu", JSON.stringify(usermenu));

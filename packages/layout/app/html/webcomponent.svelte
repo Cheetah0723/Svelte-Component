@@ -48,11 +48,6 @@
 		sites?: { label?: string; uri: string; open?: boolean; _id?: string }[];
 	}
 
-	interface IPage {
-		href: string;
-		pageName: string;
-	}
-
 	interface IUserMenuListItem {
 		key: string;
 		label: string;
@@ -79,7 +74,7 @@
 	export let id: string;
 	export let company: ICompany;
 	export let navlinks: INavLink[];
-	export let page: IPage;
+	export let pagename: string;
 	export let usermenu: IUserMenu;
 	export let cookielaw: string;
 	export let columns: IColumn[];
@@ -88,12 +83,7 @@
 	let navopen: boolean;
 	$: {
 		if (!id) id = "";
-		if (!page) {
-			page = {
-				href: location.href,
-				pageName: "home",
-			};
-		}
+		if (!pagename) pagename = null;
 		if (!cookielaw) {
 			cookielaw = null;
 		}
@@ -156,7 +146,7 @@
 <div style={onescreen ? "display: flex;flex-direction: column;	height: 100vh;" : "display:block"} part="container">
 	{#if navlinks}
 		<offcanvas-component
-			navpage={page.pageName || ""}
+			navpage={pagename || ""}
 			navlinks={navlinks || "[]"}
 			on:offcanvasswitch={(el) => openmenu(el.detail)}
 			opened={navopen ? "yes" : "no"}
