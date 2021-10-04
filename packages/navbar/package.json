@@ -2,7 +2,7 @@
 	"name": "@htmlbricks/navbarbootstrap-component",
 	"displayName": "Svelte Navbar WebComponent",
 	"description": "Svelte Navbar WebComponent",
-	"version": "0.0.40",
+	"version": "0.0.41",
 	"main": "release/navbarbootstrap.js",
 	"publishConfig": {
 		"access": "public"
