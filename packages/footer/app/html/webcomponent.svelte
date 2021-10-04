@@ -193,7 +193,7 @@
 	}
 </script>
 
-<footer id="webcomponent">
+<footer>
 	<div class="container">
 		<slot name="footerheader" class="row">
 			<!-- <div class="row">
@@ -208,7 +208,7 @@
 		</slot>
 		<div class="row">
 			<slot name="footercontent">
-				<div class="col" style="margin:20px auto 20px auto">
+				<div style="padding:0px 20px" class="col-md-{12 / (1 + (contacts ? 1 : 0) + (socials ? 1 : 0) + (columns?.length ? columns.length : 0))}">
 					<div class="row">
 						<div class="col">
 							{#if company?.logoUri}
@@ -228,7 +228,7 @@
 					</div>
 				</div>
 				{#if contacts}
-					<div class="col" style="margin:20px auto 20px auto">
+					<div style="padding:0px 20px" class="col-md-{12 / (1 + (contacts ? 1 : 0) + (socials ? 1 : 0) + (columns?.length ? columns.length : 0))}">
 						<h5 style="margin-bottom:20px">Contatti</h5>
 						<ul class="list-unstyled">
 							{#if contacts.phones?.length}
@@ -255,7 +255,7 @@
 					</div>
 				{/if}
 				{#if socials}
-					<div class="col" style="margin:20px auto 20px auto">
+					<div style="padding:0px 20px" class="col-md-{12 / (1 + (contacts ? 1 : 0) + (socials ? 1 : 0) + (columns?.length ? columns.length : 0))}">
 						<h5 style="margin-bottom:20px">Social</h5>
 						<ul class="list-unstyled">
 							{#if socials.facebook}
@@ -301,11 +301,21 @@
 				{/if}
 				{#if columns && columns.length}
 					{#each columns as column (column._id)}
-						<div class="col" style="margin:20px auto 20px auto">
+						<div
+							style="padding:0px 20px"
+							class="col-md-{12 / (1 + (contacts ? 1 : 0) + (socials ? 1 : 0) + (columns?.length ? columns.length : 0))}"
+						>
 							<h5>{column.title ? column.title : ""}</h5>
 							<ul class="list-unstyled">
 								{#each column.cells as cell (cell.key)}
-									<li><button class="btn text-small" on:click={() => footerClick(cell.key)}>{cell.label}</button></li>
+									<li>
+										<button
+											part="column-cell-button-content"
+											style="padding:0px"
+											class="btn text-small"
+											on:click={() => footerClick(cell.key)}>{cell.label}</button
+										>
+									</li>
 								{/each}
 							</ul>
 						</div>
