@@ -84,7 +84,6 @@
 		} else {
 			pages = Number(pages);
 		}
-		console.log("compute");
 		if (!selectactions) {
 			selectActionsbuttons = null;
 			selectactions = null;
