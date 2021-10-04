@@ -23,7 +23,7 @@
 
 	const link = document.createElement("link");
 	link.rel = "stylesheet";
-	link.href = "https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css";
+	link.href = "https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css";
 	component.shadowRoot.prepend(link);
 
 	const svelteDispatch = createEventDispatcher();

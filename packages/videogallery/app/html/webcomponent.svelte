@@ -43,6 +43,7 @@
 	export let id: string;
 	// export let restapi: string;
 	export let externalfilter: string;
+	export let disabletextfilter: boolean;
 
 	let cardItems: ICard[];
 	let initialDate: Date;
@@ -54,6 +55,11 @@
 	$: {
 		if (!linkLabel) {
 			linkLabel = "";
+		}
+		if (disabletextfilter === ("yes" as unknown as boolean)) {
+			disabletextfilter = true;
+		} else {
+			disabletextfilter = false;
 		}
 		if (!primarycolor) {
 			primarycolor = null;
@@ -252,12 +258,15 @@
 	{#if cardItems && (cardItems.length || cardItems.length === 0)}
 		<div class="d-none d-md-block">
 			<div class="grid">
-				<div class="g-col-4 g-col-xxl-2">
-					<div class="input-group mb-3">
-						<span class="input-group-text" id="search">&#x1F50E;</span>
-						<input type="text" bind:value={filter} class="form-control" placeholder="..." aria-label="Search" aria-describedby="search" />
+				{#if !disabletextfilter}
+					<div class="g-col-4 g-col-xxl-2">
+						<div class="input-group mb-3">
+							<span class="input-group-text" id="search">&#x1F50E;</span>
+							<input type="text" bind:value={filter} class="form-control" placeholder="..." aria-label="Search" aria-describedby="search" />
+						</div>
 					</div>
-				</div>
+				{/if}
+
 				<div class="g-col-8 g-col-xxl-10">
 					{#if enableDate}
 						<div class="input-group mb-3">
@@ -284,12 +293,14 @@
 		</div>
 		<div class="d-block d-md-none">
 			<div class="grid">
-				<div class="g-col-12">
-					<div class="input-group mb-3">
-						<span class="input-group-text" id="search">&#x1F50E;</span>
-						<input type="text" bind:value={filter} class="form-control" placeholder="..." aria-label="Search" aria-describedby="search" />
+				{#if !disabletextfilter}
+					<div class="g-col-12">
+						<div class="input-group mb-3">
+							<span class="input-group-text" id="search">&#x1F50E;</span>
+							<input type="text" bind:value={filter} class="form-control" placeholder="..." aria-label="Search" aria-describedby="search" />
+						</div>
 					</div>
-				</div>
+				{/if}
 			</div>
 			{#if enableDate}
 				<div class="grid">
