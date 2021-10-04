@@ -137,7 +137,7 @@
 				}
 			}
 
-			if (sortedBy) {
+			if (sortedBy && !externalfilter) {
 				console.log("resort");
 				if (sortedDirection === "asc")
 					rowItems = rowItems.sort((a, b) => {
@@ -395,6 +395,10 @@
 			sortedDirection = null;
 			sortedBy = null;
 		}
+		dispatch("changeSort", {
+			sortedBy,
+			sortedDirection,
+		});
 		console.log(sortedBy, sortedDirection);
 	}
 </script>
