@@ -27,7 +27,7 @@
 	interface ITableHeader {
 		label: string;
 		key: string;
-		type?: "datetime" | "string" | "enum";
+		type?: "datetime" | "string" | "enum" | "actions";
 		format?: string;
 		search?: boolean;
 		click?: boolean;
@@ -35,8 +35,22 @@
 		nosort?: boolean;
 		sortBy?: "asc" | "desc" | "none";
 	}
+	interface IRowHeader {
+		_id: string;
+		_actions?: IActionButton[];
+	}
+
 	interface IRow {
 		_id: string;
+		_actions?: IActionButton[];
+		[k: string]: string | IActionButton[];
+	}
+
+	interface IActionButton {
+		name: string;
+		type: "icon" | "text";
+		iconOrText: string;
+		btnClass?: string;
 	}
 
 	export let id: string;
@@ -65,12 +79,7 @@
 	let searchOnRangeIsPresent = false;
 
 	let filters: IFilter[] = [];
-	let actionButtons: {
-		name: string;
-		type: "icon" | "text";
-		iconOrText: string;
-		btnClass?: string;
-	}[];
+	let actionButtons: IActionButton[];
 
 	let selectedItems: string[] = [];
 	let sortedBy: string;
@@ -114,6 +123,7 @@
 				if (tableHeaders.find((f) => f.type === "datetime")) searchOnRangeIsPresent = true;
 				tableHeaders.forEach((m) => {
 					if (!m.sortBy) m.sortBy = "none";
+					if (!m.type) m.type = "string";
 				});
 			}
 			if (actions) {
@@ -145,8 +155,8 @@
 						if (!a[sortedBy]) return 1;
 						if (!b[sortedBy]) return -1;
 
-						if (a[sortedBy].toUpperCase() < b[sortedBy].toUpperCase()) return 1;
-						if (a[sortedBy].toUpperCase() > b[sortedBy].toUpperCase()) return -1;
+						if ((a[sortedBy] as string).toUpperCase() < (b[sortedBy] as string).toUpperCase()) return 1;
+						if ((a[sortedBy] as string).toUpperCase() > (b[sortedBy] as string).toUpperCase()) return -1;
 
 						return 0;
 					});
@@ -156,8 +166,8 @@
 						if (!a[sortedBy]) return -1;
 						if (!b[sortedBy]) return 1;
 
-						if (a[sortedBy].toUpperCase() < b[sortedBy].toUpperCase()) return -1;
-						if (a[sortedBy].toUpperCase() > b[sortedBy].toUpperCase()) return 1;
+						if ((a[sortedBy] as string).toUpperCase() < (b[sortedBy] as string).toUpperCase()) return -1;
+						if ((a[sortedBy] as string).toUpperCase() > (b[sortedBy] as string).toUpperCase()) return 1;
 
 						return 0;
 					});
@@ -222,7 +232,7 @@
 	// 	return app();
 	// }
 
-	function getObjVal(obj, opts: { key: string; type?: string; format?: string }): string {
+	function getObjVal(obj: IRow, opts: { key: string; type?: string; format?: string }): string {
 		if (!opts) {
 			return "";
 		}
@@ -230,7 +240,7 @@
 		if (!opts.key.includes(".")) {
 			value = obj[opts.key];
 		} else {
-			let val = obj;
+			let val: any = obj;
 
 			for (const k of opts.key.split(".")) {
 				if (!val[k]) {
@@ -293,7 +303,7 @@
 
 	function searchInput(element, h: ITableHeader) {
 		const value = element.value;
-		if (value && value.length) {
+		if (h.type !== "actions" && value && value.length) {
 			setFilter({
 				key: h.key,
 				type: h.type,
@@ -325,6 +335,13 @@
 		});
 	}
 
+	function handleClickOnCustomAction(itemId: string, action: string) {
+		console.log("action", itemId, action);
+		dispatch("tableCustomActionClick", {
+			itemId,
+			action,
+		});
+	}
 	function handleClickOnAction(itemId: string, action: string) {
 		console.log("action", itemId, action);
 		dispatch("tableaction", {
@@ -429,7 +446,7 @@
 						{#each tableHeaders as th (th.key)}
 							<th scope="col">
 								{th.label}
-								{#if !th.nosort}
+								{#if !th.nosort || th.type === "actions"}
 									<button style="border:none; background-color:inherit" on:click={() => changeSort(th.key)}>
 										{#if !sortedBy || th.key !== sortedBy}
 											&#x21C5;
@@ -546,7 +563,7 @@
 						{#each !externalfilter ? rowItems.slice(page * size, (page + 1) * size) : rowItems as item (item._id)}
 							<tr>
 								{#if enableselect && selectActionsbuttons}
-									<td style="box-shadow: none;">
+									<td part="td-selection" style="box-shadow: none;">
 										<div class="form-check">
 											{#if selectedItems.find((f) => f === item._id)}
 												<input
@@ -573,25 +590,52 @@
 								{/if}
 								{#if tableHeaders.length}
 									{#each tableHeaders as td (td.key)}
-										<td
-											on:click={() => {
-												if (selectrow) clickonrow(item._id);
-											}}
-										>
-											{#if td.click}
-												<button on:click={() => handleClickOnRow(item._id, td.key)} type="button" class="btn btn-link"
-													>{getObjVal(item, td) || ""}</button
-												>
+										{#if td.type === "actions"}
+											{#if item._actions?.length}
+												<td part="td-{td.key}">
+													{#each item._actions as abutton (abutton.name)}
+														{#if abutton.type === "text"}
+															<button
+																on:click={() => handleClickOnCustomAction(item._id, abutton.name)}
+																type="button"
+																class="btn btn-{abutton.btnClass || 'link'}"
+																style="margin-right:10px">{abutton.iconOrText}</button
+															>
+														{/if}
+														{#if abutton.type === "icon"}
+															<button
+																on:click={() => handleClickOnCustomAction(item._id, abutton.name)}
+																type="button"
+																class="btn btn-{abutton.btnClass || 'light'}"
+																style="margin-right:10px"
+																><i class="bi-{abutton.iconOrText}" />
+															</button>
+														{/if}
+													{/each}
+												</td>
+											{:else}
+												<td part="td-{td.key}" />
 											{/if}
-
-											{#if !td.click}
-												{getObjVal(item, td) || ""}
-											{/if}
-										</td>
+										{:else}
+											<td
+												part="td-{td.key}"
+												on:click={() => {
+													if (selectrow) clickonrow(item._id);
+												}}
+											>
+												{#if td.click}
+													<button on:click={() => handleClickOnRow(item._id, td.key)} type="button" class="btn btn-link"
+														>{getObjVal(item, td) || ""}</button
+													>
+												{:else}
+													{getObjVal(item, td) || ""}
+												{/if}
+											</td>
+										{/if}
 									{/each}
 								{/if}
 								{#if actionButtons}
-									<td>
+									<td part="td-action">
 										{#each actionButtons as abutton (abutton.name)}
 											{#if abutton.type === "text"}
 												<button
