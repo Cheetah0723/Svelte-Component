@@ -39,7 +39,7 @@
 
 {#if schema}
 	<FormSchemaRenderer {schema} bind:values bind:isInvalid />
-	<button type="button" class="btn btn-primary" disabled={isInvalid} on:click|preventDefault={onSubmit}>Submit</button>
+	<button type="button" class="btn btn-primary" disabled={isInvalid} on:click|preventDefault={onSubmit}><slot name="submit-label">Submit</slot></button>
 {/if}
 
 <style lang="scss">
