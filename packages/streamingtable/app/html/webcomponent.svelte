@@ -31,7 +31,7 @@
 		format?: string;
 		search?: boolean;
 		click?: boolean;
-		select: string[];
+		select?: string[];
 		nosort?: boolean;
 		sortBy?: "asc" | "desc" | "none";
 	}
@@ -122,7 +122,7 @@
 				actions = null;
 			}
 			rowItems = JSON.parse(rows);
-			if (filters?.length) {
+			if (filters?.length && !externalfilter) {
 				for (const filter of filters) {
 					if (filter.type === "datetime") {
 						if (filter.start) {
@@ -213,12 +213,7 @@
 
 		dispatch("pagechange", {
 			page: el.detail.page,
-			rows: getCurrentCards(),
 		});
-	}
-
-	function getCurrentCards() {
-		return rowItems.slice(page * size, (page + 1) * size);
 	}
 
 	// async function getHelloWorld() {
@@ -259,12 +254,19 @@
 	}
 
 	function removeFilter(key: string) {
+		dispatch("removeFilter", {
+			key,
+		});
 		if (filters.find((f) => f.key === key)) {
 			filters = filters.filter((f) => f.key !== key);
 		}
+
 		selectedItems.length = 0;
 	}
 	function setFilter(filter: IFilter) {
+		dispatch("changeFilter", {
+			filter,
+		});
 		const filterExist = filters.find((f) => f.key === filter.key);
 
 		if (filterExist) {
@@ -285,6 +287,7 @@
 			});
 			filters = filters;
 		}
+
 		selectedItems.length = 0;
 	}
 
@@ -426,15 +429,17 @@
 						{#each tableHeaders as th (th.key)}
 							<th scope="col">
 								{th.label}
-								<button style="border:none; background-color:inherit" on:click={() => changeSort(th.key)}>
-									{#if !sortedBy || th.key !== sortedBy}
-										&#x21C5;
-									{:else if sortedDirection === "asc"}
-										&#x21A7;
-									{:else if sortedDirection === "desc"}
-										&#x21A5;
-									{/if}
-								</button>
+								{#if !th.nosort}
+									<button style="border:none; background-color:inherit" on:click={() => changeSort(th.key)}>
+										{#if !sortedBy || th.key !== sortedBy}
+											&#x21C5;
+										{:else if sortedDirection === "asc"}
+											&#x21A7;
+										{:else if sortedDirection === "desc"}
+											&#x21A5;
+										{/if}
+									</button>
+								{/if}
 							</th>
 						{/each}
 						{#if actionButtons}

@@ -43,23 +43,22 @@
 	export let id: string;
 	// export let restapi: string;
 	export let externalfilter: string;
-	export let disabletextfilter: boolean;
+	export let disabletextfilter: string;
 
 	let cardItems: ICard[];
-	let initialDate: Date;
-	let lastDate: Date;
+	export let initialdate: Date;
+	export let lastdate: Date;
 	let firstCardData: Date;
 	let lastCardData: Date;
 	let enableDate = true;
 
 	$: {
+		console.log(disabletextfilter, "disabletextfilter");
 		if (!linkLabel) {
 			linkLabel = "";
 		}
-		if (disabletextfilter === ("yes" as unknown as boolean)) {
-			disabletextfilter = true;
-		} else {
-			disabletextfilter = false;
+		if (disabletextfilter && disabletextfilter !== "yes") {
+			disabletextfilter = null;
 		}
 		if (!primarycolor) {
 			primarycolor = null;
@@ -107,11 +106,11 @@
 					break;
 				}
 				c.time = moment(c.time).toDate();
-				if (!initialDate || initialDate.valueOf() > c.time.valueOf()) {
-					initialDate = c.time;
+				if (!initialdate || initialdate.valueOf() > c.time.valueOf()) {
+					initialdate = c.time;
 				}
-				if (!lastDate || lastDate.valueOf() < c.time.valueOf()) {
-					lastDate = c.time;
+				if (!lastdate || lastdate.valueOf() < c.time.valueOf()) {
+					lastdate = c.time;
 				}
 				cc++;
 			}
@@ -121,10 +120,10 @@
 					return a.time.valueOf() - b.time.valueOf();
 				});
 				if (!firstCardData) {
-					firstCardData = initialDate;
+					firstCardData = initialdate;
 				}
 				if (!lastCardData) {
-					lastCardData = lastDate;
+					lastCardData = lastdate;
 				}
 				cardItems = cardItems.filter((f) => f.time.valueOf() >= firstCardData.valueOf() && f.time.valueOf() <= lastCardData.valueOf());
 			}
@@ -155,7 +154,7 @@
 		} catch (err) {}
 
 		// console.log("end computed");
-		// console.log(size, page, pages, cardItems.length, initialDate, lastDate);
+		// console.log(size, page, pages, cardItems.length, initialdate, lastdate);
 
 		// will only get called when the `color` changed.
 	}
@@ -277,14 +276,14 @@
 								type="date"
 								class="form-control"
 								style="max-width: 200px"
-								value={moment(initialDate).format("YYYY-MM-DD")}
+								value={moment(initialdate).format("YYYY-MM-DD")}
 							/>
 							<input
 								on:input={changeEndDate}
 								type="date"
 								class="form-control"
 								style="max-width: 200px"
-								value={moment(lastDate).format("YYYY-MM-DD")}
+								value={moment(lastdate).format("YYYY-MM-DD")}
 							/>
 						</div>
 					{/if}
