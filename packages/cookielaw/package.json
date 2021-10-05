@@ -2,7 +2,7 @@
 	"name": "@htmlbricks/cookielaw-component",
 	"displayName": "Svelte cookielaw WebComponent",
 	"description": "Svelte cookielaw WebComponent",
-	"version": "0.0.46",
+	"version": "0.0.47",
 	"main": "release/cookielaw.js",
 	"publishConfig": {
 		"access": "public"
