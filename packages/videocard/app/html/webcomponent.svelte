@@ -49,6 +49,9 @@
 	}
 </script>
 
+<svelte:head>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@latest/font/bootstrap-icons.css" />
+</svelte:head>
 <div class="card h-100">
 	<!-- svelte-ignore a11y-media-has-caption -->
 	{#if provider === "youtube"}
@@ -94,12 +97,14 @@
 	</div>
 	{#if time}
 		<div class="card-footer">
-			<small class="text-muted"
-				>{moment(time)
-					.locale(navigator.language)
-					.format(dateformat)
-					.replace(/\b\w/g, (l) => l.toUpperCase())}</small
-			>
+			<slot name="card-footer">
+				<small class="text-muted"
+					><i class="bi bi-clock" style="margin-right:8px" />{moment(time)
+						.locale(navigator.language)
+						.format(dateformat)
+						.replace(/\b\w/g, (l) => l.toUpperCase())}</small
+				>
+			</slot>
 		</div>
 	{/if}
 </div>
