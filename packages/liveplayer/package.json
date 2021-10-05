@@ -2,7 +2,7 @@
 	"name": "@htmlbricks/liveplayer-component",
 	"displayName": "Svelte Boostrap Pagination WebComponent",
 	"description": "Svelte Boostrap Pagination WebComponent",
-	"version": "0.0.45",
+	"version": "0.0.46",
 	"main": "release/liveplayer.js",
 	"publishConfig": {
 		"access": "public"
