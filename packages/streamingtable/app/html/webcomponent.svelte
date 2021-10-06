@@ -35,10 +35,6 @@
 		nosort?: boolean;
 		sortBy?: "asc" | "desc" | "none";
 	}
-	interface IRowHeader {
-		_id: string;
-		_actions?: IActionButton[];
-	}
 
 	interface IRow {
 		_id: string;
