@@ -72,7 +72,7 @@ const schema: FormSchema = [
 ];
 
 export default {
-  title: "Components/FormRenderer",
+  title: "Form/FormRenderer",
   args: {
     schema,
   },
