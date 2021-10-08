@@ -43,24 +43,20 @@
 		value = value != null ? value : (schemaentry?.value as string);
 		if (setvalue) dispatch("setValue", { value, id: schemaentry.id });
 		regex = schemaentry?.validationRegex && new RegExp(schemaentry.validationRegex);
-		valid = schemaentry
-			? (!schemaentry?.required || value != null) &&
-			  (regex ? regex.test(value) : true) &&
-			  (value == null || (value.length >= (schemaentry.params?.minlength ?? 0) && value.length <= (schemaentry.params?.maxlength ?? Infinity)))
-			: false;
+		valid = valid = schemaentry ? (!schemaentry.required || value != null) && (regex ? regex.test(value) : true) : false
 		if (setvalid) dispatch("setValid", { valid, id: schemaentry.id });
 	}
 </script>
 
-<input
-	bind:value
-	type="text"
-	class="form-control"
-	class:is-invalid={!valid}
-	id={schemaentry?.id}
-	required={schemaentry?.required}
-	placeholder={schemaentry?.placeholder}
-	readonly={schemaentry?.readonly}
+<textarea
+  bind:value
+  class="form-control"
+  class:is-invalid={!valid}
+  id={schemaentry?.id}
+  required={schemaentry?.required}
+  placeholder={schemaentry?.placeholder}
+  readonly={schemaentry?.readonly}
+  rows={schemaentry?.params?.rows}
 />
 
 <style lang="scss">
