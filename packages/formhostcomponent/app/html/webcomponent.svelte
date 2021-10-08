@@ -27,7 +27,7 @@
 		| "formrenderer-emailinput"
 		| "formrenderer-areainput"
 		| "formrenderer-checkboxinput"
-		| "RadioInput";
+		| "formrenderer-radioinput";
 
 	interface ISchemaOption {
 		labelIsHandledByComponent?: boolean;
@@ -55,7 +55,7 @@
 		email: { component: "formrenderer-emailinput" },
 		textarea: { component: "formrenderer-areainput" },
 		checkbox: { component: "formrenderer-checkboxinput", options: { labelIsHandledByComponent: true } },
-		radio: { component: "RadioInput", options: { labelIsHandledByComponent: true } },
+		radio: { component: "formrenderer-radioinput", options: { labelIsHandledByComponent: true } },
 	};
 
 	export let schema: FormSchema;
@@ -184,6 +184,7 @@
 	addComponent("formrenderer-checkboxinput", "formrenderercheckboxinput.js", "formrenderercheckboxinputscript", "formcheckboxinputrenderer");
 	addComponent("formrenderer-numberinput", "formrenderernumberinput.js", "formrenderernumberinputscript", "formnumberinputrenderer");
 	addComponent("formrenderer-areainput", "formrendererareainput.js", "formrendererareainputscript", "formareainputrenderer");
+	addComponent("formrenderer-radioinput", "formrendererradioinput.js", "formrendererradioinputscript", "formradioinputrenderer");
 
 	const component = get_current_component();
 
