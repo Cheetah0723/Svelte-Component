@@ -1,29 +1,46 @@
 <svelte:options tag="formrenderer-textinput" />
 
 <script lang="ts">
+	import { get_current_component } from "svelte/internal";
+	import { createEventDispatcher } from "svelte";
 	import type { FormSchemaEntry } from "@app/types/webcomponent.type";
+	export let setvalue: boolean;
+	export let setvalid: boolean;
 
-	export let setValue: (value: string) => void;
-	export let setValid: (valid: boolean) => void;
+	export let key: string;
 
-	export let schemaEntry: FormSchemaEntry;
+	export let schemaentry: FormSchemaEntry;
 
 	let value: string;
-	$: value = value != null ? value : (schemaEntry?.value as string);
-	$: setValue?.(value);
-
 	let regex: RegExp | undefined;
-	$: regex = schemaEntry?.validationRegex && new RegExp(schemaEntry.validationRegex);
-
 	let valid = false;
 
-	$: valid = schemaEntry
-		? (!schemaEntry?.required || value != null) &&
-		  (regex ? regex.test(value) : true) &&
-		  (value == null || (value.length >= (schemaEntry.params?.minlength ?? 0) && value.length <= (schemaEntry.params?.maxlength ?? Infinity)))
-		: false;
+	const component = get_current_component();
+	const svelteDispatch = createEventDispatcher();
+	function dispatch(name, detail) {
+		// console.log(`svelte: ${name}`);
+		svelteDispatch(name, detail);
+		component.dispatchEvent && component.dispatchEvent(new CustomEvent(name, { detail }));
+	}
 
-	$: setValid?.(valid);
+	$: {
+		if (schemaentry && typeof schemaentry === 'string') {
+			console.log("SCHEMAENTRY", schemaentry);
+			schemaentry = JSON.parse(schemaentry as unknown as string);
+		}
+		if (!setvalue && (setvalue as unknown as string) !== "no") setvalue = false;
+		if (!setvalid && (setvalid as unknown as string) !== "no") setvalid = false;
+		if (!key) key = "none";
+		value = value != null ? value : (schemaentry?.value as string);
+		if (setvalue) dispatch("setValue", { value, id: schemaentry.id });
+		regex = schemaentry?.validationRegex && new RegExp(schemaentry.validationRegex);
+		valid = schemaentry
+			? (!schemaentry?.required || value != null) &&
+			  (regex ? regex.test(value) : true) &&
+			  (value == null || (value.length >= (schemaentry.params?.minlength ?? 0) && value.length <= (schemaentry.params?.maxlength ?? Infinity)))
+			: false;
+		if (setvalid) dispatch("setValid", { valid, id: schemaentry.id });
+	}
 </script>
 
 <input
@@ -31,10 +48,10 @@
 	type="text"
 	class="form-control"
 	class:is-invalid={!valid}
-	id={schemaEntry?.id}
-	required={schemaEntry?.required}
-	placeholder={schemaEntry?.placeholder}
-	readonly={schemaEntry?.readonly}
+	id={schemaentry?.id}
+	required={schemaentry?.required}
+	placeholder={schemaentry?.placeholder}
+	readonly={schemaentry?.readonly}
 />
 
 <style lang="scss">

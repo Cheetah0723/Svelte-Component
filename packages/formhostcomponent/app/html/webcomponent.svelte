@@ -14,60 +14,93 @@
 	import { createEventDispatcher } from "svelte";
 
 	import type { FormSchema, FormSchemaEntry } from "@app/types/webcomponent.type";
-	import FormSchemaRenderer from "./FormSchemaRenderer.svelte";
 
-	const component = get_current_component();
-
-	const svelteDispatch = createEventDispatcher();
-
-	const onSubmit = () => {
-		svelteDispatch("submit", values);
-		component.dispatchEvent?.(new CustomEvent("submit", { detail: values }));
-	};
+	import pkg from "../../package.json";
 
 	import { groupMultipleBy } from "../functions/utils";
 
-	import Select from "./defaults/Select.svelte";
-	import TextInput from "./defaults/TextInput.svelte";
-	import DateInput from "./defaults/DateInput.svelte";
-	import NumberInput from "./defaults/NumberInput.svelte";
-	import EmailInput from "./defaults/EmailInput.svelte";
-	import TextArea from "./defaults/TextArea.svelte";
-	import CheckboxInput from "./defaults/CheckboxInput.svelte";
-	import RadioInput from "./defaults/RadioInput.svelte";
-	import FormElement from "./FormElement.svelte";
-	import FormRow from "./FormRow.svelte";
+	type IComponentName = "Select" | "DateInput" | "formrenderer-textinput" | "NumberInput" | "EmailInput" | "TextArea" | "CheckboxInput" | "RadioInput";
 
-	export let schema: FormSchema;
-	let controls: any;
-	$: schema = typeof schema === "string" ? JSON.parse(schema) : schema;
-
-	const registeredComponents = {
+	interface ISchemaOption {
+		labelIsHandledByComponent?: boolean;
+		row?: boolean;
+	}
+	interface IComponent {
+		options?: ISchemaOption;
+		component?: IComponentName;
+	}
+	interface IRegisterComponent {
+		[k: string]: IComponent;
+	}
+	interface IControl {
+		entry: FormSchemaEntry;
+		component?: IComponentName;
+		options?: ISchemaOption;
+		columns?: any;
+	}
+	const registeredComponents: IRegisterComponent = {
 		row: { component: null, options: { row: true } },
-		select: { component: Select },
-		date: { component: DateInput },
-		text: { component: TextInput },
-		number: { component: NumberInput },
-		email: { component: EmailInput },
-		textarea: { component: TextArea },
-		checkbox: { component: CheckboxInput, options: { labelIsHandledByComponent: true } },
-		radio: { component: RadioInput, options: { labelIsHandledByComponent: true } },
+		select: { component: "Select" },
+		date: { component: "DateInput" },
+		text: { component: "formrenderer-textinput" },
+		number: { component: "NumberInput" },
+		email: { component: "EmailInput" },
+		textarea: { component: "TextArea" },
+		checkbox: { component: "CheckboxInput", options: { labelIsHandledByComponent: true } },
+		radio: { component: "RadioInput", options: { labelIsHandledByComponent: true } },
 	};
 
+	export let schema: FormSchema;
+
+	export const values: Record<string, string | number | boolean> = {};
+
+	export let isInvalid: boolean;
+	let controls: IControl[];
 	const visibility: Record<string, boolean> = {};
 	const valids: Record<string, boolean> = {};
 
 	const allValues: Record<string, string | number | boolean> = {};
-	export const values: Record<string, string | number | boolean> = {};
+	let dependencyMap: Record<string, FormSchemaEntry[]>;
+	let getControls: (schema: FormSchema) => IControl[];
 
-	export let isInvalid: boolean;
+	$: {
+		if (!schema) {
+			schema = null;
+		} else if (typeof schema === "string") {
+			schema = JSON.parse(schema as unknown as string);
+		}
+		dependencyMap = schema
+			? groupMultipleBy(
+					schema.filter((entry) => entry.dependencies?.length),
+					(entry) => entry.dependencies.map((dep) => dep.id),
+			  )
+			: {};
 
-	const dependencyMap = schema
-		? groupMultipleBy(
-				schema.filter((entry) => entry.dependencies?.length),
-				(entry) => entry.dependencies.map((dep) => dep.id),
-		  )
-		: {};
+		if (!isInvalid && isInvalid !== false) isInvalid = true;
+
+		getControls = (schema: FormSchema): IControl[] => {
+			return schema.map((entry) => {
+				const component = registeredComponents[entry.type];
+
+				if (!component) {
+					throw new Error(`FormRenderer: Tried to render an unknown component type ${entry.type}!`);
+				}
+
+				if (component.options?.row) {
+					console.log("ROWWWWW");
+					return { entry, columns: getControls(entry.params?.columns ?? []), options: component.options };
+				} else {
+					visibility[entry.id] = !entry.dependencies?.length;
+				}
+
+				return { entry, component: component.component, options: component.options || {} };
+			});
+		};
+
+		controls = schema ? getControls(schema) : [];
+		console.log({ controls, schema });
+		isInvalid = Object.entries(valids).some(([id, isValid]) => !isValid && visibility[id]);
+	}
 
 	const canShow = (entry: FormSchemaEntry) => {
 		for (const dep of entry.dependencies || []) {
@@ -125,36 +158,34 @@
 		valids[id] = valid;
 	};
 
-	function getControls(schema: FormSchema) {
-		return schema.map((entry) => {
-			const component = registeredComponents[entry.type];
+	function addComponent(componentName: string, scriptJsName: string, componentId: string, localPackageDir?: string) {
+		if (!document.getElementById(componentId)) {
+			const script = document.createElement("script");
+			script.id = componentId;
+			script.src = `https://cdn.jsdelivr.net/npm/@htmlbricks/${componentName}@${pkg.version}/release/${scriptJsName}`;
+			if (localPackageDir && location.href.includes("localhost")) script.src = `http://localhost:6006/${localPackageDir}/dist/${scriptJsName}`;
 
-			if (!component) {
-				throw new Error(`FormRenderer: Tried to render an unknown component type ${entry.type}!`);
-			}
-
-			if (component.options?.row) {
-				return { entry, columns: getControls(entry.params?.columns ?? []), options: component.options };
-			} else {
-				visibility[entry.id] = !entry.dependencies?.length;
-			}
-
-			return { entry, component: component.component, options: component.options || {} };
-		});
+			document.head.appendChild(script);
+		}
 	}
+	addComponent("formrenderer-textinput", "formrenderertextinput.js", "formrenderertextinputscript", "formtextinputrenderer");
+	const component = get_current_component();
 
-	$: {
-		if (!isInvalid && isInvalid !== false) isInvalid = true;
-		controls = schema ? getControls(schema) : [];
-		console.log({ controls, schema });
-		isInvalid = Object.entries(valids).some(([id, isValid]) => !isValid && visibility[id]);
-	}
+	const svelteDispatch = createEventDispatcher();
+
+	const onSubmit = () => {
+		svelteDispatch("submit", values);
+		component.dispatchEvent?.(new CustomEvent("submit", { detail: values }));
+	};
 </script>
 
 {#if schema}
 	{#each controls as { entry, component, options, columns } (entry.id)}
 		{#if options.row}
+			{JSON.stringify(visibility)}
+			{columns.some((c) => visibility[c.entry.id])}
 			{#if visibility[entry.id] && columns?.length ? columns.some((c) => visibility[c.entry.id]) : false}
+				f {visibility[entry.id]}
 				<div class="row">
 					{#each columns as { entry, component, options } (entry.id)}
 						<div class="col">
@@ -163,12 +194,15 @@
 									{#if !options.labelIsHandledByComponent}
 										<label for={entry.id}>{entry.label}</label>
 									{/if}
-									<svelte:component
-										this={component}
-										schemaEntry={{ ...entry, value: allValues[entry.id] ?? entry.value }}
-										setValue={setValueFor(entry.id)}
-										setValid={setValidFor(entry.id)}
-									/>
+									{@html `<${component} schemaentry='${JSON.stringify(
+										{
+											...entry,
+											value: allValues[entry.id] ?? entry.value,
+										},
+										null,
+										0,
+									)}' setvalue setvalid />`}
+
 									{#if entry.validationTip}
 										<div class="invalid-feedback mb-1">
 											{entry.validationTip}
@@ -185,12 +219,15 @@
 				{#if !options.labelIsHandledByComponent}
 					<label for={entry.id}>{entry.label}</label>
 				{/if}
-				<svelte:component
-					this={component}
-					schemaEntry={{ ...entry, value: allValues[entry.id] ?? entry.value }}
-					setValue={setValueFor(entry.id)}
-					setValid={setValidFor(entry.id)}
-				/>
+
+				{@html `<${component} schemaentry='${JSON.stringify(
+					{
+						...entry,
+						value: allValues[entry.id] ?? entry.value,
+					},
+					null,
+					0,
+				)}' setvalue setvalid />`}
 				{#if entry.validationTip}
 					<div class="invalid-feedback mb-1">
 						{entry.validationTip}

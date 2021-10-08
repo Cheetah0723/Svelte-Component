@@ -1,10 +1,14 @@
-import type { FormSchema } from "../../packages/formrenderer/app/types/webcomponent.type";
+import type { FormSchemaEntry } from "../../packages/formrenderer/app/types/webcomponent.type";
 
 export interface FormTextInputProps {
   id: string;
+  schemaentry: FormSchemaEntry;
 }
 
-export const createFormTextInput = ({ id }: FormTextInputProps) => {
+export const createFormTextInput = ({
+  id,
+  schemaentry,
+}: FormTextInputProps) => {
   if (!document.getElementById("formrenderertextinputscript")) {
     const script = document.createElement("script");
     script.id = "formrenderertextinputscript";
@@ -19,6 +23,10 @@ export const createFormTextInput = ({ id }: FormTextInputProps) => {
     c = document.createElement("formrenderer-textinput");
     c.id = id;
   }
-
+  if (schemaentry) {
+    c.setAttribute("schemaentry", JSON.stringify(schemaentry));
+  } else {
+    if (c.hasAttribute("schemaentry")) c.removeAttribute("schemaentry");
+  }
   return c;
 };
