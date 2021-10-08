@@ -19,7 +19,7 @@
 
 	import { groupMultipleBy } from "../functions/utils";
 
-	type IComponentName = "Select" | "DateInput" | "formrenderer-textinput" | "NumberInput" | "EmailInput" | "TextArea" | "CheckboxInput" | "RadioInput";
+	type IComponentName = "Select" | "DateInput" | "formrenderer-textinput" | "NumberInput" | "formrenderer-emailinput" | "TextArea" | "CheckboxInput" | "RadioInput";
 
 	interface ISchemaOption {
 		labelIsHandledByComponent?: boolean;
@@ -44,7 +44,7 @@
 		date: { component: "DateInput" },
 		text: { component: "formrenderer-textinput" },
 		number: { component: "NumberInput" },
-		email: { component: "EmailInput" },
+		email: { component: "formrenderer-emailinput" },
 		textarea: { component: "TextArea" },
 		checkbox: { component: "CheckboxInput", options: { labelIsHandledByComponent: true } },
 		radio: { component: "RadioInput", options: { labelIsHandledByComponent: true } },
@@ -169,6 +169,7 @@
 		}
 	}
 	addComponent("formrenderer-textinput", "formrenderertextinput.js", "formrenderertextinputscript", "formtextinputrenderer");
+	addComponent("formrenderer-emailinput", "formrendereremailinput.js", "formrendereremailinputscript", "formemailinputrenderer");
 	const component = get_current_component();
 
 	const svelteDispatch = createEventDispatcher();
@@ -177,15 +178,19 @@
 		svelteDispatch("submit", values);
 		component.dispatchEvent?.(new CustomEvent("submit", { detail: values }));
 	};
+
+	function setValueByMessage(message: { id: string; value: string }) {
+		console.log(message);
+	}
+	function setValidByMessage(message: { id: string; valid: boolean }) {
+		console.log(message);
+	}
 </script>
 
 {#if schema}
 	{#each controls as { entry, component, options, columns } (entry.id)}
 		{#if options.row}
-			{JSON.stringify(visibility)}
-			{columns.some((c) => visibility[c.entry.id])}
-			{#if visibility[entry.id] && columns?.length ? columns.some((c) => visibility[c.entry.id]) : false}
-				f {visibility[entry.id]}
+			{#if (visibility[entry.id]||visibility[entry.id]!==false) && columns?.length ? columns.some((c) => visibility[c.entry.id]) : false}
 				<div class="row">
 					{#each columns as { entry, component, options } (entry.id)}
 						<div class="col">
@@ -194,14 +199,22 @@
 									{#if !options.labelIsHandledByComponent}
 										<label for={entry.id}>{entry.label}</label>
 									{/if}
-									{@html `<${component} schemaentry='${JSON.stringify(
-										{
-											...entry,
-											value: allValues[entry.id] ?? entry.value,
-										},
-										null,
-										0,
-									)}' setvalue setvalid />`}
+									{#if component === "formrenderer-textinput"}
+										<formrenderer-textinput
+											on:setValid={(d) => setValidByMessage(d.detail)}
+											on:setValue={(d) => setValueByMessage(d.detail)}
+											schemaentry={JSON.stringify(
+												{
+													...entry,
+													value: allValues[entry.id] ?? entry.value,
+												},
+												null,
+												0,
+											)}
+											setvalue
+											setvalid
+										/>
+									{/if}
 
 									{#if entry.validationTip}
 										<div class="invalid-feedback mb-1">
@@ -220,14 +233,23 @@
 					<label for={entry.id}>{entry.label}</label>
 				{/if}
 
-				{@html `<${component} schemaentry='${JSON.stringify(
-					{
-						...entry,
-						value: allValues[entry.id] ?? entry.value,
-					},
-					null,
-					0,
-				)}' setvalue setvalid />`}
+				{#if component === "formrenderer-textinput"}
+					<formrenderer-textinput
+						on:setValid={(d) => setValidByMessage(d.detail)}
+						on:setValue={(d) => setValueByMessage(d.detail)}
+						schemaentry={JSON.stringify(
+							{
+								...entry,
+								value: allValues[entry.id] ?? entry.value,
+							},
+							null,
+							0,
+						)}
+						setvalue
+						setvalid
+					/>
+				{/if}
+
 				{#if entry.validationTip}
 					<div class="invalid-feedback mb-1">
 						{entry.validationTip}

@@ -1,9 +1,9 @@
 {
-	"name": "@htmlbricks/formrenderer-textinput",
+	"name": "@htmlbricks/formrenderer-emailinput",
 	"displayName": "Svelte-Bootstrap Text Input WebComponent",
 	"description": "Svelte-Bootstrap Text Input WebComponent",
 	"version": "0.0.48",
-	"main": "release/formrenderertextinput.js",
+	"main": "release/formrendereremailinput.js",
 	"publishConfig": {
 		"access": "public"
 	},
@@ -20,7 +20,7 @@
 		"start": "sirv dist",
 		"dev": "rm -rf ./dist && rollup -c -w",
 		"build": "rm -rf ./dist && rollup -c",
-		"copydest": "rm -rf release && mkdir -p release && cp dist/formrenderertextinput.js ./release/ && cp dist/formrenderertextinput.js.map ./release/",
+		"copydest": "rm -rf release && mkdir -p release && cp dist/formrendereremailinput.js ./release/ && cp dist/formrendereremailinput.js.map ./release/",
 		"build:release": "PRODUCTION=true npm run build && npm run copydest",
 		"prepublish": "npm run build:release"
 	},
