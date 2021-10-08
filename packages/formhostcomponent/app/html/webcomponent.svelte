@@ -19,7 +19,15 @@
 
 	import { groupMultipleBy } from "../functions/utils";
 
-	type IComponentName = "Select" | "DateInput" | "formrenderer-textinput" | "NumberInput" | "formrenderer-emailinput" | "TextArea" | "CheckboxInput" | "RadioInput";
+	type IComponentName =
+		| "Select"
+		| "formrenderer-dateinput"
+		| "formrenderer-textinput"
+		| "NumberInput"
+		| "formrenderer-emailinput"
+		| "TextArea"
+		| "formrenderer-checkboxinput"
+		| "RadioInput";
 
 	interface ISchemaOption {
 		labelIsHandledByComponent?: boolean;
@@ -41,12 +49,12 @@
 	const registeredComponents: IRegisterComponent = {
 		row: { component: null, options: { row: true } },
 		select: { component: "Select" },
-		date: { component: "DateInput" },
+		date: { component: "formrenderer-dateinput" },
 		text: { component: "formrenderer-textinput" },
 		number: { component: "NumberInput" },
 		email: { component: "formrenderer-emailinput" },
 		textarea: { component: "TextArea" },
-		checkbox: { component: "CheckboxInput", options: { labelIsHandledByComponent: true } },
+		checkbox: { component: "formrenderer-checkboxinput", options: { labelIsHandledByComponent: true } },
 		radio: { component: "RadioInput", options: { labelIsHandledByComponent: true } },
 	};
 
@@ -168,11 +176,13 @@
 			document.head.appendChild(script);
 		}
 	}
-	
+
 	addComponent("formrenderer-dateinput", "formrendererdateinput.js", "formrendererdateinputscript", "formdateinputrenderer");
 
 	addComponent("formrenderer-textinput", "formrenderertextinput.js", "formrenderertextinputscript", "formtextinputrenderer");
 	addComponent("formrenderer-emailinput", "formrendereremailinput.js", "formrendereremailinputscript", "formemailinputrenderer");
+	addComponent("formrenderer-checkboxinput", "formrenderercheckboxinput.js", "formrenderercheckboxinputscript", "formcheckboxinputrenderer");
+
 	const component = get_current_component();
 
 	const svelteDispatch = createEventDispatcher();
@@ -193,7 +203,7 @@
 {#if schema}
 	{#each controls as { entry, component, options, columns } (entry.id)}
 		{#if options.row}
-			{#if (visibility[entry.id]||visibility[entry.id]!==false) && columns?.length ? columns.some((c) => visibility[c.entry.id]) : false}
+			{#if (visibility[entry.id] || visibility[entry.id] !== false) && columns?.length ? columns.some((c) => visibility[c.entry.id]) : false}
 				<div class="row">
 					{#each columns as { entry, component, options } (entry.id)}
 						<div class="col">
@@ -238,6 +248,51 @@
 
 				{#if component === "formrenderer-textinput"}
 					<formrenderer-textinput
+						on:setValid={(d) => setValidByMessage(d.detail)}
+						on:setValue={(d) => setValueByMessage(d.detail)}
+						schemaentry={JSON.stringify(
+							{
+								...entry,
+								value: allValues[entry.id] ?? entry.value,
+							},
+							null,
+							0,
+						)}
+						setvalue
+						setvalid
+					/>
+				{:else if component === "formrenderer-emailinput"}
+					<formrenderer-emailinput
+						on:setValid={(d) => setValidByMessage(d.detail)}
+						on:setValue={(d) => setValueByMessage(d.detail)}
+						schemaentry={JSON.stringify(
+							{
+								...entry,
+								value: allValues[entry.id] ?? entry.value,
+							},
+							null,
+							0,
+						)}
+						setvalue
+						setvalid
+					/>
+				{:else if component === "formrenderer-dateinput"}
+					<formrenderer-dateinput
+						on:setValid={(d) => setValidByMessage(d.detail)}
+						on:setValue={(d) => setValueByMessage(d.detail)}
+						schemaentry={JSON.stringify(
+							{
+								...entry,
+								value: allValues[entry.id] ?? entry.value,
+							},
+							null,
+							0,
+						)}
+						setvalue
+						setvalid
+					/>
+				{:else if component === "formrenderer-checkboxinput"}
+					<formrenderer-checkboxinput
 						on:setValid={(d) => setValidByMessage(d.detail)}
 						on:setValue={(d) => setValueByMessage(d.detail)}
 						schemaentry={JSON.stringify(
