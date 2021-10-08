@@ -26,10 +26,18 @@
 			console.log("SCHEMAENTRY", schemaentry);
 			schemaentry = JSON.parse(schemaentry as unknown as string);
 		}
-		if (!setvalue && (setvalue as unknown as string) !== "no") setvalue = false;
-		if (!setvalid && (setvalid as unknown as string) !== "no") setvalid = false;
+		if (!setvalue && (setvalue as unknown as string) === "no"){
+			 setvalue = false;
+			} else{
+				setvalue = true;
+			}
+		if (!setvalid && (setvalid as unknown as string) === "no") {
+			setvalid = false;
+		} else {
+			setvalid = true;
+		}
 		
-		value = value = value != null ? value : !!schemaentry?.value
+		value = value != null ? value : !!schemaentry?.value
 		if (setvalue) dispatch("setValue", { value, id: schemaentry.id });
 
 		if (setvalid) dispatch("setValid", true);

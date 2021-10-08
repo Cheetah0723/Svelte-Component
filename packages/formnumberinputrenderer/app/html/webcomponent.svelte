@@ -7,8 +7,6 @@
 	export let setvalue: boolean;
 	export let setvalid: boolean;
 
-	
-
 	export let schemaentry: FormSchemaEntry;
 
 	let value: number;
@@ -25,20 +23,31 @@
 
 	$: {
 		if (schemaentry && typeof schemaentry === "string") {
-			console.log("SCHEMAENTRY", schemaentry);
 			schemaentry = JSON.parse(schemaentry as unknown as string);
 		}
-		if (!setvalue && (setvalue as unknown as string) !== "no") setvalue = false;
-		if (!setvalid && (setvalid as unknown as string) !== "no") setvalid = false;
-		
-		value = value = value != null ? value : (schemaentry?.value as number);
+		if (!setvalue && (setvalue as unknown as string) === "no") {
+			setvalue = false;
+		} else {
+			setvalue = true;
+		}
+		if (!setvalid && (setvalid as unknown as string) === "no") {
+			setvalid = false;
+		} else {
+			setvalid = true;
+		}
+
+		value = value != null ? value : (schemaentry?.value as number);
 		if (setvalue) dispatch("setValue", { value, id: schemaentry.id });
 		regex = schemaentry?.validationRegex && new RegExp(schemaentry.validationRegex);
-		valid = valid = schemaentry
-			? (!schemaentry.required || schemaentry.value != null) &&
+
+		valid = schemaentry
+			? (!schemaentry.required || value != null) &&
 			  (regex ? regex.test(value.toString()) : true) &&
 			  (value == null || (value >= (schemaentry.params?.min ?? -Infinity) && value <= (schemaentry.params?.max ?? Infinity)))
 			: false;
+
+
+
 		if (setvalid) dispatch("setValid", { valid, id: schemaentry.id });
 	}
 </script>
