@@ -168,6 +168,9 @@
 			document.head.appendChild(script);
 		}
 	}
+	
+	addComponent("formrenderer-dateinput", "formrendererdateinput.js", "formrendererdateinputscript", "formdateinputrenderer");
+
 	addComponent("formrenderer-textinput", "formrenderertextinput.js", "formrenderertextinputscript", "formtextinputrenderer");
 	addComponent("formrenderer-emailinput", "formrendereremailinput.js", "formrendereremailinputscript", "formemailinputrenderer");
 	const component = get_current_component();
