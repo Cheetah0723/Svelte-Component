@@ -25,7 +25,7 @@
 		| "formrenderer-textinput"
 		| "formrenderer-numberinput"
 		| "formrenderer-emailinput"
-		| "TextArea"
+		| "formrenderer-areainput"
 		| "formrenderer-checkboxinput"
 		| "RadioInput";
 
@@ -53,7 +53,7 @@
 		text: { component: "formrenderer-textinput" },
 		number: { component: "formrenderer-numberinput" },
 		email: { component: "formrenderer-emailinput" },
-		textarea: { component: "TextArea" },
+		textarea: { component: "formrenderer-areainput" },
 		checkbox: { component: "formrenderer-checkboxinput", options: { labelIsHandledByComponent: true } },
 		radio: { component: "RadioInput", options: { labelIsHandledByComponent: true } },
 	};
@@ -183,6 +183,7 @@
 	addComponent("formrenderer-emailinput", "formrendereremailinput.js", "formrendereremailinputscript", "formemailinputrenderer");
 	addComponent("formrenderer-checkboxinput", "formrenderercheckboxinput.js", "formrenderercheckboxinputscript", "formcheckboxinputrenderer");
 	addComponent("formrenderer-numberinput", "formrenderernumberinput.js", "formrenderernumberinputscript", "formnumberinputrenderer");
+	addComponent("formrenderer-areainput", "formrendererareainput.js", "formrendererareainputscript", "formareainputrenderer");
 
 	const component = get_current_component();
 
