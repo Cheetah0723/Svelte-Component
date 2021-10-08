@@ -1,4 +1,4 @@
-<svelte:options tag="formrenderer-emailinput" />
+<svelte:options tag="formrenderer-numberinput" />
 
 <script lang="ts">
 	import { get_current_component } from "svelte/internal";
@@ -11,7 +11,7 @@
 
 	export let schemaentry: FormSchemaEntry;
 
-	let value: string;
+	let value: number;
 	let regex: RegExp | undefined;
 	let valid = false;
 
@@ -31,17 +31,21 @@
 		if (!setvalue && (setvalue as unknown as string) !== "no") setvalue = false;
 		if (!setvalid && (setvalid as unknown as string) !== "no") setvalid = false;
 		
-		value = value != null ? value : (schemaentry?.value as string);
+		value = value = value != null ? value : (schemaentry?.value as number);
 		if (setvalue) dispatch("setValue", { value, id: schemaentry.id });
 		regex = schemaentry?.validationRegex && new RegExp(schemaentry.validationRegex);
-		valid = valid = schemaentry ? (!schemaentry.required || value != null) && (regex ? regex.test(value) : true) : false;
+		valid = valid = schemaentry
+			? (!schemaentry.required || schemaentry.value != null) &&
+			  (regex ? regex.test(value.toString()) : true) &&
+			  (value == null || (value >= (schemaentry.params?.min ?? -Infinity) && value <= (schemaentry.params?.max ?? Infinity)))
+			: false;
 		if (setvalid) dispatch("setValid", { valid, id: schemaentry.id });
 	}
 </script>
 
 <input
 	bind:value
-	type="email"
+	type="number"
 	class="form-control"
 	class:is-invalid={!valid}
 	id={schemaentry?.id}

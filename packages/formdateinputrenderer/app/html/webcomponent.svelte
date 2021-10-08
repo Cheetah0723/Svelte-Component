@@ -7,7 +7,7 @@
 	export let setvalue: boolean;
 	export let setvalid: boolean;
 
-	export let key: string;
+	
 
 	export let schemaentry: FormSchemaEntry;
 
@@ -30,7 +30,7 @@
 		}
 		if (!setvalue && (setvalue as unknown as string) !== "no") setvalue = false;
 		if (!setvalid && (setvalid as unknown as string) !== "no") setvalid = false;
-		if (!key) key = "none";
+		
 		value = value != null ? value : (schemaentry?.value as string);
 		if (setvalue) dispatch("setValue", { value, id: schemaentry.id });
 		regex = schemaentry?.validationRegex && new RegExp(schemaentry.validationRegex);

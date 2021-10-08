@@ -51,7 +51,7 @@ const schema1: FormSchema = [
   {
     type: "text",
     placeholder: "Insert your last name here...",
-    id: "lastName",
+    id: "lastName2",
     required: true,
     label: "Last Name",
     validationTip: "This field cannot be empty.",

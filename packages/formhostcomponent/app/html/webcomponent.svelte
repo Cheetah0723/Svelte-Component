@@ -23,7 +23,7 @@
 		| "Select"
 		| "formrenderer-dateinput"
 		| "formrenderer-textinput"
-		| "NumberInput"
+		| "formrenderer-numberinput"
 		| "formrenderer-emailinput"
 		| "TextArea"
 		| "formrenderer-checkboxinput"
@@ -51,7 +51,7 @@
 		select: { component: "Select" },
 		date: { component: "formrenderer-dateinput" },
 		text: { component: "formrenderer-textinput" },
-		number: { component: "NumberInput" },
+		number: { component: "formrenderer-numberinput" },
 		email: { component: "formrenderer-emailinput" },
 		textarea: { component: "TextArea" },
 		checkbox: { component: "formrenderer-checkboxinput", options: { labelIsHandledByComponent: true } },
@@ -182,6 +182,7 @@
 	addComponent("formrenderer-textinput", "formrenderertextinput.js", "formrenderertextinputscript", "formtextinputrenderer");
 	addComponent("formrenderer-emailinput", "formrendereremailinput.js", "formrendereremailinputscript", "formemailinputrenderer");
 	addComponent("formrenderer-checkboxinput", "formrenderercheckboxinput.js", "formrenderercheckboxinputscript", "formcheckboxinputrenderer");
+	addComponent("formrenderer-numberinput", "formrenderernumberinput.js", "formrenderernumberinputscript", "formnumberinputrenderer");
 
 	const component = get_current_component();
 
@@ -212,8 +213,69 @@
 									{#if !options.labelIsHandledByComponent}
 										<label for={entry.id}>{entry.label}</label>
 									{/if}
+
 									{#if component === "formrenderer-textinput"}
 										<formrenderer-textinput
+											on:setValid={(d) => setValidByMessage(d.detail)}
+											on:setValue={(d) => setValueByMessage(d.detail)}
+											schemaentry={JSON.stringify(
+												{
+													...entry,
+													value: allValues[entry.id] ?? entry.value,
+												},
+												null,
+												0,
+											)}
+											setvalue
+											setvalid
+										/>
+									{:else if component === "formrenderer-emailinput"}
+										<formrenderer-emailinput
+											on:setValid={(d) => setValidByMessage(d.detail)}
+											on:setValue={(d) => setValueByMessage(d.detail)}
+											schemaentry={JSON.stringify(
+												{
+													...entry,
+													value: allValues[entry.id] ?? entry.value,
+												},
+												null,
+												0,
+											)}
+											setvalue
+											setvalid
+										/>
+									{:else if component === "formrenderer-dateinput"}
+										<formrenderer-dateinput
+											on:setValid={(d) => setValidByMessage(d.detail)}
+											on:setValue={(d) => setValueByMessage(d.detail)}
+											schemaentry={JSON.stringify(
+												{
+													...entry,
+													value: allValues[entry.id] ?? entry.value,
+												},
+												null,
+												0,
+											)}
+											setvalue
+											setvalid
+										/>
+									{:else if component === "formrenderer-checkboxinput"}
+										<formrenderer-checkboxinput
+											on:setValid={(d) => setValidByMessage(d.detail)}
+											on:setValue={(d) => setValueByMessage(d.detail)}
+											schemaentry={JSON.stringify(
+												{
+													...entry,
+													value: allValues[entry.id] ?? entry.value,
+												},
+												null,
+												0,
+											)}
+											setvalue
+											setvalid
+										/>
+									{:else if component === "formrenderer-numberinput"}
+										<formrenderer-numberinput
 											on:setValid={(d) => setValidByMessage(d.detail)}
 											on:setValue={(d) => setValueByMessage(d.detail)}
 											schemaentry={JSON.stringify(
@@ -293,6 +355,21 @@
 					/>
 				{:else if component === "formrenderer-checkboxinput"}
 					<formrenderer-checkboxinput
+						on:setValid={(d) => setValidByMessage(d.detail)}
+						on:setValue={(d) => setValueByMessage(d.detail)}
+						schemaentry={JSON.stringify(
+							{
+								...entry,
+								value: allValues[entry.id] ?? entry.value,
+							},
+							null,
+							0,
+						)}
+						setvalue
+						setvalid
+					/>
+				{:else if component === "formrenderer-numberinput"}
+					<formrenderer-numberinput
 						on:setValid={(d) => setValidByMessage(d.detail)}
 						on:setValue={(d) => setValueByMessage(d.detail)}
 						schemaentry={JSON.stringify(
