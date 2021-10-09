@@ -20,7 +20,7 @@
 	import { groupMultipleBy } from "../functions/utils";
 
 	type IComponentName =
-		| "Select"
+		| "formrenderer-selectinput"
 		| "formrenderer-dateinput"
 		| "formrenderer-textinput"
 		| "formrenderer-numberinput"
@@ -48,7 +48,7 @@
 	}
 	const registeredComponents: IRegisterComponent = {
 		row: { component: null, options: { row: true } },
-		select: { component: "Select" },
+		select: { component: "formrenderer-selectinput" },
 		date: { component: "formrenderer-dateinput" },
 		text: { component: "formrenderer-textinput" },
 		number: { component: "formrenderer-numberinput" },
@@ -106,7 +106,7 @@
 		};
 
 		controls = schema ? getControls(schema) : [];
-		console.log({ controls, schema });
+		console.log(valids);
 		isInvalid = Object.entries(valids).some(([id, isValid]) => !isValid && visibility[id]);
 	}
 
@@ -148,7 +148,7 @@
 		}
 	};
 
-	const setValueFor = (id: string) => (value: string | number | boolean) => {
+	const setValueFor = (id: string, value: string | number | boolean) => {
 		allValues[id] = value;
 
 		if (visibility[id]) {
@@ -162,7 +162,7 @@
 		}
 	};
 
-	const setValidFor = (id: string) => (valid: boolean) => {
+	const setValidFor = (id: string, valid: boolean) => {
 		valids[id] = valid;
 	};
 
@@ -185,6 +185,7 @@
 	addComponent("formrenderer-numberinput", "formrenderernumberinput.js", "formrenderernumberinputscript", "formnumberinputrenderer");
 	addComponent("formrenderer-areainput", "formrendererareainput.js", "formrendererareainputscript", "formareainputrenderer");
 	addComponent("formrenderer-radioinput", "formrendererradioinput.js", "formrendererradioinputscript", "formradioinputrenderer");
+	addComponent("formrenderer-selectinput", "formrendererselectinput.js", "formrendererselectinputscript", "formselectinputrenderer");
 
 	const component = get_current_component();
 
@@ -196,9 +197,12 @@
 	};
 
 	function setValueByMessage(message: { id: string; value: string }) {
+		setValueFor(message.id, message.value);
 		console.log(message);
 	}
 	function setValidByMessage(message: { id: string; valid: boolean }) {
+		setValidFor(message.id, message.valid);
+
 		console.log(message);
 	}
 </script>
@@ -278,6 +282,51 @@
 										/>
 									{:else if component === "formrenderer-numberinput"}
 										<formrenderer-numberinput
+											on:setValid={(d) => setValidByMessage(d.detail)}
+											on:setValue={(d) => setValueByMessage(d.detail)}
+											schemaentry={JSON.stringify(
+												{
+													...entry,
+													value: allValues[entry.id] ?? entry.value,
+												},
+												null,
+												0,
+											)}
+											setvalue
+											setvalid
+										/>
+									{:else if component === "formrenderer-areainput"}
+										<formrenderer-areainput
+											on:setValid={(d) => setValidByMessage(d.detail)}
+											on:setValue={(d) => setValueByMessage(d.detail)}
+											schemaentry={JSON.stringify(
+												{
+													...entry,
+													value: allValues[entry.id] ?? entry.value,
+												},
+												null,
+												0,
+											)}
+											setvalue
+											setvalid
+										/>
+									{:else if component === "formrenderer-radioinput"}
+										<formrenderer-radioinput
+											on:setValid={(d) => setValidByMessage(d.detail)}
+											on:setValue={(d) => setValueByMessage(d.detail)}
+											schemaentry={JSON.stringify(
+												{
+													...entry,
+													value: allValues[entry.id] ?? entry.value,
+												},
+												null,
+												0,
+											)}
+											setvalue
+											setvalid
+										/>
+									{:else if component === "formrenderer-selectinput"}
+										<formrenderer-selectinput
 											on:setValid={(d) => setValidByMessage(d.detail)}
 											on:setValue={(d) => setValueByMessage(d.detail)}
 											schemaentry={JSON.stringify(
@@ -372,6 +421,51 @@
 					/>
 				{:else if component === "formrenderer-numberinput"}
 					<formrenderer-numberinput
+						on:setValid={(d) => setValidByMessage(d.detail)}
+						on:setValue={(d) => setValueByMessage(d.detail)}
+						schemaentry={JSON.stringify(
+							{
+								...entry,
+								value: allValues[entry.id] ?? entry.value,
+							},
+							null,
+							0,
+						)}
+						setvalue
+						setvalid
+					/>
+				{:else if component === "formrenderer-areainput"}
+					<formrenderer-areainput
+						on:setValid={(d) => setValidByMessage(d.detail)}
+						on:setValue={(d) => setValueByMessage(d.detail)}
+						schemaentry={JSON.stringify(
+							{
+								...entry,
+								value: allValues[entry.id] ?? entry.value,
+							},
+							null,
+							0,
+						)}
+						setvalue
+						setvalid
+					/>
+				{:else if component === "formrenderer-radioinput"}
+					<formrenderer-radioinput
+						on:setValid={(d) => setValidByMessage(d.detail)}
+						on:setValue={(d) => setValueByMessage(d.detail)}
+						schemaentry={JSON.stringify(
+							{
+								...entry,
+								value: allValues[entry.id] ?? entry.value,
+							},
+							null,
+							0,
+						)}
+						setvalue
+						setvalid
+					/>
+				{:else if component === "formrenderer-selectinput"}
+					<formrenderer-selectinput
 						on:setValid={(d) => setValidByMessage(d.detail)}
 						on:setValue={(d) => setValueByMessage(d.detail)}
 						schemaentry={JSON.stringify(
