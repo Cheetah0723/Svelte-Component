@@ -16,11 +16,11 @@
 	import { quintOut } from "svelte/easing";
 
 	export let id: string;
-	export let open: boolean;
+	export let show: boolean;
 	$: {
 		if (!id) id = "";
-		if (open && (open as unknown as string) !== "no") open = true;
-		else open = false;
+		if (show && ((show as unknown as string) === "yes" || (show as unknown as string) === "")) show = true;
+		else show = false;
 	}
 
 	export let dialogClasses = "";
@@ -29,8 +29,8 @@
 	export let keyboard = true;
 	export let describedby = "";
 	export let labelledby = "";
-	export let onOpened = () => dispatch("modal", { id, open: true });
-	export let onClosed = () => dispatch("modal", { id, open: false });
+	export let onOpened = () => dispatch("modal", { id, show: true });
+	export let onClosed = () => dispatch("modal", { id, show: false });
 	let _keyboardEvent;
 	function attachEvent(target, ...args) {
 		target.addEventListener(...args);
@@ -54,14 +54,14 @@
 	function handleBackdrop(event) {
 		if (backdrop && !ignoreBackdrop) {
 			event.stopPropagation();
-			open = false;
+			show = false;
 		}
 	}
 	function onModalOpened() {
 		if (keyboard) {
 			_keyboardEvent = attachEvent(document, "keydown", (e) => {
 				if ((event as any).key === "Escape") {
-					open = false;
+					show = false;
 				}
 			});
 		}
@@ -75,7 +75,7 @@
 	}
 	// Watching changes for Open vairable
 	$: {
-		if (open) {
+		if (show) {
 			modalOpen();
 		} else {
 			modalClose();
@@ -83,7 +83,7 @@
 	}
 </script>
 
-{#if open}
+{#if show}
 	<div
 		class="modal show"
 		tabindex="-1"
@@ -100,19 +100,19 @@
 			<div class="modal-content">
 				<slot name="header" class="modal-header">
 					<h5 class="modal-title"><slot name="title">title</slot></h5>
-					<button type="button" class="btn-close" on:click={() => (open = false)}>
+					<button type="button" class="btn-close" on:click={() => (show = false)}>
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</slot>
 				<div class="modal-body"><slot name="body-content">Woohoo, you're reading this text in a modal!</slot></div>
 				<slot class="modal-footer" name="footer">
-					<button type="button" class="btn btn-secondary" on:click={() => (open = false)}><slot name="close-button-label">Close</slot></button>
+					<button type="button" class="btn btn-secondary" on:click={() => (show = false)}><slot name="close-button-label">Close</slot></button>
 					<button type="button" class="btn btn-primary"><slot name="confirm-button-label">Save changes</slot></button>
 				</slot>
 			</div>
 		</div>
 	</div>
-	{#if open}
+	{#if show}
 		<div class="modal-backdrop show" transition:fade={{ duration: 150 }} />
 	{/if}
 {/if}

@@ -5,6 +5,7 @@ export default {
   title: "Components/Dialog",
   argTypes: {
     id: { control: { disable: true } },
+    show: { control: { type: "boolean" } },
   },
 } as Meta;
 
