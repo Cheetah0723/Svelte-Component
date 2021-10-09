@@ -46,9 +46,7 @@
 			  (value == null || (value >= (schemaentry.params?.min ?? -Infinity) && value <= (schemaentry.params?.max ?? Infinity)))
 			: false;
 
-
-
-		if (setvalid) dispatch("setValid", { valid, id: schemaentry.id });
+		if (setvalid) dispatch("setValid", { valid, id: schemaentry?.id });
 	}
 </script>
 

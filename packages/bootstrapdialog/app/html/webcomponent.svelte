@@ -29,8 +29,8 @@
 	export let keyboard = true;
 	export let describedby = "";
 	export let labelledby = "";
-	export let onOpened = () => dispatch("modal", { id, show: true });
-	export let onClosed = () => dispatch("modal", { id, show: false });
+	export let onOpened = () => dispatch("modalShow", { id, show: true });
+	export let onClosed = () => dispatch("modalShow", { id, show: false });
 	let _keyboardEvent;
 	function attachEvent(target, ...args) {
 		target.addEventListener(...args);
@@ -81,6 +81,15 @@
 			modalClose();
 		}
 	}
+	function handleConfirm() {
+		dispatch("modalConfirm", { id, confirm: true });
+		show = false;
+	}
+	function handleCancel() {
+		show = false;
+
+		dispatch("modalConfirm", { id, confirm: false });
+	}
 </script>
 
 {#if show}
@@ -106,8 +115,9 @@
 				</slot>
 				<div class="modal-body"><slot name="body-content">Woohoo, you're reading this text in a modal!</slot></div>
 				<slot class="modal-footer" name="footer">
-					<button type="button" class="btn btn-secondary" on:click={() => (show = false)}><slot name="close-button-label">Close</slot></button>
-					<button type="button" class="btn btn-primary"><slot name="confirm-button-label">Save changes</slot></button>
+					<button type="button" class="btn btn-secondary" on:click={() => handleCancel()}><slot name="close-button-label">Close</slot></button>
+					<button type="button" class="btn btn-primary" on:click={() => handleConfirm()}><slot name="confirm-button-label">Save changes</slot></button
+					>
 				</slot>
 			</div>
 		</div>

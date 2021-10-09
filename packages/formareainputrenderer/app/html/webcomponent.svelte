@@ -7,8 +7,6 @@
 	export let setvalue: boolean;
 	export let setvalid: boolean;
 
-	
-
 	export let schemaentry: FormSchemaEntry;
 
 	let value: string;
@@ -24,39 +22,39 @@
 	}
 
 	$: {
-		if (schemaentry && typeof schemaentry === 'string') {
+		if (schemaentry && typeof schemaentry === "string") {
 			console.log("SCHEMAENTRY", schemaentry);
 			schemaentry = JSON.parse(schemaentry as unknown as string);
 		}
-		if (!setvalue && (setvalue as unknown as string) === "no"){
-			 setvalue = false;
-			} else{
-				setvalue = true;
-			}
+		if (!setvalue && (setvalue as unknown as string) === "no") {
+			setvalue = false;
+		} else {
+			setvalue = true;
+		}
 		if (!setvalid && (setvalid as unknown as string) === "no") {
 			setvalid = false;
 		} else {
 			setvalid = true;
 		}
-		console.log("SCHEMAENTRY", schemaentry,setvalue);
+		console.log("SCHEMAENTRY", schemaentry, setvalue);
 
 		value = value != null ? value : (schemaentry?.value as string);
 		if (setvalue) dispatch("setValue", { value, id: schemaentry.id });
 		regex = schemaentry?.validationRegex && new RegExp(schemaentry.validationRegex);
-		valid = valid = schemaentry ? (!schemaentry.required || value != null) && (regex ? regex.test(value) : true) : false
-		if (setvalid) dispatch("setValid", { valid, id: schemaentry.id });
+		valid = valid = schemaentry ? (!schemaentry.required || value != null) && (regex ? regex.test(value) : true) : false;
+		if (setvalid) dispatch("setValid", { valid, id: schemaentry?.id });
 	}
 </script>
 
 <textarea
-  bind:value
-  class="form-control"
-  class:is-invalid={!valid}
-  id={schemaentry?.id}
-  required={schemaentry?.required}
-  placeholder={schemaentry?.placeholder}
-  readonly={schemaentry?.readonly}
-  rows={schemaentry?.params?.rows}
+	bind:value
+	class="form-control"
+	class:is-invalid={!valid}
+	id={schemaentry?.id}
+	required={schemaentry?.required}
+	placeholder={schemaentry?.placeholder}
+	readonly={schemaentry?.readonly}
+	rows={schemaentry?.params?.rows}
 />
 
 <style lang="scss">
