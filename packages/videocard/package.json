@@ -2,7 +2,7 @@
 	"name": "@htmlbricks/videocardbootstrap-component",
 	"displayName": "Svelte Boostrap Video Card WebComponent",
 	"description": "Svelte Boostrap Video Card WebComponent",
-	"version": "0.0.52",
+	"version": "0.0.53",
 	"main": "release/videocardbootstrap.js",
 	"publishConfig": {
 		"access": "public"

@@ -2,7 +2,7 @@
 	"name": "@htmlbricks/formrenderer-textinput",
 	"displayName": "Svelte-Bootstrap Text Input WebComponent",
 	"description": "Svelte-Bootstrap Text Input WebComponent",
-	"version": "0.0.52",
+	"version": "0.0.53",
 	"main": "release/formrenderertextinput.js",
 	"publishConfig": {
 		"access": "public"
