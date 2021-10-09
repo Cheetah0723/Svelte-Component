@@ -14,16 +14,23 @@
 
 	import { fade, fly } from "svelte/transition";
 	import { quintOut } from "svelte/easing";
-	const noop = () => {};
-	export let open = false;
+
+	export let id: string;
+	export let open: boolean;
+	$: {
+		if (!id) id = "";
+		if (open && (open as unknown as string) !== "no") open = true;
+		else open = false;
+	}
+
 	export let dialogClasses = "";
 	export let backdrop = true;
 	export let ignoreBackdrop = false;
 	export let keyboard = true;
 	export let describedby = "";
 	export let labelledby = "";
-	export let onOpened = noop;
-	export let onClosed = noop;
+	export let onOpened = () => dispatch("modal", { id, open: true });
+	export let onClosed = () => dispatch("modal", { id, open: false });
 	let _keyboardEvent;
 	function attachEvent(target, ...args) {
 		target.addEventListener(...args);
@@ -76,8 +83,6 @@
 	}
 </script>
 
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" on:click={() => (open = true)}> Launch demo modal </button>
-
 {#if open}
 	<div
 		class="modal show"
@@ -93,17 +98,17 @@
 	>
 		<div class="modal-dialog {dialogClasses}" role="document" in:fly={{ y: -50, duration: 300 }} out:fly={{ y: -50, duration: 300, easing: quintOut }}>
 			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title">Modal title</h5>
+				<slot name="header" class="modal-header">
+					<h5 class="modal-title"><slot name="title">title</slot></h5>
 					<button type="button" class="btn-close" on:click={() => (open = false)}>
 						<span aria-hidden="true">&times;</span>
 					</button>
-				</div>
-				<div class="modal-body">Woohoo, you're reading this text in a modal!</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary">Close</button>
-					<button type="button" class="btn btn-primary">Save changes</button>
-				</div>
+				</slot>
+				<div class="modal-body"><slot name="body-content">Woohoo, you're reading this text in a modal!</slot></div>
+				<slot class="modal-footer" name="footer">
+					<button type="button" class="btn btn-secondary" on:click={() => (open = false)}><slot name="close-button-label">Close</slot></button>
+					<button type="button" class="btn btn-primary"><slot name="confirm-button-label">Save changes</slot></button>
+				</slot>
 			</div>
 		</div>
 	</div>

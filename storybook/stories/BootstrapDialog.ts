@@ -16,6 +16,10 @@ export const createBootstrapDialog = ({ id }: BootstrapDialogProps) => {
   } else {
     c = document.createElement("bootstrap-dialog-component");
     c.id = id;
+    const b = document.createElement("div");
+
+    b.innerHTML = `<button slot="test" onclick="document.getElementsByTagName('bootstrap-dialog-component')[0].setAttribute('open', 'yes')">test</button>`;
+    document.body.appendChild(b);
   }
 
   return c;
