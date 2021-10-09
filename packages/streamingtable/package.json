@@ -2,7 +2,7 @@
 	"name": "@htmlbricks/streamingtablebootstrap-webcomponent",
 	"displayName": "Svelte Boostrap Streaming Table WebComponent",
 	"description": "Svelte Boostrap Streaming Table WebComponent",
-	"version": "0.0.49",
+	"version": "0.0.50",
 	"main": "release/streamingtablebootstrap.js",
 	"publishConfig": {
 		"access": "public"
