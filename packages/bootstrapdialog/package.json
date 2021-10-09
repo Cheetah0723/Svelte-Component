@@ -1,9 +1,9 @@
 {
-	"name": "@htmlbricks/bootstrap-modal-component",
-	"displayName": "Svelte-Bootstrap Text Input WebComponent",
-	"description": "Svelte-Bootstrap Text Input WebComponent",
+	"name": "@htmlbricks/bootstrap-dialog-component",
+	"displayName": "Svelte-Bootstrap Dialog WebComponent",
+	"description": "Svelte-Bootstrap Dialog WebComponent",
 	"version": "0.0.50",
-	"main": "release/bootstrapmodalcomponent.js",
+	"main": "release/bootstrapdialogcomponent.js",
 	"publishConfig": {
 		"access": "public"
 	},
@@ -20,7 +20,7 @@
 		"start": "sirv dist",
 		"dev": "rm -rf ./dist && rollup -c -w",
 		"build": "rm -rf ./dist && rollup -c",
-		"copydest": "rm -rf release && mkdir -p release && cp dist/bootstrapmodalcomponent.js ./release/ && cp dist/bootstrapmodalcomponent.js.map ./release/",
+		"copydest": "rm -rf release && mkdir -p release && cp dist/bootstrapdialogcomponent.js ./release/ && cp dist/bootstrapdialogcomponent.js.map ./release/",
 		"build:release": "PRODUCTION=true npm run build && npm run copydest",
 		"prepublish": "npm run build:release"
 	},

@@ -1,4 +1,4 @@
-<svelte:options tag="bootstrap-modal-component" />
+<svelte:options tag="bootstrap-dialog-component" />
 
 <script lang="ts">
 	import { get_current_component } from "svelte/internal";
