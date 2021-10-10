@@ -2,7 +2,7 @@
 	"name": "@htmlbricks/formrenderer-checkboxinput",
 	"displayName": "Svelte-Bootstrap Checkbox Input WebComponent",
 	"description": "Svelte-Bootstrap Checkbox Input WebComponent",
-	"version": "0.0.55",
+	"version": "0.0.56",
 	"main": "release/formrenderercheckboxinput.js",
 	"publishConfig": {
 		"access": "public"
