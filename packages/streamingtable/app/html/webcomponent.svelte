@@ -443,7 +443,7 @@
 						{#each tableHeaders as th (th.key)}
 							<th scope="col">
 								{th.label}
-								{#if !th.nosort || th.type !== "actions"}
+								{#if !th.nosort && th.type !== "actions"}
 									<button style="border:none; background-color:inherit" on:click={() => changeSort(th.key)}>
 										{#if !sortedBy || th.key !== sortedBy}
 											&#x21C5;
