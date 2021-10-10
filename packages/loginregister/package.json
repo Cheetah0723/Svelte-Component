@@ -2,7 +2,7 @@
 	"name": "@htmlbricks/loginregister-component",
 	"displayName": "Svelte Boostrap Login and Register WebComponent",
 	"description": "Svelte Boostrap Login and Register WebComponent",
-	"version": "0.0.54",
+	"version": "0.0.55",
 	"main": "release/loginregister.js",
 	"publishConfig": {
 		"access": "public"
