@@ -47,6 +47,7 @@
 		type: "icon" | "text";
 		iconOrText: string;
 		btnClass?: string;
+		disabled?: boolean;
 	}
 
 	export let id: string;
@@ -442,7 +443,7 @@
 						{#each tableHeaders as th (th.key)}
 							<th scope="col">
 								{th.label}
-								{#if !th.nosort || th.type === "actions"}
+								{#if !th.nosort || th.type !== "actions"}
 									<button style="border:none; background-color:inherit" on:click={() => changeSort(th.key)}>
 										{#if !sortedBy || th.key !== sortedBy}
 											&#x21C5;
@@ -590,15 +591,33 @@
 											{#if item._actions?.length}
 												<td part="td-{td.key}">
 													{#each item._actions as abutton (abutton.name)}
-														{#if abutton.type === "text"}
+														{#if abutton.disabled}
+															{#if abutton.type === "text"}
+																<button
+																	on:click={() => handleClickOnCustomAction(item._id, abutton.name)}
+																	type="button"
+																	class="btn btn-{abutton.btnClass || 'link'}"
+																	style="margin-right:10px"
+																	disabled>{abutton.iconOrText}</button
+																>
+															{:else if abutton.type === "icon"}
+																<button
+																	on:click={() => handleClickOnCustomAction(item._id, abutton.name)}
+																	type="button"
+																	class="btn btn-{abutton.btnClass || 'light'}"
+																	style="margin-right:10px"
+																	disabled
+																	><i class="bi-{abutton.iconOrText}" />
+																</button>
+															{/if}
+														{:else if abutton.type === "text"}
 															<button
 																on:click={() => handleClickOnCustomAction(item._id, abutton.name)}
 																type="button"
 																class="btn btn-{abutton.btnClass || 'link'}"
 																style="margin-right:10px">{abutton.iconOrText}</button
 															>
-														{/if}
-														{#if abutton.type === "icon"}
+														{:else if abutton.type === "icon"}
 															<button
 																on:click={() => handleClickOnCustomAction(item._id, abutton.name)}
 																type="button"
@@ -640,8 +659,7 @@
 													class="btn btn-{abutton.btnClass || 'link'}"
 													style="margin-right:10px">{abutton.iconOrText}</button
 												>
-											{/if}
-											{#if abutton.type === "icon"}
+											{:else if abutton.type === "icon"}
 												<button
 													on:click={() => handleClickOnAction(item._id, abutton.name)}
 													type="button"
