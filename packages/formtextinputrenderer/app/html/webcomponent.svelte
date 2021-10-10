@@ -39,7 +39,7 @@
 		console.log("SCHEMAENTRY", schemaentry, setvalue);
 
 		value = value != null ? value : (schemaentry?.value as string);
-		if (setvalue) dispatch("setValue", { value, id: schemaentry.id });
+		if (setvalue) dispatch("setValue", { value, id: schemaentry?.id });
 		regex = schemaentry?.validationRegex && new RegExp(schemaentry.validationRegex);
 		valid = schemaentry
 			? (!schemaentry?.required || value != null) &&

@@ -38,7 +38,7 @@
 		console.log("SCHEMAENTRY", schemaentry, setvalue);
 		options = schemaentry?.params?.options ?? [];
 		value = value != null ? value : (schemaentry?.value as string);
-		if (setvalue) dispatch("setValue", { value, id: schemaentry.id });
+		if (setvalue) dispatch("setValue", { value, id: schemaentry?.id });
 
 		if (setvalid) dispatch("setValid", { valid: true, id: schemaentry.id });
 	}
