@@ -2,7 +2,7 @@
 	"name": "@htmlbricks/footerbootstrap-component",
 	"displayName": "Svelte Bootstrap Footer WebComponent",
 	"description": "Svelte Bootstrap Footer WebComponent",
-	"version": "0.0.59",
+	"version": "0.0.60",
 	"main": "release/footerbootstrap.js",
 	"publishConfig": {
 		"access": "public"
