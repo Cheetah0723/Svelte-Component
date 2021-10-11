@@ -142,6 +142,8 @@
 		}
 		onClosed();
 		downloaded = false;
+		total = 0;
+		loaded = 0;
 	}
 	// Watching changes for Open vairable
 	$: {
