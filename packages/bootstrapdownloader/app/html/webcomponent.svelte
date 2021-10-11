@@ -17,7 +17,7 @@
 
 	export let id: string;
 	export let uri: string;
-	export let headers: JSON;
+	export let headers: {};
 	export let targetfilename: string;
 	let total: number;
 	let loaded: number;
