@@ -126,7 +126,7 @@
 			xhr.onprogress = function (event) {
 				total = event?.total || 0;
 				loaded = event?.loaded || 0;
-				console.log("PROGRES", event?.total, event?.loaded, event);
+				// console.log("PROGRES", event?.total, event?.loaded, event);
 			};
 			xhr.onloadend = function (event) {};
 			xhr.send();
@@ -186,12 +186,15 @@
 					{:else}
 						<div class="progress">
 							<div
-								class="progress-bar w-{(total / loaded) * 100}"
+								class="progress-bar"
+								style="width:{Math.round((loaded / total) * 100)}%"
 								role="progressbar"
-								aria-valuenow={(total / loaded) * 100}
+								aria-valuenow={Math.round((loaded / total) * 100)}
 								aria-valuemin="0"
 								aria-valuemax="100"
-							/>
+							>
+								{Math.round((loaded / total) * 100)}%
+							</div>
 						</div>
 					{/if}
 				</div>
