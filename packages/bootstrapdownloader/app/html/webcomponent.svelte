@@ -144,6 +144,7 @@
 		downloaded = false;
 		total = 0;
 		loaded = 0;
+		if (xhr) xhr.abort();
 	}
 	// Watching changes for Open vairable
 	$: {
