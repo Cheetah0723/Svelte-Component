@@ -1,5 +1,5 @@
 {
-	"name": "@htmlbricks/formhostcomponent",
+	"name": "@htmlbricks/formrenderer-host",
 	"displayName": "Svelte-Bootstrap Text Input WebComponent",
 	"description": "Svelte-Bootstrap Text Input WebComponent",
 	"version": "0.0.59",
