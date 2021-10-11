@@ -2,7 +2,7 @@
 	"name": "@htmlbricks/bootstrap-downloader-component",
 	"displayName": "Svelte-Bootstrap Doenloader WebComponent",
 	"description": "Svelte-Bootstrap Doenloader WebComponent",
-	"version": "0.0.57",
+	"version": "0.0.58",
 	"main": "release/bootstrapdownloadercomponent.js",
 	"publishConfig": {
 		"access": "public"
