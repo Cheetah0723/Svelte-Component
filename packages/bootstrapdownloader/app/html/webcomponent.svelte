@@ -24,7 +24,7 @@
 		document.head.appendChild(script);
 	}
 
-	export let dialogid: string;
+	export let downloadid: string;
 	export let uri: string;
 	export let headers: {};
 	export let targetfilename: string;
@@ -35,7 +35,7 @@
 	let downloaded: boolean;
 	let errorMessage: string;
 	$: {
-		if (!dialogid) dialogid = "";
+		if (!downloadid) downloadid = "";
 		if (!downloaded) downloaded = false;
 		if (uri) show = true;
 		else show = false;
@@ -53,8 +53,8 @@
 			// show = false;
 			// xhr = null;
 			// downloaded = false;
-			// dialogid = "";
-			dispatch("downloadError", { downloaded, id: dialogid, error: err });
+			// downloadid = "";
+			dispatch("downloadError", { downloaded, id: downloadid, error: err });
 		}
 
 		xhr = new XMLHttpRequest();
@@ -79,13 +79,13 @@
 				tag.click();
 				document.body.removeChild(tag);
 				console.log("loadEnd");
-				dialogid = "";
+				downloadid = "";
 				uri = "";
 				show = false;
 				xhr = null;
 				downloaded = true;
 				errorMessage = null;
-				return dispatch("downloadComplete", { downloaded, id: dialogid });
+				return dispatch("downloadComplete", { downloaded, id: downloadid });
 			};
 			xhr.onerror = (error) => {
 				return onRequestError(error);
@@ -111,17 +111,17 @@
 
 	function dialogShowEvent(d) {
 		if (d.show) {
-			dialogid = d.id;
+			downloadid = d.id;
 			onModalOpened();
 		} else {
 			show = false;
-			dialogid = "";
+			downloadid = "";
 			errorMessage = null;
 		}
 	}
 </script>
 
-<bootstrap-dialog-component id={dialogid} show={show ? "yes" : "no"} on:modalShow={(d) => dialogShowEvent(d.detail)}>
+<bootstrap-dialog-component id={downloadid} show={show ? "yes" : "no"} on:modalShow={(d) => dialogShowEvent(d.detail)}>
 	<span slot="title">
 		<slot name="title">Downloading</slot>
 	</span>
