@@ -3,7 +3,7 @@
 <script lang="ts">
 	import { get_current_component } from "svelte/internal";
 	import { createEventDispatcher } from "svelte";
-
+	import pkg from "../../package.json";
 	const component = get_current_component();
 	const svelteDispatch = createEventDispatcher();
 	function dispatch(name, detail) {
@@ -15,7 +15,16 @@
 	import { fade, fly } from "svelte/transition";
 	import { quintOut } from "svelte/easing";
 
-	export let id: string;
+	if (!document.getElementById("bootstrapdialogcomponentscript")) {
+		const script = document.createElement("script");
+		script.id = "bootstrapdialogcomponentscript";
+		script.src = `https://cdn.jsdelivr.net/npm/@htmlbricks/bootstrap-dialog-component@${pkg.version}/release/bootstrapdialogcomponent.js`;
+		if (location.href.includes("localhost")) script.src = `http://localhost:6006/bootstrapdialog/dist/bootstrapdialogcomponent.js`;
+
+		document.head.appendChild(script);
+	}
+
+	export let dialogid: string;
 	export let uri: string;
 	export let headers: {};
 	export let targetfilename: string;
@@ -24,8 +33,9 @@
 	let show: boolean;
 	let xhr: XMLHttpRequest;
 	let downloaded: boolean;
+	let errorMessage: string;
 	$: {
-		if (!id) id = "";
+		if (!dialogid) dialogid = "";
 		if (!downloaded) downloaded = false;
 		if (uri) show = true;
 		else show = false;
@@ -35,56 +45,16 @@
 		if (!targetfilename && uri) targetfilename = uri.split("/")[uri.split("/").length - 1].split("?")[0];
 	}
 
-	export let dialogClasses = "";
-	export let backdrop = true;
-	export let ignoreBackdrop = false;
-	export let keyboard = true;
-	export let describedby = "";
-	export let labelledby = "";
-	export let onOpened = () => dispatch("downloadStart", { id, uri });
-	export let onClosed = () => dispatch("downloadEnd", { id, downloaded, uri });
-	let _keyboardEvent;
-	function attachEvent(target, ...args) {
-		target.addEventListener(...args);
-		return {
-			remove: () => target.removeEventListener(...args),
-		};
-	}
-	function checkClass(className) {
-		return document.body.classList.contains(className);
-	}
-	function modalOpen() {
-		if (!checkClass("modal-open")) {
-			document.body.classList.add("modal-open");
-		}
-	}
-	function modalClose() {
-		if (checkClass("modal-open")) {
-			document.body.classList.remove("modal-open");
-		}
-	}
-	function handleBackdrop(event) {
-		if (backdrop && !ignoreBackdrop) {
-			event.stopPropagation();
-			show = false;
-		}
-	}
 	function onModalOpened() {
-		if (keyboard) {
-			_keyboardEvent = attachEvent(document, "keydown", (e) => {
-				if ((event as any).key === "Escape") {
-					show = false;
-				}
-			});
-		}
-		onOpened();
-
-		function onRequestError(error: any) {
-			uri = "";
-			show = false;
-			xhr = null;
-			downloaded = false;
-			dispatch("downloadError", { downloaded, id, error });
+		function onRequestError(err: any) {
+			console.log(err);
+			if (err) errorMessage = err;
+			// uri = "";
+			// show = false;
+			// xhr = null;
+			// downloaded = false;
+			// dialogid = "";
+			dispatch("downloadError", { downloaded, id: dialogid, error: err });
 		}
 
 		xhr = new XMLHttpRequest();
@@ -109,11 +79,13 @@
 				tag.click();
 				document.body.removeChild(tag);
 				console.log("loadEnd");
+				dialogid = "";
 				uri = "";
 				show = false;
 				xhr = null;
 				downloaded = true;
-				return dispatch("downloadComplete", { downloaded, id });
+				errorMessage = null;
+				return dispatch("downloadComplete", { downloaded, id: dialogid });
 			};
 			xhr.onerror = (error) => {
 				return onRequestError(error);
@@ -136,78 +108,54 @@
 			return onRequestError(error);
 		}
 	}
-	function onModalClosed() {
-		if (_keyboardEvent) {
-			_keyboardEvent.remove();
-		}
-		onClosed();
-		downloaded = false;
-		total = 0;
-		loaded = 0;
-		if (xhr) xhr.abort();
-	}
-	// Watching changes for Open vairable
-	$: {
-		if (show) {
-			modalOpen();
+
+	function dialogShowEvent(d) {
+		if (d.show) {
+			dialogid = d.id;
+			onModalOpened();
 		} else {
-			modalClose();
+			show = false;
+			dialogid = "";
+			errorMessage = null;
 		}
 	}
 </script>
 
-{#if show}
-	<div
-		class="modal show"
-		tabindex="-1"
-		role="dialog"
-		aria-labelledby={labelledby}
-		aria-describedby={describedby}
-		aria-modal="true"
-		on:click|self={handleBackdrop}
-		on:introend={onModalOpened}
-		on:outroend={onModalClosed}
-		transition:fade
-	>
-		<div class="modal-dialog {dialogClasses}" role="document" in:fly={{ y: -50, duration: 300 }} out:fly={{ y: -50, duration: 300, easing: quintOut }}>
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" style="width: 100%;text-align:center"><slot name="title-label">Downloading</slot></h5>
-				</div>
-				<div class="modal-body">
-					{#if !total}
-						<div class="progress">
-							<div
-								class="progress-bar progress-bar-striped progress-bar-animated"
-								role="progressbar"
-								aria-valuenow="100"
-								aria-valuemin="0"
-								aria-valuemax="100"
-								style="width: 100%"
-							/>
-						</div>
-					{:else}
-						<div class="progress">
-							<div
-								class="progress-bar"
-								style="width:{Math.round((loaded / total) * 100)}%"
-								role="progressbar"
-								aria-valuenow={Math.round((loaded / total) * 100)}
-								aria-valuemin="0"
-								aria-valuemax="100"
-							>
-								{Math.round((loaded / total) * 100)}%
-							</div>
-						</div>
-					{/if}
+<bootstrap-dialog-component id={dialogid} show={show ? "yes" : "no"} on:modalShow={(d) => dialogShowEvent(d.detail)}>
+	<span slot="title">
+		<slot name="title">Downloading</slot>
+	</span>
+	<div slot="body-content">
+		{#if !total && !errorMessage}
+			<div class="progress">
+				<div
+					class="progress-bar progress-bar-striped progress-bar-animated"
+					role="progressbar"
+					aria-valuenow="100"
+					aria-valuemin="0"
+					aria-valuemax="100"
+					style="width: 100%"
+				/>
+			</div>
+		{:else if !errorMessage}
+			<div class="progress">
+				<div
+					class="progress-bar"
+					style="width:{Math.round((loaded / total) * 100)}%"
+					role="progressbar"
+					aria-valuenow={Math.round((loaded / total) * 100)}
+					aria-valuemin="0"
+					aria-valuemax="100"
+				>
+					{Math.round((loaded / total) * 100)}%
 				</div>
 			</div>
-		</div>
+		{:else if errorMessage}
+			{errorMessage}
+		{/if}
 	</div>
-	{#if show}
-		<div class="modal-backdrop show" transition:fade={{ duration: 150 }} />
-	{/if}
-{/if}
+	<span slot="modal-footer" />
+</bootstrap-dialog-component>
 
 <style lang="scss">
 	@import "../styles/bootstrap.scss";

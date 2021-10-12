@@ -114,10 +114,16 @@
 					</button>
 				</slot>
 				<div class="modal-body"><slot name="body-content">Woohoo, you're reading this text in a modal!</slot></div>
-				<slot class="modal-footer" name="footer">
-					<button type="button" class="btn btn-secondary" on:click={() => handleCancel()}><slot name="close-button-label">Close</slot></button>
-					<button type="button" class="btn btn-primary" on:click={() => handleConfirm()}><slot name="confirm-button-label">Save changes</slot></button
-					>
+				<slot name="modal-footer" class="modal-footer">
+					<div>
+						<slot name="footer">
+							<button type="button" class="btn btn-secondary" on:click={() => handleCancel()}><slot name="close-button-label">Close</slot></button
+							>
+							<button type="button" class="btn btn-primary" on:click={() => handleConfirm()}
+								><slot name="confirm-button-label">Save changes</slot></button
+							>
+						</slot>
+					</div>
 				</slot>
 			</div>
 		</div>
