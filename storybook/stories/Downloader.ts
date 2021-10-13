@@ -1,10 +1,18 @@
 export interface DownloaderProps {
   id: string;
   uri: string;
-  headers: JSON;
+  headers: any;
+  downloadid: string;
+  targetfilename: string;
 }
 
-export const createDownloader = ({ id, uri, headers }: DownloaderProps) => {
+export const createDownloader = ({
+  id,
+  uri,
+  headers,
+  downloadid,
+  targetfilename,
+}: DownloaderProps) => {
   if (!document.getElementById("bootstrapdownloadercomponentscript")) {
     const script = document.createElement("script");
     script.id = "bootstrapdownloadercomponentscript";
@@ -29,6 +37,15 @@ export const createDownloader = ({ id, uri, headers }: DownloaderProps) => {
   } else {
     if (c.hasAttribute("headers")) c.removeAttribute("headers");
   }
-
+  if (downloadid) {
+    c.setAttribute("downloadid", downloadid);
+  } else {
+    if (c.hasAttribute("downloadid")) c.removeAttribute("downloadid");
+  }
+  if (targetfilename) {
+    c.setAttribute("targetfilename", targetfilename);
+  } else {
+    if (c.hasAttribute("targetfilename")) c.removeAttribute("targetfilename");
+  }
   return c;
 };

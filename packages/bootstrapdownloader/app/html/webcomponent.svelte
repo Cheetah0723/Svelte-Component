@@ -12,9 +12,6 @@
 		component.dispatchEvent && component.dispatchEvent(new CustomEvent(name, { detail }));
 	}
 
-	import { fade, fly } from "svelte/transition";
-	import { quintOut } from "svelte/easing";
-
 	if (!document.getElementById("bootstrapdialogcomponentscript")) {
 		const script = document.createElement("script");
 		script.id = "bootstrapdialogcomponentscript";
@@ -30,15 +27,14 @@
 	export let targetfilename: string;
 	let total: number;
 	let loaded: number;
-	let show: boolean;
+
 	let xhr: XMLHttpRequest;
 	let downloaded: boolean;
 	let errorMessage: string;
 	$: {
 		if (!downloadid) downloadid = "";
 		if (!downloaded) downloaded = false;
-		if (uri) show = true;
-		else show = false;
+		if (!uri) uri = "";
 		try {
 			if (headers) headers = JSON.parse(headers as unknown as string);
 		} catch (err) {}
@@ -81,7 +77,6 @@
 				console.log("loadEnd");
 				downloadid = "";
 				uri = "";
-				show = false;
 				xhr = null;
 				downloaded = true;
 				errorMessage = null;
@@ -114,7 +109,7 @@
 			downloadid = d.id;
 			onModalOpened();
 		} else {
-			show = false;
+			uri = "";
 			downloadid = "";
 			errorMessage = null;
 			if (xhr) {
@@ -125,7 +120,7 @@
 	}
 </script>
 
-<bootstrap-dialog-component id={downloadid} show={show ? "yes" : "no"} on:modalShow={(d) => dialogShowEvent(d.detail)}>
+<bootstrap-dialog-component id={downloadid} show={uri ? "yes" : "no"} on:modalShow={(d) => dialogShowEvent(d.detail)}>
 	<span slot="title">
 		<slot name="title">Downloading</slot>
 	</span>

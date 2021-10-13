@@ -1,9 +1,9 @@
 {
-	"name": "@htmlbricks/bootstrap-downloader-component",
-	"displayName": "Svelte-Bootstrap Downloader WebComponent",
-	"description": "Svelte-Bootstrap Downloader WebComponent",
+	"name": "@htmlbricks/bootstrap-videomodal-component",
+	"displayName": "Svelte-Bootstrap Video Modal WebComponent",
+	"description": "Svelte-Bootstrap Video Modal WebComponent",
 	"version": "0.0.63",
-	"main": "release/bootstrapdownloadercomponent.js",
+	"main": "release/bootstrapvideomodalcomponent.js",
 	"publishConfig": {
 		"access": "public"
 	},
@@ -20,7 +20,7 @@
 		"start": "sirv dist",
 		"dev": "rm -rf ./dist && rollup -c -w",
 		"build": "rm -rf ./dist && rollup -c",
-		"copydest": "rm -rf release && mkdir -p release && cp dist/bootstrapdownloadercomponent.js ./release/ && cp dist/bootstrapdownloadercomponent.js.map ./release/",
+		"copydest": "rm -rf release && mkdir -p release && cp dist/bootstrapvideomodalcomponent.js ./release/ && cp dist/bootstrapvideomodalcomponent.js.map ./release/",
 		"build:release": "PRODUCTION=true npm run build && npm run copydest",
 		"prepublish": "npm run build:release"
 	},
