@@ -6,8 +6,8 @@ export default {
   argTypes: {
     id: { control: { disable: true } },
     uri: { control: { type: "text" } },
-    videotitle: { control: { type: "text" } },
-    downloadid: { control: { type: "text" } },
+    title: { control: { type: "text" } },
+    item: { control: { type: "text" } },
   },
 } as Meta;
 

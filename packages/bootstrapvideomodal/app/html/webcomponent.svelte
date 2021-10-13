@@ -21,31 +21,32 @@
 		document.head.appendChild(script);
 	}
 
-	export let elementid: string;
+	export let item: string;
 	export let uri: string;
-	export let videotitle: string;
+	export let title: string;
 
 	$: {
-		if (!elementid) elementid = "";
+		if (!item) item = "";
 		if (!uri) uri = "";
-		if (!videotitle) videotitle = null;
+		if (!title) title = "";
 	}
 
 	function dialogShowEvent(d) {
 		if (d.show) {
-			elementid = d.id;
+			item = d.id;
 		} else {
-			elementid = "";
+			item = "";
 			uri = "";
+			title = "";
 		}
-		dispatch("videoModalEvent", { id: elementid, show: d.show });
+		dispatch("videoModalEvent", { id: item, show: d.show });
 	}
 </script>
 
-<bootstrap-dialog-component id={elementid} show={uri ? "yes" : "no"} on:modalShow={(d) => dialogShowEvent(d.detail)}>
-	{#if videotitle}
+<bootstrap-dialog-component id={item} show={uri ? "yes" : "no"} on:modalShow={(d) => dialogShowEvent(d.detail)}>
+	{#if title}
 		<span slot="title">
-			<slot name="title">Video: {videotitle}</slot>
+			<slot name="title">Video: {title}</slot>
 		</span>
 	{/if}
 	<div slot="body-content">

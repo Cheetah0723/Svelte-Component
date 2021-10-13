@@ -1,16 +1,11 @@
 export interface VideoModalProps {
   id: string;
   uri: string;
-  elementid: string;
-  videotitle: string;
+  item: string;
+  title: string;
 }
 
-export const createVideoModal = ({
-  id,
-  uri,
-  elementid,
-  videotitle,
-}: VideoModalProps) => {
+export const createVideoModal = ({ id, uri, item, title }: VideoModalProps) => {
   if (!document.getElementById("bootstrapvideomodalcomponentscript")) {
     const script = document.createElement("script");
     script.id = "bootstrapvideomodalcomponentscript";
@@ -30,15 +25,15 @@ export const createVideoModal = ({
   } else {
     if (c.hasAttribute("uri")) c.removeAttribute("uri");
   }
-  if (elementid) {
-    c.setAttribute("elementid", elementid);
+  if (item) {
+    c.setAttribute("item", item);
   } else {
-    if (c.hasAttribute("elementid")) c.removeAttribute("elementid");
+    if (c.hasAttribute("item")) c.removeAttribute("item");
   }
-  if (videotitle) {
-    c.setAttribute("videotitle", videotitle);
+  if (title) {
+    c.setAttribute("title", title);
   } else {
-    if (c.hasAttribute("videotitle")) c.removeAttribute("videotitle");
+    if (c.hasAttribute("title")) c.removeAttribute("title");
   }
   return c;
 };
