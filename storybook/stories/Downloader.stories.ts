@@ -6,7 +6,9 @@ export default {
   argTypes: {
     id: { control: { disable: true } },
     uri: { control: { type: "text" } },
+    targetfilename: { control: { type: "text" } },
     headers: { control: { type: "text" } },
+    downloadid: { control: { type: "text" } },
   },
 } as Meta;
 
