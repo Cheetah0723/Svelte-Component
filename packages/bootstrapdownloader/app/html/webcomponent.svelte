@@ -51,7 +51,7 @@
 			if (err) errorMessage = err;
 			// uri = "";
 			// show = false;
-			// xhr = null;
+			xhr = null;
 			// downloaded = false;
 			// downloadid = "";
 			dispatch("downloadError", { downloaded, id: downloadid, error: err });
@@ -117,6 +117,10 @@
 			show = false;
 			downloadid = "";
 			errorMessage = null;
+			if (xhr) {
+				xhr.abort();
+			}
+			xhr = null;
 		}
 	}
 </script>
