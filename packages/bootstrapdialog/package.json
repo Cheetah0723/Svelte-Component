@@ -2,7 +2,7 @@
 	"name": "@htmlbricks/bootstrap-dialog-component",
 	"displayName": "Svelte-Bootstrap Dialog WebComponent",
 	"description": "Svelte-Bootstrap Dialog WebComponent",
-	"version": "0.0.62",
+	"version": "0.0.63",
 	"main": "release/bootstrapdialogcomponent.js",
 	"publishConfig": {
 		"access": "public"
