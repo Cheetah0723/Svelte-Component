@@ -132,13 +132,17 @@
 </script>
 
 <!-- svelte-ignore a11y-media-has-caption -->
-<div part="container" style="width: 100%;height:100%;">
+<div part="container" style="width: 100%">
 	{#if mediauri && isLive && !forcecover}
-		<video part="video" use:setHls style="width: 100%;height:100%;background-color:black" />
+		<video
+			part="video"
+			use:setHls
+			style="width: 100%;background-color: black; color: white;display: flex; align-items: center; justify-content: center; flex-direction:column;aspect-ratio:16/9;margin:auto"
+		/>
 	{:else if replacewithtext?.title || replacewithtext?.subtitle || replacewithtext?.text}
 		<div
 			part="replacewithtext"
-			style="	background-color: black; color: white;display: flex; align-items: center; justify-content: center; flex-direction:column;aspect-ratio:16/9;height:100%;margin:auto;background-color:grey"
+			style="width: 100%;background-color: black; color: white;display: flex; align-items: center; justify-content: center; flex-direction:column;aspect-ratio:16/9;margin:auto"
 		>
 			{#if replacewithtext?.title && replacewithtext?.subtitle && replacewithtext?.text}
 				<slot name="replacewithtext">
