@@ -81,7 +81,7 @@
 	}
 </script>
 
-<sp-theme>
+<sp-theme style="font-family:inherit!important">
 	<nav id="navbar">
 		<div style="text-align:left" class="navitem" part="left-slot">
 			{#if !noburger}
