@@ -114,20 +114,22 @@
 		aria-labelledby="offcanvasExampleLabel"
 		style="visibility: visible; {opened ? 'transform:none!important' : 'transform:translateX(-100%)!important;'}"
 	>
-		<div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="min-height:100vh">
+		<div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="min-height:100vh;padding-top:0px!important">
 			<h4 class="offcanvas-title">
-				<slot name="header">
-					{#if companylogouri}
-						<img style="height:40px;margin-right:10px" src={companylogouri} alt="" />
-					{/if}
-					{companytitle}
+				<slot name="header" part="header">
+					<div style="margin-top:10px">
+						{#if companylogouri}
+							<img style="height:40px;margin-right:10px" src={companylogouri} alt="" />
+						{/if}
+						{companytitle}
+					</div>
 				</slot>
 
 				<!-- <button on:click={() => OpenSwitch(false)} type="button" class="btn-close btn-sm text-reset" style="float:right;" /> -->
 			</h4>
-			<hr style="margin-top:9px;margin-bottom: 20px;" />
+			<!-- <hr style="margin-top:9px;margin-bottom: 20px;" /> -->
 
-			<ul class="nav nav-pills flex-column mb-auto">
+			<ul class="nav nav-pills flex-column mb-auto" style="margin-top:25px">
 				{#if navLinks?.length && navLinks.filter((f) => !f.group)?.length}
 					{#each navLinks.filter((f) => !f.group) as navLink (navLink.key)}
 						<li class="nav-item">

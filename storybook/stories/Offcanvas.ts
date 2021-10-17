@@ -17,6 +17,7 @@ export interface OffcanvasProps {
   enablefooter?: boolean;
   opened?: boolean;
   navpage?: string;
+  companytitle?: string;
   type?: "open" | "autohide" | "small";
   pagechange?: (p) => void;
   offcanvasswitch?: (p) => void;
@@ -26,6 +27,7 @@ export const createOffcanvas = ({
   id,
   navlinks,
   opened,
+  companytitle,
   offcanvasswitch,
   pagechange,
   enablefooter,
@@ -81,6 +83,11 @@ export const createOffcanvas = ({
     c.setAttribute("type", type);
   } else {
     if (c.hasAttribute("type")) c.removeAttribute("type");
+  }
+  if (companytitle) {
+    c.setAttribute("companytitle", companytitle);
+  } else {
+    if (c.hasAttribute("companytitle")) c.removeAttribute("companytitle");
   }
   // if (!document.getElementById("openbutton")) {
   //   const b = document.createElement(`button`);

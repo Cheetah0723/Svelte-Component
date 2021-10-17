@@ -148,10 +148,14 @@
 		<offcanvas-component
 			navpage={pagename || ""}
 			navlinks={navlinks || "[]"}
+			companytitle={company?.siteName || ""}
+			companylogouri={company?.logoUri || ""}
 			on:offcanvasswitch={(el) => openmenu(el.detail)}
 			opened={navopen ? "yes" : "no"}
 			on:pagechange={(p) => dispatch("pagechange", p.detail)}
-		/>
+		>
+			<span slot="header"><slot name="nav-header-slot" /></span>
+		</offcanvas-component>
 	{/if}
 	<navbarbootstrap-component
 		part="navbar"
