@@ -59,12 +59,41 @@
 		list?: IUserMenuListItem[];
 	}
 
-	interface IColumn {
+	interface IPhoneContact {
+		label?: string;
+		number: string;
 		_id?: string;
-		cells: { label: string; key: string }[];
-		title?: string;
+	}
+	interface IAddressContact {
+		googleMapUri?: string;
+		address: string;
+		shortAddress?: string;
+		_id?: string;
+	}
+	interface ISiteContact {
+		label?: string;
+		uri: string;
+		open?: boolean;
+		_id?: string;
+	}
+	interface IEmailContact {
+		label?: string;
+		address: string;
+		_id?: string;
 	}
 
+	interface IColumn {
+		_id?: string;
+		cells: {
+			label?: string;
+			_id: string;
+			phone?: IPhoneContact;
+			address?: IAddressContact;
+			email?: IEmailContact;
+			site?: ISiteContact;
+		}[];
+		title?: string;
+	}
 	import { get_current_component } from "svelte/internal";
 	import { createEventDispatcher } from "svelte";
 	import pkg from "../../package.json";

@@ -11,9 +11,39 @@
 	 *
 	 */
 
+	interface IPhoneContact {
+		label?: string;
+		number: string;
+		_id?: string;
+	}
+	interface IAddressContact {
+		googleMapUri?: string;
+		address: string;
+		shortAddress?: string;
+		_id?: string;
+	}
+	interface ISiteContact {
+		label?: string;
+		uri: string;
+		open?: boolean;
+		_id?: string;
+	}
+	interface IEmailContact {
+		label?: string;
+		address: string;
+		_id?: string;
+	}
+
 	interface IColumn {
 		_id?: string;
-		cells: { label: string; key: string }[];
+		cells: {
+			label?: string;
+			_id: string;
+			phone?: IPhoneContact;
+			address?: IAddressContact;
+			email?: IEmailContact;
+			site?: ISiteContact;
+		}[];
 		title?: string;
 	}
 	interface IBrandAndContacts {
@@ -39,10 +69,10 @@
 	}
 
 	interface IContacts {
-		phones?: { label?: string; number: string; _id?: string }[];
-		addresses?: { googleMapUri?: string; address: string; shortAddress?: string; _id?: string }[];
-		emails?: { label?: string; address: string; _id?: string }[];
-		sites?: { label?: string; uri: string; open?: boolean; _id?: string }[];
+		phones?: IPhoneContact[];
+		addresses?: IAddressContact[];
+		emails?: IEmailContact[];
+		sites?: ISiteContact[];
 	}
 
 	interface ICompany {
@@ -305,17 +335,36 @@
 							style="padding:0px 20px"
 							class="col-md-{12 / (1 + (contacts ? 1 : 0) + (socials ? 1 : 0) + (columns?.length ? columns.length : 0))}"
 						>
-							<h5>{column.title ? column.title : ""}</h5>
+							<h5 style="margin-bottom:20px">{column.title ? column.title : ""}</h5>
 							<ul class="list-unstyled">
-								{#each column.cells as cell (cell.key)}
-									<li>
-										<button
-											part="column-cell-button-content"
-											style="padding:0px"
-											class="btn text-small"
-											on:click={() => footerClick(cell.key)}>{cell.label}</button
-										>
-									</li>
+								{#each column.cells as cell (cell._id)}
+									{#if cell.label}
+										<li>
+											<button
+												part="column-cell-button-content"
+												style="padding:0px"
+												class="btn text-small"
+												on:click={() => footerClick(cell._id)}>{cell.label}</button
+											>
+										</li>
+									{:else if cell.phone}
+										<li><contact-component phone={JSON.stringify(cell.phone)} /></li>
+									{:else if cell.address}
+										<li><contact-component address={JSON.stringify(cell.address)} /></li>
+									{:else if cell.email}
+										<li><contact-component email={JSON.stringify(cell.email)} /></li>
+									{:else if cell.site}
+										<li><contact-component site={JSON.stringify(cell.site)} /></li>
+									{:else if cell.label}
+										<li>
+											<button
+												part="column-cell-button-content"
+												style="padding:0px"
+												class="btn text-small"
+												on:click={() => footerClick(cell._id)}>{cell.label}</button
+											>
+										</li>
+									{/if}
 								{/each}
 							</ul>
 						</div>

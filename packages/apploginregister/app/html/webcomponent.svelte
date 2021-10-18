@@ -63,7 +63,41 @@
 		imgUri: string;
 		list?: IUserMenuListItem[];
 	}
+	interface IPhoneContact {
+		label?: string;
+		number: string;
+		_id?: string;
+	}
+	interface IAddressContact {
+		googleMapUri?: string;
+		address: string;
+		shortAddress?: string;
+		_id?: string;
+	}
+	interface ISiteContact {
+		label?: string;
+		uri: string;
+		open?: boolean;
+		_id?: string;
+	}
+	interface IEmailContact {
+		label?: string;
+		address: string;
+		_id?: string;
+	}
 
+	interface IColumn {
+		_id?: string;
+		cells: {
+			label?: string;
+			_id: string;
+			phone?: IPhoneContact;
+			address?: IAddressContact;
+			email?: IEmailContact;
+			site?: ISiteContact;
+		}[];
+		title?: string;
+	}
 	import { get_current_component } from "svelte/internal";
 	import { createEventDispatcher } from "svelte";
 	import pkg from "../../package.json";
@@ -77,6 +111,7 @@
 	export let usermenu: IUserMenu;
 	export let cookielaw: string;
 	export let type: "login" | "register";
+	export let columns: IColumn[];
 
 	export let language: string;
 
@@ -175,6 +210,9 @@
 		if (!contacts) {
 			contacts = null;
 		}
+		if (!columns) {
+			columns = null;
+		}
 	}
 	const component = get_current_component();
 	const svelteDispatch = createEventDispatcher();
@@ -197,7 +235,14 @@
 	addComponent("loginregister-component", "loginregister.js", "loginregistercomponentscript", "loginregister");
 </script>
 
-<bootstraplayout-component onescreen="yes" socials={socials || ""} contacts={contacts || ""} company={company || ""} style="display:block">
+<bootstraplayout-component
+	onescreen="yes"
+	socials={socials || ""}
+	columns={columns || ""}
+	contacts={contacts || ""}
+	company={company || ""}
+	style="display:block"
+>
 	<span slot="nav-right-slot"><slot name="nav-right-slot" /></span>
 	<span slot="nav-left-slot"><slot name="nav-left-slot" /></span>
 	<span slot="nav-center-slot"><slot name="nav-center-slot" /></span>
