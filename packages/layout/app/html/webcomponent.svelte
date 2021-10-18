@@ -211,7 +211,7 @@
 		part="footer"
 		socials={socials ? JSON.stringify(socials) : ""}
 		contacts={contacts ? JSON.stringify(contacts) : ""}
-		style="display:block"
+		style="display:block;"
 		company={company ? JSON.stringify(company) : ""}
 		columns={columns || ""}
 		on:footerClick={(el) => dispatch("footerClick", el.detail)}

@@ -262,6 +262,10 @@
 </bootstraplayout-component>
 
 <style lang="scss">
+	bootstraplayout-component::part(footer) {
+		background-color: rgba(0, 0, 0, 0.03);
+		margin-top: 70px;
+	}
 	// @import "../styles/bootstrap.scss";
 	@import "../styles/webcomponent.scss";
 </style>
