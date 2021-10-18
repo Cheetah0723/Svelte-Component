@@ -236,9 +236,9 @@
 			</div>
 		</div> -->
 		</slot>
-		<div class="row">
-			<slot name="footercontent">
-				<div style="padding:0px 20px" class="col-md-{12 / (1 + (contacts ? 1 : 0) + (socials ? 1 : 0) + (columns?.length ? columns.length : 0))}">
+		<slot name="footercontent">
+			<div class="row">
+				<div style="padding:20px 20px" class="col-md-{12 / (1 + (contacts ? 1 : 0) + (socials ? 1 : 0) + (columns?.length ? columns.length : 0))}">
 					<div class="row">
 						<div class="col">
 							{#if company?.logoUri}
@@ -258,7 +258,7 @@
 					</div>
 				</div>
 				{#if contacts}
-					<div style="padding:0px 20px" class="col-md-{12 / (1 + (contacts ? 1 : 0) + (socials ? 1 : 0) + (columns?.length ? columns.length : 0))}">
+					<div style="padding:20px 20px" class="col-md-{12 / (1 + (contacts ? 1 : 0) + (socials ? 1 : 0) + (columns?.length ? columns.length : 0))}">
 						<h5 style="margin-bottom:20px">Contatti</h5>
 						<ul class="list-unstyled">
 							{#if contacts.phones?.length}
@@ -285,7 +285,7 @@
 					</div>
 				{/if}
 				{#if socials}
-					<div style="padding:0px 20px" class="col-md-{12 / (1 + (contacts ? 1 : 0) + (socials ? 1 : 0) + (columns?.length ? columns.length : 0))}">
+					<div style="padding:20px 20px" class="col-md-{12 / (1 + (contacts ? 1 : 0) + (socials ? 1 : 0) + (columns?.length ? columns.length : 0))}">
 						<h5 style="margin-bottom:20px">Social</h5>
 						<ul class="list-unstyled">
 							{#if socials.facebook}
@@ -332,7 +332,7 @@
 				{#if columns && columns.length}
 					{#each columns as column (column._id)}
 						<div
-							style="padding:0px 20px"
+							style="padding:20px 20px"
 							class="col-md-{12 / (1 + (contacts ? 1 : 0) + (socials ? 1 : 0) + (columns?.length ? columns.length : 0))}"
 						>
 							<h5 style="margin-bottom:20px">{column.title ? column.title : ""}</h5>
@@ -370,8 +370,8 @@
 						</div>
 					{/each}
 				{/if}
-			</slot>
-		</div>
+			</div>
+		</slot>
 
 		<div class="row">
 			<slot name="footerpolicy">
