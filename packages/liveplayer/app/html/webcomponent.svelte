@@ -135,6 +135,7 @@
 <div part="container" style="width: 100%">
 	{#if mediauri && isLive && !forcecover}
 		<video
+			controls
 			part="video"
 			use:setHls
 			style="width: 100%;background-color: black; color: white;display: flex; align-items: center; justify-content: center; flex-direction:column;aspect-ratio:16/9;margin:auto"
