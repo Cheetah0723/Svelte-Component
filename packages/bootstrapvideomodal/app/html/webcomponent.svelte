@@ -24,11 +24,13 @@
 	export let item: string;
 	export let uri: string;
 	export let title: string;
+	export let provider: string;
 
 	$: {
 		if (!item) item = "";
 		if (!uri) uri = "";
 		if (!title) title = "";
+		if (!provider) provider = "";
 	}
 
 	function dialogShowEvent(d) {
@@ -51,11 +53,19 @@
 	{/if}
 	<div slot="body-content">
 		{#if uri}
-			<video controls style="ratio:16/9;width:100%"
-				><source src={uri} type="video/mp4" />
-				<track kind="captions" />
-				Your browser does not support the video tag.
-			</video>
+			{#if provider === "youtube"}
+				<div style="ratio:16/9;width:100%;text-align: center;">
+					<iframe style="border:0;aspect-ratio: 16 / 9;width:100%" src={uri} title="YouTube video" allowfullscreen />
+				</div>
+			{:else}
+				<div style="aspect-ratio: 16 / 9;width:100%;text-align: center;background-color: black;">
+					<video controls style="aspect-ratio: 16 / 9;width:100%">
+						<track kind="captions" />
+						<source src={uri} type="video/mp4" />
+						Your browser does not support the video tag.
+					</video>
+				</div>
+			{/if}
 		{/if}
 	</div>
 
