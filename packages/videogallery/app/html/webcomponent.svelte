@@ -25,6 +25,7 @@
 		pageUri?: string;
 		_id: string;
 		provider?: "youtube";
+		dateformat?: string;
 	}
 	// interface IRestApi {
 	// 	uri: string;
@@ -37,7 +38,7 @@
 	export let page: number;
 	export let pages: number;
 	export let linkLabel: string;
-	export let dateFormat: string;
+	export let dateformat: string;
 	export let primarycolor: string;
 	export let filter: string;
 	export let id: string;
@@ -63,8 +64,8 @@
 		if (!primarycolor) {
 			primarycolor = null;
 		}
-		if (!dateFormat) {
-			dateFormat = "dddd DD MMMM YYYY HH:mm";
+		if (!dateformat) {
+			dateformat = "dddd DD MMMM YYYY HH:mm";
 		}
 		if (!id) {
 			id = null;
@@ -322,7 +323,7 @@
 							title={item.title || ""}
 							description={item.description || ""}
 							time={item.time ? moment(item.time).format() : undefined}
-							dateformat={dateFormat || ""}
+							dateformat={dateformat || ""}
 							pageuri={item.pageUri || ""}
 							videosrc={item.videoSrc || ""}
 							provider={item.provider || ""}

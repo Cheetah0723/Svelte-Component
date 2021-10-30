@@ -22,30 +22,32 @@
 	export let time: string;
 	export let id: string;
 	export let dateformat: string;
-	if (!dateformat) {
-		dateformat = "dddd DD MMMM YYYY HH:mm";
-	}
-	if (!linklabel) {
-		linklabel = "read more";
-	}
-	if (!pageuri) {
-		pageuri = null;
-	}
-	if (!provider) {
-		provider = null;
-	}
-	if (!time) {
-		time = null;
-	}
-	if (!description) {
-		description = null;
-	}
-	if (!title) {
-		title = null;
-	}
+	$: {
+		if (!dateformat) {
+			dateformat = "dddd DD MMMM YYYY HH:mm";
+		}
+		if (!linklabel) {
+			linklabel = "read more";
+		}
+		if (!pageuri) {
+			pageuri = null;
+		}
+		if (!provider) {
+			provider = null;
+		}
+		if (!time) {
+			time = null;
+		}
+		if (!description) {
+			description = null;
+		}
+		if (!title) {
+			title = null;
+		}
 
-	if (!id) {
-		id = null;
+		if (!id) {
+			id = null;
+		}
 	}
 </script>
 
@@ -59,10 +61,12 @@
 			<iframe src={videosrc} title="YouTube video" allowfullscreen />
 		</div>
 	{:else}
-		<video controls class="w-full"
-			><source src={videosrc} type="video/mp4" />
-			Your browser does not support the video tag.
-		</video>
+		<div class="ratio ratio-16x9" style="background-color: black;">
+			<video controls class="ratio ratio-16x9"
+				><source src={videosrc} type="video/mp4" />
+				Your browser does not support the video tag.
+			</video>
+		</div>
 	{/if}
 
 	<div class="card-body">
