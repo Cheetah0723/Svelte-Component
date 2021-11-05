@@ -57,14 +57,14 @@
 		}
 	}
 
-	if (!document.getElementById("spectrumelements")) {
-		const script = document.createElement("script");
-		script.id = "spectrumelements";
-		script.src = `https://jspm.dev/@spectrum-web-components/bundle/elements.js`;
-		script.type = "module";
+	// if (!document.getElementById("spectrumelements")) {
+	// 	const script = document.createElement("script");
+	// 	script.id = "spectrumelements";
+	// 	script.src = `https://jspm.dev/@spectrum-web-components/bundle/elements.js`;
+	// 	script.type = "module";
 
-		document.head.appendChild(script);
-	}
+	// 	document.head.appendChild(script);
+	// }
 	const component = get_current_component();
 	const svelteDispatch = createEventDispatcher();
 
@@ -104,8 +104,8 @@
 				</slot>
 			</div>
 			{#if usermenu}
-				<sp-action-menu size="m" style="margin-right:5px">
-					<sp-avatar style="width:30px;pointer-events: none;" slot="icon" label="Dog the User" src={usermenu.imgUri} />
+				<!-- <sp-avatar size="100" label="Dog the User" src={usermenu.imgUri} />
+				<sp-action-menu size="m" style="margin-right:5px;max-height:30px">
 					{#each usermenu.list as menuItem (menuItem.key)}
 						<sp-menu-item on:click={() => dispatch("userClick", menuItem.key)} style="min-width:{menuItem.badge ? '140px' : ''}">
 							<span style="line-height: 24px">{menuItem.label}</span>
@@ -114,7 +114,8 @@
 							{/if}
 						</sp-menu-item>
 					{/each}
-				</sp-action-menu>
+				</sp-action-menu> -->
+
 				<!-- <bootstrapdropdown-component list={usermenu.list?.length ? JSON.stringify(usermenu.list) : ""}>
 				<div slot="dropdownbutton">user</div>
 			</bootstrapdropdown-component> -->
