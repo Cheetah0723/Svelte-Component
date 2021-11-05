@@ -104,7 +104,8 @@
 				</slot>
 			</div>
 			{#if usermenu}
-				<!-- <sp-avatar size="100" label="Dog the User" src={usermenu.imgUri} />
+				<!-- 
+					<sp-avatar size="100" label="Dog the User" src={usermenu.imgUri} />
 				<sp-action-menu size="m" style="margin-right:5px;max-height:30px">
 					{#each usermenu.list as menuItem (menuItem.key)}
 						<sp-menu-item on:click={() => dispatch("userClick", menuItem.key)} style="min-width:{menuItem.badge ? '140px' : ''}">
