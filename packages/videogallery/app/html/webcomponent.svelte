@@ -257,9 +257,9 @@
 <div class="container-fluid" part="container">
 	{#if cardItems && (cardItems.length || cardItems.length === 0)}
 		<div class="d-none d-md-block">
-			<div class="grid">
+			<div class="row">
 				{#if !disabletextfilter}
-					<div class="g-col-4 g-col-xxl-2">
+					<div class="col-4 col-xxl-2">
 						<div class="input-group mb-3">
 							<span class="input-group-text" id="search">&#x1F50E;</span>
 							<input type="text" bind:value={filter} class="form-control" placeholder="..." aria-label="Search" aria-describedby="search" />
@@ -267,7 +267,7 @@
 					</div>
 				{/if}
 
-				<div class="g-col-8 g-col-xxl-10">
+				<div class="col-8 col-xxl-10">
 					{#if enableDate}
 						<div class="input-group mb-3">
 							<span class="input-group-text">&#128197;</span>
@@ -292,9 +292,9 @@
 			</div>
 		</div>
 		<div class="d-block d-md-none">
-			<div class="grid">
+			<div class="row">
 				{#if !disabletextfilter}
-					<div class="g-col-12">
+					<div class="col-12">
 						<div class="input-group mb-3">
 							<span class="input-group-text" id="search">&#x1F50E;</span>
 							<input type="text" bind:value={filter} class="form-control" placeholder="..." aria-label="Search" aria-describedby="search" />
@@ -303,8 +303,8 @@
 				{/if}
 			</div>
 			{#if enableDate}
-				<div class="grid">
-					<div class="g-col-12">
+				<div class="row">
+					<div class="col-12">
 						<div class="input-group mb-3">
 							<span class="input-group-text">&#128197;</span>
 
@@ -316,9 +316,9 @@
 			{/if}
 		</div>
 		{#if cardItems && cardItems.length}
-			<div class="grid">
+			<div class="row">
 				{#each !externalfilter ? cardItems.slice(page * size, (page + 1) * size) : cardItems as item (item._id)}
-					<div class="g-col-12 g-col-xxl-3 g-col-xl-4 g-col-md-6">
+					<div class="col-12 col-xxl-3 col-xl-4 col-md-6" style="padding:12px">
 						<videocardbootstrap-component
 							title={item.title || ""}
 							description={item.description || ""}

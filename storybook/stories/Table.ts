@@ -1,3 +1,5 @@
+import pkg from "../package.json";
+
 interface ITableHeader {
   label: string;
   key: string;
@@ -48,8 +50,13 @@ export const createTable = ({
   if (!document.getElementById("streamingtablescript")) {
     const script = document.createElement("script");
     script.id = "streamingtablescript";
-    script.src =
-      "http://localhost:6006/streamingtable/dist/streamingtablebootstrap.js";
+    if (window.location.href.includes("localhost")) {
+      script.src =
+        "http://localhost:6006/streamingtable/dist/streamingtablebootstrap.js";
+    } else {
+      script.src = `https://cdn.jsdelivr.net/npm/@htmlbricks/streamingtablebootstrap-webcomponent@${pkg.version}/release/streamingtablebootstrap.js`;
+    }
+
     document.body.appendChild(script);
   }
   let c: HTMLElement;

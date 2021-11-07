@@ -1,5 +1,5 @@
 interface IRestApi {}
-
+import pkg from "../package.json";
 export interface VideoGalleryProps {
   id: string;
   cards: any[];
@@ -26,8 +26,12 @@ export const createVideoGallery = ({
   if (!document.getElementById("videogallerycomponentscript")) {
     const script = document.createElement("script");
     script.id = "videogallerycomponentscript";
-    script.src =
-      "http://localhost:6006/videogallery/dist/videogallerycomponent.js";
+    if (window.location.href.includes("localhost")) {
+      script.src =
+        "http://localhost:6006/videogallery/dist/videogallerycomponent.js";
+    } else {
+      script.src = `https://cdn.jsdelivr.net/npm/@htmlbricks/videogallerybootstrap-component@${pkg.version}/release/videogallerycomponent.js`;
+    }
 
     document.body.appendChild(script);
   }

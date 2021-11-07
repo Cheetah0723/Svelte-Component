@@ -1,4 +1,6 @@
 import moment from "moment";
+import pkg from "../package.json";
+
 export interface VideoCardProps {
   id: string;
   videosrc: string;
@@ -19,7 +21,11 @@ export const createVideoCard = ({
   if (!document.getElementById("videocardbootstrapbootstrapcomponentjs")) {
     const script = document.createElement("script");
     script.id = "videocardbootstrapbootstrapcomponentjs";
-    script.src = "http://localhost:6006/videocard/dist/videocardbootstrap.js";
+    if (window.location.href.includes("localhost")) {
+      script.src = "http://localhost:6006/videocard/dist/videocardbootstrap.js";
+    } else {
+      script.src = `https://cdn.jsdelivr.net/npm/@htmlbricks/videocardbootstrap-component@${pkg.version}/release/videocardbootstrap.js`;
+    }
 
     document.body.appendChild(script);
   }

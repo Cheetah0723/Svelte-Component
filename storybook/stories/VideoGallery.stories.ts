@@ -95,3 +95,11 @@ BasicVideoGalleryRest.args = {
   id: "BasicVideoGalleryRest",
   externalfilter: true,
 };
+
+BasicVideoGallery.parameters = {
+  docs: {
+    source: {
+      code: "Some custom string here",
+    },
+  },
+};

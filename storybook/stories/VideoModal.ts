@@ -1,3 +1,5 @@
+import pkg from "../package.json";
+
 export interface VideoModalProps {
   id: string;
   uri: string;
@@ -9,8 +11,13 @@ export const createVideoModal = ({ id, uri, item, title }: VideoModalProps) => {
   if (!document.getElementById("bootstrapvideomodalcomponentscript")) {
     const script = document.createElement("script");
     script.id = "bootstrapvideomodalcomponentscript";
-    script.src =
-      "http://localhost:6006/bootstrapvideomodal/dist/bootstrapvideomodalcomponent.js";
+    if (window.location.href.includes("localhost")) {
+      script.src =
+        "http://localhost:6006/bootstrapvideomodal/dist/bootstrapvideomodalcomponent.js";
+    } else {
+      script.src = `https://cdn.jsdelivr.net/npm/@htmlbricks/bootstrap-videomodal-component@${pkg.version}/release/bootstrapvideomodalcomponent.js`;
+    }
+
     document.body.appendChild(script);
   }
   let c: HTMLElement;
