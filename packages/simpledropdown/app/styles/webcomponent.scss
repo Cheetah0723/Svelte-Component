@@ -1,0 +1,45 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
+:host {
+	font-family: "Roboto", sans-serif;
+}
+.dropbtn {
+	cursor: pointer;
+}
+
+.dropdown {
+	position: relative;
+	display: inline-block;
+}
+
+.dropdown-content {
+	display: block;
+	position: absolute;
+	right: 0;
+	background-color: #f9f9f9;
+	min-width: 160px;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+	z-index: 1;
+}
+
+.dropdown-content div {
+	color: black;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+	border: none;
+	background-color: none;
+	cursor: pointer;
+}
+.dropdown-content a {
+	width: 100%;
+	color: black;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+	border: none;
+	background-color: none;
+}
+.dropdown-content div:hover {
+	background-color: #f1f1f1;
+}
