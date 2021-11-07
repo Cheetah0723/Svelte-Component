@@ -2,7 +2,7 @@
 	"name": "@htmlbricks/formrenderer-dateinput",
 	"displayName": "Svelte-Bootstrap Date Input WebComponent",
 	"description": "Svelte-Bootstrap Date Input WebComponent",
-	"version": "0.0.77",
+	"version": "0.0.78",
 	"main": "release/formrendererdateinput.js",
 	"publishConfig": {
 		"access": "public"
