@@ -2,7 +2,7 @@
 	"name": "@htmlbricks/bootstraplayout-component",
 	"displayName": "Svelte Bootstrap Layout WebComponent",
 	"description": "Svelte Bootstrap 5 WebComponent",
-	"version": "0.1.2",
+	"version": "0.1.3",
 	"main": "release/bootstraplayout.js",
 	"publishConfig": {
 		"access": "public"
