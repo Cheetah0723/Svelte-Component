@@ -7,15 +7,15 @@
 
 // scss-docs-start import-stack
 // Configuration
-@import "functions";
-@import "variables";
-@import "mixins";
+@import "../../../../bootstrap/functions";
+@import "../../../../bootstrap/variables";
+@import "../../../../bootstrap/mixins";
 
 // Layout & components
-@import "root";
-@import "reboot";
+@import "../../../../bootstrap/root";
+@import "../../../../bootstrap/reboot";
 
-@import "pagination";
+@import "../../../../bootstrap/pagination";
 
 // Helpers
 

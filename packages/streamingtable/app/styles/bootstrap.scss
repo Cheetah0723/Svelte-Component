@@ -7,23 +7,23 @@
 
 // scss-docs-start import-stack
 // Configuration
-@import "functions";
-@import "variables";
-@import "mixins";
-@import "utilities";
+@import "../../../../bootstrap/functions";
+@import "../../../../bootstrap/variables";
+@import "../../../../bootstrap/mixins";
+@import "../../../../bootstrap/utilities";
 
 // Layout & components
-@import "root";
-@import "reboot";
-// @import "type";
+@import "../../../../bootstrap/root";
+@import "../../../../bootstrap/reboot";
+// @import "../../../../bootstrap/type";
 
-@import "containers";
-@import "grid";
-@import "forms";
-@import "tables";
-@import "buttons";
+@import "../../../../bootstrap/containers";
+@import "../../../../bootstrap/grid";
+@import "../../../../bootstrap/forms";
+@import "../../../../bootstrap/tables";
+@import "../../../../bootstrap/buttons";
 // Helpers
-// @import "helpers";
+// @import "../../../../bootstrap/helpers";
 
 // Utilities
-@import "utilities/api";
+@import "../../../../bootstrap/utilities/api";
