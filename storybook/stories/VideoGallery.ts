@@ -1,5 +1,5 @@
 interface IRestApi {}
-import pkg from "../package.json";
+import pkg from "../../lerna.json";
 export interface VideoGalleryProps {
   id: string;
   cards: any[];

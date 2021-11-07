@@ -1,4 +1,4 @@
-import pkg from "../package.json";
+import pkg from "../../lerna.json";
 
 interface IUserMenuListItem {
   key: string;

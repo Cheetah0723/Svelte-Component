@@ -1,4 +1,4 @@
-import pkg from "../package.json";
+import pkg from "../../lerna.json";
 
 export interface PaginationProps {
   id: string;

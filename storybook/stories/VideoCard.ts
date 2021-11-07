@@ -1,5 +1,5 @@
 import moment from "moment";
-import pkg from "../package.json";
+import pkg from "../../lerna.json";
 
 export interface VideoCardProps {
   id: string;
