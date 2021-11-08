@@ -10,6 +10,7 @@ export default {
     companylogouri: { control: { type: "text" } },
     noburger: { control: { type: "boolean" } },
     navmenuswitch: { action: "navmenuswitchEvent" },
+    userClick: { action: "userClickEvent" },
   },
   parameters: {
     layout: "fullscreen",
