@@ -18,6 +18,7 @@ export interface NavbarProps {
   noburger?: boolean;
   usermenu?: IUserMenu;
   navmenuswitch?: (isOpen) => void;
+  userClick?: (a) => void;
 }
 
 export const createNavbar = ({
@@ -29,6 +30,7 @@ export const createNavbar = ({
   usermenu,
   noburger,
   navmenuswitch,
+  userClick,
 }: NavbarProps) => {
   if (!document.getElementById("navbarscript")) {
     const script = document.createElement("script");
@@ -43,6 +45,7 @@ export const createNavbar = ({
     c = document.createElement("navbarbootstrap-component");
     c.id = id;
     c.addEventListener("navmenuswitch", (e: any) => navmenuswitch(e.detail));
+    c.addEventListener("userClick", (e: any) => userClick(e.detail));
   }
   if (companylogouri) {
     c.setAttribute("companylogouri", companylogouri);

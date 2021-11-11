@@ -56,6 +56,18 @@
 			} catch (err) {}
 		}
 	}
+	function addComponent(componentName: string, scriptJsName: string, componentId: string, localPackageDir?: string) {
+		if (!document.getElementById(componentId)) {
+			const script = document.createElement("script");
+			script.id = componentId;
+			script.src = `https://cdn.jsdelivr.net/npm/@htmlbricks/${componentName}@${pkg.version}/release/${scriptJsName}`;
+			if (localPackageDir && location.href.includes("localhost")) script.src = `http://localhost:6006/${localPackageDir}/dist/${scriptJsName}`;
+
+			document.head.appendChild(script);
+		}
+	}
+
+	addComponent("simpledropdown-component", "simpledropdown.js", "simpledropdownscript", "simpledropdown");
 
 	// if (!document.getElementById("spectrumelements")) {
 	// 	const script = document.createElement("script");
@@ -103,6 +115,9 @@
 			</slot>
 		</div>
 		{#if usermenu}
+			<simpledropdown-component on:dropDownClick={(e) => dispatch("userClick", e.detail.key)} list={JSON.stringify(usermenu.list)} position="right"
+				><span slot="dropdownbutton"><img style="height: 30px;vertical-align: middle;" alt="" src={usermenu.imgUri} /></span></simpledropdown-component
+			>
 			<!-- 
 					<sp-avatar size="100" label="Dog the User" src={usermenu.imgUri} />
 				<sp-action-menu size="m" style="margin-right:5px;max-height:30px">

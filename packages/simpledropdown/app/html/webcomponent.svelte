@@ -21,14 +21,19 @@
 	import { get_current_component } from "svelte/internal";
 	import { createEventDispatcher } from "svelte";
 	export let id: string;
+	export let position: "left" | "right";
 	export let list: IDropDownMenuListItem[];
 	type stringinput = "" | "yes" | "no" | undefined;
 	export let open: boolean;
-
+	// let calcPosition: () => "left" | "right";
 	$: {
 		console.log(open);
 
 		if (!id) id = "";
+		if (!position) {
+			if (component?.style?.float && component.style.float === "right") position = "right";
+			else position = "left";
+		}
 
 		if ((open as unknown as stringinput) === "yes" || (open as unknown as stringinput) === "" || open === true) open = true;
 		else open = false;
@@ -39,6 +44,11 @@
 		} catch (err) {
 			list = [];
 		}
+		// calcPosition = function () {
+		// 	if (position) return position;
+		// 	if (component?.style?.float && component.style.float === "right") return "right";
+		// 	else return "left";
+		// };
 	}
 
 	// if (!document.getElementById("spectrumelements")) {
@@ -88,7 +98,7 @@
 		<slot name="dropdownbutton">btn</slot>
 	</div>
 	{#if open}
-		<div class="dropdown-content" part="dropdowncontent" style={component.style.float === "right" ? "" : "left:0;"}>
+		<div class="dropdown-content" part="dropdowncontent" style={position === "right" ? "" : "left:0;"}>
 			{#each list as listItem (listItem.key)}
 				<div on:click={() => clickMenu(listItem.key)}>
 					{#if listItem.linkHref}
