@@ -79,13 +79,13 @@
 				>
 					<i class="bi me-2 bi-{navlink.icon}" />
 					{navlink.label}
-					{#if navlink.open}
+					{#if navlink.open || (navlink.subLinks && navlink.subLinks.find((f) => f.key === navpage))}
 						<span style="float:right">▼</span>
 					{:else}
 						<span style="float:right">►</span>
 					{/if}
 				</button>
-				{#if navlink.open}
+				{#if navlink.open || (navlink.subLinks && navlink.subLinks.find((f) => f.key === navpage))}
 					<div style="padding-left:0.8em">
 						{#each navlink.subLinks as navLinkSub (navLinkSub.key)}
 							{#if navLinkSub.key === navpage}
