@@ -2,7 +2,7 @@
 	"name": "@htmlbricks/formrenderer-numberinput",
 	"displayName": "Svelte-Bootstrap Number Input WebComponent",
 	"description": "Svelte-Bootstrap Number Input WebComponent",
-	"version": "0.1.5",
+	"version": "0.1.6",
 	"main": "release/formrenderernumberinput.js",
 	"publishConfig": {
 		"access": "public"
