@@ -72,6 +72,75 @@ const navlinks1 = [
     group: "stats",
   },
 ];
+const navlinks3 = [
+  {
+    label: "Home",
+    key: "home",
+    icon: "house-door",
+    badge: {
+      text: "bbb",
+    },
+  },
+  {
+    label: "Dashboard",
+    key: "dashboard",
+    icon: "speedometer",
+    badge: {
+      text: "bbb",
+    },
+  },
+  {
+    label: "Settings",
+    key: "settings",
+    icon: "gear",
+    group: "admin",
+    badge: {
+      text: "bbb",
+    },
+  },
+  {
+    label: "Settingsss",
+    key: "settingsss",
+    icon: "gear",
+    group: "admin",
+    subLinks: [
+      {
+        label: "Home",
+        key: "home",
+        icon: "house-door",
+        badge: {
+          text: "bbb",
+        },
+      },
+      {
+        label: "Dashboard",
+        key: "dashboard",
+        icon: "speedometer",
+        badge: {
+          text: "bbb",
+        },
+      },
+    ],
+  },
+  {
+    label: "Users",
+    key: "users",
+    icon: "people-fill",
+    group: "admin",
+    badge: {
+      text: "uuuuu",
+    },
+  },
+  {
+    label: "Stats",
+    key: "stats",
+    icon: "graph-up",
+    group: "stats",
+    badge: {
+      text: "bbb",
+    },
+  },
+];
 const navlinks2 = [
   {
     label: "Home",
@@ -227,6 +296,15 @@ OffcanvasWithFooterCustomDesktop.args = {
   opened: true,
   id: "OffcanvasWithFooterCustomDesktop",
   navlinks: navlinks2,
+  navpage: "settings",
+  enablefooter: true,
+  type: "open",
+};
+export const OffcanvasMultilevel = Template.bind({});
+OffcanvasMultilevel.args = {
+  opened: true,
+  id: "OffcanvasMultilevel",
+  navlinks: navlinks3,
   navpage: "settings",
   enablefooter: true,
   type: "open",

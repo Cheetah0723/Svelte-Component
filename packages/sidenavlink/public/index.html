@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+
+		<title>sidenavlink-component</title>
+
+		<link rel="icon" type="image/png" href="favicon.png" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" />
+
+		<script defer src="sidenavlink.js"></script>
+	</head>
+
+	<body>
+		<sidenavlink-component page="2" pages="6"></sidenavlink-component>
+	</body>
+	<script>
+		// self executing function here
+		(function () {
+			// your page initialization code here
+			// the DOM will be available here
+
+			window.addEventListener("load", () => {
+				document.getElementsByTagName("sidenavlink-component")[0];
+			});
+		})();
+	</script>
+</html>

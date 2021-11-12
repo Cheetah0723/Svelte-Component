@@ -21,9 +21,10 @@
 			class?: string;
 			classcolor?: string;
 		};
+		subLinks?: INavLink[];
 	}
 
-	import { dictionary } from "../functions/i18n";
+	import pkg from "../../package.json";
 
 	import { createEventDispatcher } from "svelte";
 	import { get_current_component } from "svelte/internal";
@@ -88,6 +89,7 @@
 		component.dispatchEvent && component.dispatchEvent(new CustomEvent(name, { detail }));
 	}
 	function changePage(page: string) {
+		console.log(page);
 		dispatch("pagechange", {
 			page,
 		});
@@ -101,6 +103,17 @@
 			isOpen: opened,
 		});
 	}
+	function addComponent(componentName: string, scriptJsName: string, componentId: string, localPackageDir?: string) {
+		if (!document.getElementById(componentId)) {
+			const script = document.createElement("script");
+			script.id = componentId;
+			script.src = `https://cdn.jsdelivr.net/npm/@htmlbricks/${componentName}@${pkg.version}/release/${scriptJsName}`;
+			if (localPackageDir && location.href.includes("localhost")) script.src = `http://localhost:6006/${localPackageDir}/dist/${scriptJsName}`;
+
+			document.head.appendChild(script);
+		}
+	}
+	addComponent("sidenavlink-component", "sidenavlink.js", "sidenavlinkscript", "sidenavlink");
 </script>
 
 <svelte:head>
@@ -132,39 +145,7 @@
 			<ul class="nav nav-pills flex-column mb-auto" style="margin-top:25px">
 				{#if navLinks?.length && navLinks.filter((f) => !f.group)?.length}
 					{#each navLinks.filter((f) => !f.group) as navLink (navLink.key)}
-						<li class="nav-item">
-							{#if navLink.key === navpage}
-								<button style="width: 100%;text-align:left" class="nav-link active" aria-current="page">
-									<i class="bi me-2 bi-{navLink.icon}" />
-									{navLink.label}
-									{#if navLink.badge}
-										<span
-											style="float:right"
-											class="{navLink.badge.class || 'badge rounded-pill'} {navLink.badge.classcolor || 'bg-secondary'}"
-											>{navLink.badge.text}</span
-										>
-									{/if}
-								</button>
-							{:else}
-								<button
-									on:click={() => {
-										changePage(navLink.key);
-									}}
-									style="width:100%;text-align:left"
-									class="nav-link link-dark"
-								>
-									<i class="bi me-2 bi-{navLink.icon}" />
-									{navLink.label}
-									{#if navLink.badge}
-										<span
-											style="float:right"
-											class="{navLink.badge.class || 'badge rounded-pill'} {navLink.badge.classcolor || 'bg-secondary'}"
-											>{navLink.badge.text}</span
-										>
-									{/if}
-								</button>
-							{/if}
-						</li>
+						<sidenavlink-component navlink={JSON.stringify(navLink)} {navpage} on:pagechange={(e) => changePage(e.detail.page)} />
 					{/each}
 				{/if}
 				{#if groupsArr?.length}
@@ -173,39 +154,7 @@
 						<hr style="margin-top:0px;margin-bottom: 10px;" />
 
 						{#each navLinks.filter((f) => f.group && f.group === navLinkGroup.key) as navLink (navLink.key)}
-							<li class="nav-item">
-								{#if navLink.key === navpage}
-									<button style="width: 100%;text-align:left" class="nav-link active" aria-current="page">
-										<i class="bi me-2 bi-{navLink.icon}" />
-										{navLink.label}
-										{#if navLink.badge}
-											<span
-												style="float:right"
-												class="{navLink.badge.class || 'badge rounded-pill'} {navLink.badge.classcolor || 'bg-secondary'}"
-												>{navLink.badge.text}</span
-											>
-										{/if}
-									</button>
-								{:else}
-									<button
-										on:click={() => {
-											changePage(navLink.key);
-										}}
-										style="width:100%;text-align:left"
-										class="nav-link link-dark"
-									>
-										<i class="bi me-2 bi-{navLink.icon}" />
-										{navLink.label}
-										{#if navLink.badge}
-											<span
-												style="float:right"
-												class="{navLink.badge.class || 'badge rounded-pill'} {navLink.badge.classcolor || 'bg-secondary'}"
-												>{navLink.badge.text}</span
-											>
-										{/if}
-									</button>
-								{/if}
-							</li>
+							<sidenavlink-component navlink={JSON.stringify(navLink)} {navpage} on:pagechange={(e) => changePage(e.detail.page)} />
 						{/each}
 					{/each}
 				{/if}
@@ -218,39 +167,7 @@
 					<hr style="margin-top:0px;margin-bottom: 10px;" />
 
 					{#each navLinks.filter((f) => f.group && f.group === navLinkGroup) as navLink (navLink.key)}
-						<li class="nav-item">
-							{#if navLink.key === navpage}
-								<button style="width: 100%;text-align:left" class="nav-link active" aria-current="page">
-									<i class="bi me-2 bi-{navLink.icon}" />
-									{navLink.label}
-									{#if navLink.badge}
-										<span
-											style="float:right"
-											class="{navLink.badge.class || 'badge rounded-pill'} {navLink.badge.classcolor || 'bg-secondary'}"
-											>{navLink.badge.text}</span
-										>
-									{/if}
-								</button>
-							{:else}
-								<button
-									on:click={() => {
-										changePage(navLink.key);
-									}}
-									style="width:100%;text-align:left"
-									class="nav-link link-dark"
-								>
-									<i class="bi me-2 bi-{navLink.icon}" />
-									{navLink.label}
-									{#if navLink.badge}
-										<span
-											style="float:right"
-											class="{navLink.badge.class || 'badge rounded-pill'} {navLink.badge.classcolor || 'bg-secondary'}"
-											>{navLink.badge.text}</span
-										>
-									{/if}
-								</button>
-							{/if}
-						</li>
+						<sidenavlink-component navlink={JSON.stringify(navLink)} {navpage} on:pagechange={(e) => changePage(e.detail.page)} />
 					{/each}
 				{/each}
 
