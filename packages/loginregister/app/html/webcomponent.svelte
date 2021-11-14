@@ -17,7 +17,7 @@
 	import { get_current_component } from "svelte/internal";
 	export let id: string;
 
-	export let type: "login" | "register";
+	export let type: "login" | "register" | "activate" | "recover" | "forgetpassword";
 
 	export let language: string;
 
@@ -34,6 +34,7 @@
 	export let oauth2providers: string;
 
 	export let passwordpattern: string;
+	export let recoverycode: string;
 
 	// export let expectmailconfirm: string;
 	let oauth2ProvidersObj: {
@@ -48,7 +49,7 @@
 	let password: string;
 	let getWord;
 	let localDictionary = dictionary["en"];
-
+	let recoveryCodeExists = false;
 	$: {
 		if (!id) {
 			id = null;
@@ -86,6 +87,13 @@
 		}
 		if (!password) {
 			password = "";
+		}
+		if (!recoverycode) {
+			recoverycode = "";
+			if (location?.href && location.href.split("recoverycode=").length > 1) {
+				recoverycode = location.href.split("recoverycode=")[1].split("&")[0];
+				recoveryCodeExists = true;
+			}
 		}
 		if (!logouri) {
 			logouri = "";
@@ -339,6 +347,7 @@
 		type = t;
 	}
 	//test@tt.com
+	async function recoverOrActivate() {}
 </script>
 
 <svelte:head>
@@ -346,7 +355,6 @@
 </svelte:head>
 <div id="webcomponent" class="text-center">
 	<main class="form-signin">
-		<!-- TODO: ad slot -->
 		<slot name="header">
 			{#if logouri}
 				<div class="mb-4 text-center">
@@ -379,28 +387,50 @@
 			<h1 class="h3 mb-3 fw-normal">Credenziali</h1>
 		{/if}
 
-		<div class="form-floating">
-			<input
-				type="text"
-				class="form-control {checkValidity ? (checkValidityFn('email') ? 'is-valid' : 'is-invalid') : ''}"
-				bind:value={email}
-				placeholder="name@example.com"
-				required
-			/>
+		{#if type === "login" || type === "register"}
+			<div class="form-floating">
+				<input
+					type="text"
+					class="form-control {checkValidity ? (checkValidityFn('email') ? 'is-valid' : 'is-invalid') : ''}"
+					bind:value={email}
+					placeholder="name@example.com"
+					required
+				/>
 
-			<label for="floatingInput">Email</label>
-		</div>
-		<div class="form-floating">
-			<input
-				type="password"
-				class="form-control {checkValidity ? (checkValidityFn('password') ? 'is-valid' : 'is-invalid') : ''}"
-				placeholder="Password"
-				bind:value={password}
-				required
-				pattern={passwordpattern ? passwordpattern : ""}
-			/>
-			<label for="floatingPassword">Password</label>
-		</div>
+				<label for="floatingInput">Email</label>
+			</div>
+			<div class="form-floating">
+				<input
+					type="password"
+					class="form-control {checkValidity ? (checkValidityFn('password') ? 'is-valid' : 'is-invalid') : ''}"
+					placeholder="Password"
+					bind:value={password}
+					required
+					pattern={passwordpattern ? passwordpattern : ""}
+				/>
+				<label for="floatingPassword">Password</label>
+			</div>
+		{:else if type === "activate" || type === "recover"}
+			{#if !recoveryCodeExists}
+				<div class="form-floating">
+					<input type="password" class="form-control" placeholder="Password" bind:value={recoverycode} required />
+					<label for="floatingPassword">Codice temporaneo</label>
+				</div>
+			{/if}
+
+			<div class="form-floating">
+				<input
+					type="password"
+					class="form-control {checkValidity ? (checkValidityFn('password') ? 'is-valid' : 'is-invalid') : ''}"
+					placeholder="Password"
+					bind:value={password}
+					required
+					pattern={passwordpattern ? passwordpattern : ""}
+				/>
+				<label for="floatingPassword">Nuova Password</label>
+			</div>
+		{/if}
+
 		{#if type === "login"}
 			<div class="checkbox mb-3">
 				<label>
@@ -420,7 +450,13 @@
 			<p style="margin-bottom:0px">
 				<button class="btn btn-link" on:click={() => switchType("login")}>{getWord("loginSwitch")}</button>
 			</p>
+		{:else if type === "activate" || type === "recover"}
+			<div class="checkbox mb-3">
+				<label />
+			</div>
+			<button class="w-100 btn btn-lg btn-primary" on:click={recoverOrActivate}>Memorizza</button>
 		{/if}
+
 		<!-- <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p> -->
 	</main>
 </div>

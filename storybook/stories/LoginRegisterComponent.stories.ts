@@ -8,7 +8,7 @@ export default {
   title: "Components/LoginRegisterComponent",
   argTypes: {
     type: {
-      options: ["login", "register"],
+      options: ["login", "register", "activate", "recover"],
       control: { type: "select" }, // Automatically inferred when 'options' is defined
     },
     language: { type: "string" },
@@ -29,15 +29,35 @@ const Template: Story<LoginRegisterProps> = (args) => createLoginRegister(args);
 export const Login = Template.bind({});
 Login.args = {
   type: "login",
+  recoverycode: "testcode",
   logouri:
     "https://upload.wikimedia.org/wikipedia/commons/a/af/Free_Content_Logo.svg",
   id: "login",
 };
+
 export const Register = Template.bind({});
 Register.args = {
   type: "register",
+  logouri:
+    "https://upload.wikimedia.org/wikipedia/commons/a/af/Free_Content_Logo.svg",
   id: "Register",
 };
+
+export const LoginWithActivation = Template.bind({});
+LoginWithActivation.args = {
+  type: "activate",
+  logouri:
+    "https://upload.wikimedia.org/wikipedia/commons/a/af/Free_Content_Logo.svg",
+  id: "LoginWithActivation",
+};
+export const LoginWithRecover = Template.bind({});
+LoginWithRecover.args = {
+  type: "recover",
+  logouri:
+    "https://upload.wikimedia.org/wikipedia/commons/a/af/Free_Content_Logo.svg",
+  id: "LoginWithRecover",
+};
+
 export const LoginEn = Template.bind({});
 LoginEn.args = {
   type: "login",
