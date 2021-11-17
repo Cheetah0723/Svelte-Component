@@ -130,6 +130,7 @@
 	export let passwordpattern: string;
 	export let userpattern: string;
 	export let usertype: "email" | "username";
+	export let disableregister: boolean = null;
 
 	let navopen: boolean;
 	$: {
@@ -251,6 +252,7 @@
 		sessionkey={sessionkey || ""}
 		loginuri={loginuri || ""}
 		part="loginbox"
+		disableregister={disableregister || "no"}
 		on:login={(l) => {
 			dispatch("login", l.detail);
 		}}
