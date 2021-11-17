@@ -122,7 +122,7 @@
 		if (!recoveruri) {
 			recoveruri = null;
 		}
-		if (!disableregister) {
+		if (!disableregister || (disableregister as unknown as string) === "no") {
 			disableregister = false;
 		}
 		if (!activateuri) {
