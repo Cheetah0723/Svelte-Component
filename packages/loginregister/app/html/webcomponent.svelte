@@ -27,6 +27,8 @@
 	export let redirectoncreate: string;
 	export let loginuri: string;
 	export let registeruri: string;
+	export let activateuri: string;
+	export let recoveruri: string;
 	export let requestmethod: string;
 	export let appendqueryparams: string;
 	export let appendbodyparams: string;
@@ -115,6 +117,12 @@
 		}
 		if (!registeruri) {
 			registeruri = null;
+		}
+		if (!recoveruri) {
+			recoveruri = null;
+		}
+		if (!activateuri) {
+			activateuri = null;
 		}
 		if (appendqueryparams) {
 			if (loginuri)
@@ -350,7 +358,14 @@
 	}
 	//test@tt.com
 	function recoverOrActivate() {
-		if (password && recoverycode) dispatch("recoverOrActivate", { password, recoverycode });
+		if (password && recoverycode) {
+			// TODO: is useful to use fetch here and on register or login!?
+			console.log("unsupported yet");
+		} else if (type === "activate" && activateuri) {
+			console.log("unsupported yet");
+		} else {
+			dispatch("recoverOrActivate", { password, recoverycode });
+		}
 	}
 </script>
 
