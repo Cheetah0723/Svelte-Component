@@ -12,6 +12,7 @@ export default {
       control: { type: "select" }, // Automatically inferred when 'options' is defined
     },
     language: { type: "string" },
+    disableregister: { type: "boolean" },
     logouri: { type: "string" },
     loginuri: { type: "string" },
     registeruri: { type: "string" },
@@ -65,7 +66,13 @@ LoginEn.args = {
   language: "en",
   id: "LoginEn",
 };
-
+export const LoginOnly = Template.bind({});
+LoginOnly.args = {
+  type: "login",
+  language: "en",
+  id: "LoginOnly",
+  disableregister: true,
+};
 export const LoginEnWithFetch = Template.bind({});
 LoginEnWithFetch.args = {
   type: "login",

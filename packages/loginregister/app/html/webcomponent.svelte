@@ -34,6 +34,7 @@
 	export let appendbodyparams: string;
 	export let logouri: string;
 	export let oauth2providers: string;
+	export let disableregister: boolean = null;
 
 	export let passwordpattern: string;
 	export let recoverycode: string;
@@ -121,6 +122,9 @@
 		if (!recoveruri) {
 			recoveruri = null;
 		}
+		if (!disableregister) {
+			disableregister = false;
+		}
 		if (!activateuri) {
 			activateuri = null;
 		}
@@ -157,6 +161,7 @@
 		getWord = (w) => {
 			return localDictionary[w] || dictionary["en"][w] || "";
 		};
+		console.log(disableregister);
 	}
 	// function getCookie(cname: string) {
 	// 	let name = cname + "=";
@@ -460,9 +465,11 @@
 				</label>
 			</div>
 			<button class="w-100 btn btn-lg btn-primary" on:click={login}>{getWord("loginButton").toUpperCase()}</button>
-			<p style="margin-bottom:0px">
-				<button class="btn btn-link" on:click={() => switchType("register")}>{getWord("registerSwitch")}</button>
-			</p>
+			{#if !disableregister}
+				<p style="margin-bottom:0px">
+					<button class="btn btn-link" on:click={() => switchType("register")}>{getWord("registerSwitch")}</button>
+				</p>
+			{/if}
 		{:else if type === "register"}
 			<div class="checkbox mb-3">
 				<label />

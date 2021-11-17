@@ -6,6 +6,7 @@ export interface LoginRegisterProps {
   logouri?: string;
   language?: string;
   registeruri?: string;
+  disableregister?: boolean;
   loginuri?: string;
   oauth2providers: any[];
   login?: (d) => void;
@@ -24,6 +25,7 @@ export const createLoginRegister = ({
   loginuri,
   registeruri,
   recoverycode,
+  disableregister,
   oauth2providers,
 }: LoginRegisterProps) => {
   if (!document.getElementById("loginregistercomponentscript")) {
@@ -49,6 +51,11 @@ export const createLoginRegister = ({
     c.setAttribute("logouri", logouri);
   } else {
     if (c.hasAttribute("logouri")) c.removeAttribute("logouri");
+  }
+  if (disableregister) {
+    c.setAttribute("disableregister", "yes");
+  } else {
+    if (c.hasAttribute("disableregister")) c.removeAttribute("disableregister");
   }
   if (recoverycode) {
     c.setAttribute("recoverycode", recoverycode);
