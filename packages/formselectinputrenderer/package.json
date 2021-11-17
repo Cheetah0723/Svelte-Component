@@ -2,7 +2,7 @@
 	"name": "@htmlbricks/formrenderer-selectinput",
 	"displayName": "Svelte-Bootstrap Select Input WebComponent",
 	"description": "Svelte-Bootstrap Select Input WebComponent",
-	"version": "0.1.6",
+	"version": "0.1.7",
 	"main": "release/formrendererselectinput.js",
 	"publishConfig": {
 		"access": "public"
