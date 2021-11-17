@@ -1,7 +1,8 @@
 export interface LoginRegisterProps {
   id: string;
 
-  type?: "login" | "register";
+  type?: "login" | "register" | "activate" | "recover" | "forgetpassword";
+  recoverycode?: string;
   logouri?: string;
   language?: string;
   registeruri?: string;
@@ -9,6 +10,7 @@ export interface LoginRegisterProps {
   oauth2providers: any[];
   login?: (d) => void;
   register?: (d) => void;
+  recoverOrActivate?: (d) => void;
 }
 
 export const createLoginRegister = ({
@@ -17,9 +19,11 @@ export const createLoginRegister = ({
   logouri,
   login,
   register,
+  recoverOrActivate,
   language,
   loginuri,
   registeruri,
+  recoverycode,
   oauth2providers,
 }: LoginRegisterProps) => {
   if (!document.getElementById("loginregistercomponentscript")) {
@@ -36,12 +40,20 @@ export const createLoginRegister = ({
     c.id = id;
     c.addEventListener("login", (c: any) => login(c.detail));
     c.addEventListener("register", (c: any) => register(c.detail));
+    c.addEventListener("recoverOrActivate", (c: any) =>
+      recoverOrActivate(c.detail)
+    );
   }
 
   if (logouri) {
     c.setAttribute("logouri", logouri);
   } else {
     if (c.hasAttribute("logouri")) c.removeAttribute("logouri");
+  }
+  if (recoverycode) {
+    c.setAttribute("recoverycode", recoverycode);
+  } else {
+    if (c.hasAttribute("recoverycode")) c.removeAttribute("recoverycode");
   }
   if (type) {
     c.setAttribute("type", type);

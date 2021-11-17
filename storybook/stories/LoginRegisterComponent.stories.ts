@@ -17,6 +17,7 @@ export default {
     registeruri: { type: "string" },
     login: { action: "loginEvent" },
     register: { action: "registerEvent" },
+    recoverOrActivate: { action: "recoverOrActivateEvent" },
     id: { control: { disable: true } },
   },
   parameters: {
@@ -29,7 +30,6 @@ const Template: Story<LoginRegisterProps> = (args) => createLoginRegister(args);
 export const Login = Template.bind({});
 Login.args = {
   type: "login",
-  recoverycode: "testcode",
   logouri:
     "https://upload.wikimedia.org/wikipedia/commons/a/af/Free_Content_Logo.svg",
   id: "login",
@@ -46,6 +46,7 @@ Register.args = {
 export const LoginWithActivation = Template.bind({});
 LoginWithActivation.args = {
   type: "activate",
+  recoverycode: "testcode",
   logouri:
     "https://upload.wikimedia.org/wikipedia/commons/a/af/Free_Content_Logo.svg",
   id: "LoginWithActivation",

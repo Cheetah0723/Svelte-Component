@@ -94,6 +94,8 @@
 				recoverycode = location.href.split("recoverycode=")[1].split("&")[0];
 				recoveryCodeExists = true;
 			}
+		} else if (location?.href && location.href.split("recoverycode=").length > 1) {
+			recoveryCodeExists = true;
 		}
 		if (!logouri) {
 			logouri = "";
@@ -347,7 +349,9 @@
 		type = t;
 	}
 	//test@tt.com
-	async function recoverOrActivate() {}
+	function recoverOrActivate() {
+		if (password && recoverycode) dispatch("recoverOrActivate", { password, recoverycode });
+	}
 </script>
 
 <svelte:head>
@@ -411,12 +415,14 @@
 				<label for="floatingPassword">Password</label>
 			</div>
 		{:else if type === "activate" || type === "recover"}
-			{#if !recoveryCodeExists}
-				<div class="form-floating">
+			<div class="form-floating">
+				{#if !recoveryCodeExists}
 					<input type="password" class="form-control" placeholder="Password" bind:value={recoverycode} required />
-					<label for="floatingPassword">Codice temporaneo</label>
-				</div>
-			{/if}
+				{:else}
+					<input type="password" class="form-control" placeholder="Password" bind:value={recoverycode} disabled />
+				{/if}
+				<label for="floatingPassword">Codice temporaneo</label>
+			</div>
 
 			<div class="form-floating">
 				<input
