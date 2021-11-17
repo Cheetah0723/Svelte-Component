@@ -91,15 +91,16 @@
 		if (!password) {
 			password = "";
 		}
-		if (!recoverycode) {
-			recoverycode = "";
-			if (location?.href && location.href.split("recoverycode=").length > 1) {
-				recoverycode = location.href.split("recoverycode=")[1].split("&")[0];
-				recoveryCodeExists = true;
-			}
-		} else if (location?.href && location.href.split("recoverycode=").length > 1) {
+		if (location?.href && location.href.split("recoverycode=").length > 1) {
+			recoverycode = location.href.split("recoverycode=")[1].split("&")[0];
 			recoveryCodeExists = true;
+			if (location?.href && location.href.split("recoverytype=").length > 1) {
+				type = location.href.split("recoverytype=")[1].split("&")[0] as unknown as "activate" | "recover" | "forgetpassword";
+			}
+		} else if (!recoverycode) {
+			recoverycode = "";
 		}
+
 		if (!logouri) {
 			logouri = "";
 		}
