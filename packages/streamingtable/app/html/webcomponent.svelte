@@ -411,8 +411,8 @@
 		});
 		console.log(sortedBy, sortedDirection);
 	}
-	function dialogShowConfirm(detail) {
-		dispatch("showConfirmModal", detail);
+	function dialogShowConfirm(detail, action: string) {
+		dispatch("showConfirmModal", Object.assign({ action }, detail));
 
 		if (!detail.show)
 			modalConfirm = {
@@ -421,8 +421,8 @@
 				action: null,
 			};
 	}
-	function modalConfirmation(detail, action) {
-		dispatch("confirmActionModal", detail);
+	function modalConfirmation(detail, action: string) {
+		dispatch("confirmActionModal", Object.assign({ action }, detail));
 	}
 </script>
 
@@ -433,7 +433,7 @@
 	id={modalConfirm.itemId || "confirmationModal"}
 	show={modalConfirm.show}
 	on:modalConfirm={(e) => modalConfirmation(e.detail, modalConfirm.action)}
-	on:modalShow={(d) => dialogShowConfirm(d.detail)}
+	on:modalShow={(d) => dialogShowConfirm(d.detail, modalConfirm.action)}
 />
 <div id="webcomponent">
 	<div class="container-fluid">
