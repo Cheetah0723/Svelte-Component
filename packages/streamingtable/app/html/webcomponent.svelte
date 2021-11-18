@@ -54,6 +54,11 @@
 		show: "yes" | "no";
 		itemId: string;
 		action: string;
+		confirmLabel?: string;
+		title: string;
+		denyLabel?: string;
+		content: string;
+		closeLabel?: string;
 	};
 	$: {
 		if (!modalConfirm) {
@@ -61,6 +66,11 @@
 				show: "no",
 				itemId: null,
 				action: null,
+				confirmLabel: null,
+				denyLabel: null,
+				title: null,
+				content: null,
+				closeLabel: null,
 			};
 		}
 		if (!externalfilter) {
@@ -319,9 +329,17 @@
 			itemId: item._id,
 			action: action.name,
 		});
-		console.log(action.confirm, modalConfirm);
+		console.log("tttttttt", action.confirm, modalConfirm);
 		if (action.confirm) {
-			modalConfirm = { show: "yes", itemId: item._id, action: action.name };
+			modalConfirm = {
+				show: "yes",
+				itemId: item._id,
+				action: action.name,
+				confirmLabel: action.confirm.confirmLabel,
+				title: action.confirm.title,
+				denyLabel: action.confirm.denyLabel,
+				content: action.confirm.content,
+			};
 			// show modal
 		}
 	}
@@ -419,6 +437,11 @@
 				show: "no",
 				itemId: null,
 				action: null,
+				confirmLabel: null,
+				denyLabel: null,
+				title: null,
+				content: null,
+				closeLabel: null,
 			};
 	}
 	function modalConfirmation(detail, action: string) {
@@ -432,6 +455,11 @@
 <bootstrap-dialog-component
 	id={modalConfirm.itemId || "confirmationModal"}
 	show={modalConfirm.show}
+	title={modalConfirm.title}
+	confirmlabel={modalConfirm.confirmLabel || "Conferma"}
+	denylabel={modalConfirm.denyLabel || "Annulla"}
+	content={modalConfirm.content}
+	closelabel={modalConfirm.closeLabel || "Close"}
 	on:modalConfirm={(e) => modalConfirmation(e.detail, modalConfirm.action)}
 	on:modalShow={(d) => dialogShowConfirm(d.detail, modalConfirm.action)}
 />

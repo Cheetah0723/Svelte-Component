@@ -109,6 +109,7 @@ const rowsWithActions = [
         confirm: {
           confirmLabel: "conferma",
           title: "confermi?",
+          content: "contenuto dialog1",
         },
       },
       {
@@ -118,6 +119,7 @@ const rowsWithActions = [
         confirm: {
           confirmLabel: "conferma",
           title: "confermi?",
+          content: "contenuto dialog2",
         },
       },
     ],
@@ -143,6 +145,7 @@ const rowsWithActions = [
         confirm: {
           confirmLabel: "conferma",
           title: "confermi?",
+          content: "content3",
         },
       },
       {
@@ -152,6 +155,7 @@ const rowsWithActions = [
         confirm: {
           confirmLabel: "conferma",
           title: "confermi?",
+          content: "content4",
         },
       },
     ],

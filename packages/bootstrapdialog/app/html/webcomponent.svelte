@@ -24,11 +24,15 @@
 	}
 
 	export let dialogClasses = "";
+	export let title = "";
 	export let backdrop = true;
 	export let ignoreBackdrop = false;
 	export let keyboard = true;
 	export let describedby = "";
 	export let labelledby = "";
+	export let content = "";
+	export let closelabel = "";
+	export let confirmlabel = "";
 	export let onOpened = () => dispatch("modalShow", { id, show: true });
 	export let onClosed = () => dispatch("modalShow", { id, show: false });
 	let _keyboardEvent;
@@ -108,19 +112,20 @@
 		<div class="modal-dialog {dialogClasses}" role="document" in:fly={{ y: -50, duration: 300 }} out:fly={{ y: -50, duration: 300, easing: quintOut }}>
 			<div class="modal-content">
 				<slot name="header" class="modal-header">
-					<h5 class="modal-title"><slot name="title">title</slot></h5>
+					<h5 class="modal-title"><slot name="title">{title || "title"}</slot></h5>
 					<button type="button" class="btn-close" on:click={() => (show = false)}>
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</slot>
-				<div class="modal-body"><slot name="body-content">Woohoo, you're reading this text in a modal!</slot></div>
+				<div class="modal-body"><slot name="body-content">{content || "Woohoo, you're reading this text in a modal!"}</slot></div>
 				<slot name="modal-footer" class="modal-footer">
 					<div>
 						<slot name="footer">
-							<button type="button" class="btn btn-secondary" on:click={() => handleCancel()}><slot name="close-button-label">Close</slot></button
+							<button type="button" class="btn btn-secondary" on:click={() => handleCancel()}
+								><slot name="close-button-label">{closelabel || "Close"}</slot></button
 							>
 							<button type="button" class="btn btn-primary" on:click={() => handleConfirm()}
-								><slot name="confirm-button-label">Save changes</slot></button
+								><slot name="confirm-button-label">{confirmlabel || "Save changes"}</slot></button
 							>
 						</slot>
 					</div>

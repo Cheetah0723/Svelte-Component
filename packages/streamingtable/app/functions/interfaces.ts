@@ -34,5 +34,6 @@ export interface IActionButton {
 		text?: string;
 		confirmLabel: string;
 		denyLabel?: string;
+		content: string;
 	};
 }
