@@ -13,42 +13,11 @@
 
 	import moment from "moment-with-locales-es6";
 	import { createEventDispatcher } from "svelte";
-	import pkg from "../../package.json";
+	import { get_current_component } from "svelte/internal";
+	import type { IActionButton, IFilter, IRow, ITableHeader } from "@app/functions/interfaces";
+	import pkg from "@app/../package.json";
 
 	// import dispatch from "@app/functions/webcomponent";
-
-	interface IFilter {
-		key: string;
-		value?: string;
-		type?: "datetime" | "string" | "enum";
-		start?: Date;
-		end?: Date;
-	}
-	interface ITableHeader {
-		label: string;
-		key: string;
-		type?: "datetime" | "string" | "enum" | "actions";
-		format?: string;
-		search?: boolean;
-		click?: boolean;
-		select?: string[];
-		nosort?: boolean;
-		sortBy?: "asc" | "desc" | "none";
-	}
-
-	interface IRow {
-		_id: string;
-		_actions?: IActionButton[];
-		[k: string]: string | IActionButton[];
-	}
-
-	interface IActionButton {
-		name: string;
-		type: "icon" | "text";
-		iconOrText: string;
-		btnClass?: string;
-		disabled?: boolean;
-	}
 
 	export let id: string;
 	export let externalfilter: string;
@@ -81,7 +50,17 @@
 	let selectedItems: string[] = [];
 	let sortedBy: string;
 	let sortedDirection: string;
+	let modalConfirm: {
+		show: "yes" | "no";
+		itemId: string;
+	};
 	$: {
+		if (!modalConfirm) {
+			modalConfirm = {
+				show: "no",
+				itemId: null,
+			};
+		}
 		if (!externalfilter) {
 			externalfilter = null;
 		}
@@ -201,7 +180,6 @@
 		// will only get called when the `color` changed.
 		console.log(sortedBy, sortedDirection);
 	}
-	import { get_current_component } from "svelte/internal";
 
 	const component = get_current_component();
 	const svelteDispatch = createEventDispatcher();
@@ -332,12 +310,18 @@
 		});
 	}
 
-	function handleClickOnCustomAction(itemId: string, action: string) {
-		console.log("action", itemId, action);
+	function handleClickOnCustomAction(item: IRow, action: IActionButton) {
+		console.log("action", action, item);
+
 		dispatch("tableCustomActionClick", {
-			itemId,
-			action,
+			itemId: item._id,
+			action: action.name,
 		});
+		console.log(action.confirm, modalConfirm);
+		if (action.confirm) {
+			modalConfirm = { show: "yes", itemId: item._id };
+			// show modal
+		}
 	}
 	function handleClickOnAction(itemId: string, action: string) {
 		console.log("action", itemId, action);
@@ -395,12 +379,19 @@
 		});
 	}
 
-	if (!document.getElementById("paginationbootstrapcomponentjs")) {
-		const script = document.createElement("script");
-		script.id = "paginationbootstrapcomponentjs";
-		script.src = `https://cdn.jsdelivr.net/npm/@htmlbricks/paginationbootstrap-component@${pkg.version}/release/paginationbootstrap.js`;
-		document.head.appendChild(script);
+	function addComponent(componentName: string, scriptJsName: string, componentId: string, localPackageDir?: string) {
+		if (!document.getElementById(componentId)) {
+			const script = document.createElement("script");
+			script.id = componentId;
+			script.src = `https://cdn.jsdelivr.net/npm/@htmlbricks/${componentName}@${pkg.version}/release/${scriptJsName}`;
+			if (localPackageDir && location.href.includes("localhost")) script.src = `http://localhost:6006/${localPackageDir}/dist/${scriptJsName}`;
+
+			document.head.appendChild(script);
+		}
 	}
+	addComponent("paginationbootstrap-component", "paginationbootstrap.js", "paginationbootstrapcomponentjs", "pagination");
+	addComponent("bootstrap-dialog-component", "bootstrapdialogcomponent.js", "bootstrapdialogcomponentscript", "bootstrapdialog");
+
 	function changeSort(key: string) {
 		console.log(sortedBy, sortedDirection);
 		if (!sortedBy || key !== sortedBy) {
@@ -418,11 +409,15 @@
 		});
 		console.log(sortedBy, sortedDirection);
 	}
+	function dialogShowConfirm(detail) {}
 </script>
 
 <svelte:head>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@latest/font/bootstrap-icons.css" />
 </svelte:head>
+<bootstrap-dialog-component id={modalConfirm.itemId || "confirmationModal"} show={modalConfirm.show} on:modalShow={(d) => dialogShowConfirm(d.detail)}
+	>//
+</bootstrap-dialog-component>
 <div id="webcomponent">
 	<div class="container-fluid">
 		{#if tableHeaders && tableHeaders.length}
@@ -594,7 +589,7 @@
 														{#if abutton.disabled}
 															{#if abutton.type === "text"}
 																<button
-																	on:click={() => handleClickOnCustomAction(item._id, abutton.name)}
+																	on:click={() => handleClickOnCustomAction(item, abutton)}
 																	type="button"
 																	class="btn btn-{abutton.btnClass || 'link'}"
 																	style="margin-right:10px"
@@ -602,7 +597,7 @@
 																>
 															{:else if abutton.type === "icon"}
 																<button
-																	on:click={() => handleClickOnCustomAction(item._id, abutton.name)}
+																	on:click={() => handleClickOnCustomAction(item, abutton)}
 																	type="button"
 																	class="btn btn-{abutton.btnClass || 'light'}"
 																	style="margin-right:10px"
@@ -612,14 +607,14 @@
 															{/if}
 														{:else if abutton.type === "text"}
 															<button
-																on:click={() => handleClickOnCustomAction(item._id, abutton.name)}
+																on:click={() => handleClickOnCustomAction(item, abutton)}
 																type="button"
 																class="btn btn-{abutton.btnClass || 'link'}"
 																style="margin-right:10px">{abutton.iconOrText}</button
 															>
 														{:else if abutton.type === "icon"}
 															<button
-																on:click={() => handleClickOnCustomAction(item._id, abutton.name)}
+																on:click={() => handleClickOnCustomAction(item, abutton)}
 																type="button"
 																class="btn btn-{abutton.btnClass || 'light'}"
 																style="margin-right:10px"

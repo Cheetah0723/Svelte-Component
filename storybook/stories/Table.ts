@@ -19,6 +19,7 @@ export interface TableProps {
   enableselect?: boolean;
   pagechange?: (d) => void;
   tableaction?: (d) => void;
+  tableCustomActionClick?: (d) => void;
   cellclick?: (d) => void;
   actiononselected?: (d) => void;
   clickonrow?: (d) => void;
@@ -46,6 +47,7 @@ export const createTable = ({
   tableaction,
   pagechange,
   clickonrow,
+  tableCustomActionClick,
 }: TableProps) => {
   if (!document.getElementById("streamingtablescript")) {
     const script = document.createElement("script");
@@ -72,6 +74,9 @@ export const createTable = ({
     c.addEventListener("tableaction", (i: any) => tableaction(i.detail));
 
     c.addEventListener("cellclick", (i: any) => cellclick(i.detail));
+    c.addEventListener("tableCustomActionClick", (i: any) =>
+      tableCustomActionClick(i.detail)
+    );
 
     c.addEventListener("actiononselected", (i: any) =>
       actiononselected(i.detail)

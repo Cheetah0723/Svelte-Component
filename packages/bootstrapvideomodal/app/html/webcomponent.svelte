@@ -11,15 +11,17 @@
 		svelteDispatch(name, detail);
 		component.dispatchEvent && component.dispatchEvent(new CustomEvent(name, { detail }));
 	}
+	function addComponent(componentName: string, scriptJsName: string, componentId: string, localPackageDir?: string) {
+		if (!document.getElementById(componentId)) {
+			const script = document.createElement("script");
+			script.id = componentId;
+			script.src = `https://cdn.jsdelivr.net/npm/@htmlbricks/${componentName}@${pkg.version}/release/${scriptJsName}`;
+			if (localPackageDir && location.href.includes("localhost")) script.src = `http://localhost:6006/${localPackageDir}/dist/${scriptJsName}`;
 
-	if (!document.getElementById("bootstrapdialogcomponentscript")) {
-		const script = document.createElement("script");
-		script.id = "bootstrapdialogcomponentscript";
-		script.src = `https://cdn.jsdelivr.net/npm/@htmlbricks/bootstrap-dialog-component@${pkg.version}/release/bootstrapdialogcomponent.js`;
-		if (location.href.includes("localhost")) script.src = `http://localhost:6006/bootstrapdialog/dist/bootstrapdialogcomponent.js`;
-
-		document.head.appendChild(script);
+			document.head.appendChild(script);
+		}
 	}
+	addComponent("bootstrap-dialog-component", "bootstrapdialogcomponent.js", "bootstrapdialogcomponentscript", "bootstrapdialog");
 
 	export let item: string;
 	export let uri: string;

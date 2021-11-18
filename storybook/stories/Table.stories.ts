@@ -97,6 +97,93 @@ const rows = [
     status: "active",
   },
 ];
+
+const rowsWithActions = [
+  {
+    title: "bau",
+    _actions: [
+      {
+        name: "activate",
+        type: "icon",
+        iconOrText: "ticket-fill",
+        confirm: {
+          confirmLabel: "conferma",
+          title: "confermi?",
+        },
+      },
+      {
+        name: "activate2",
+        type: "icon",
+        iconOrText: "ticket-fill",
+        confirm: {
+          confirmLabel: "conferma",
+          title: "confermi?",
+        },
+      },
+    ],
+    videoSrc:
+      "https://comapi.be-on.tv/v1/public/records/61043eedb50af916a6429fdc/video",
+    time: "2021-08-06T22:46:30.565Z",
+    _id: "bau",
+    status: "closed",
+  },
+  {
+    title: "bb1",
+    videoSrc:
+      "https://comapi.be-on.tv/v1/public/records/61043eedb50af916a6429fdc/video",
+    time: "2021-08-06T22:46:31.565Z",
+    description: "ffff2",
+    _id: "bb1",
+    status: "closed",
+    _actions: [
+      {
+        name: "activate",
+        type: "icon",
+        iconOrText: "ticket-fill",
+        confirm: {
+          confirmLabel: "conferma",
+          title: "confermi?",
+        },
+      },
+      {
+        name: "activate2",
+        type: "icon",
+        iconOrText: "ticket-fill",
+        confirm: {
+          confirmLabel: "conferma",
+          title: "confermi?",
+        },
+      },
+    ],
+  },
+  {
+    title: "bb2",
+    time: "2021-08-02T22:46:32.565Z",
+    _id: "bb2",
+    status: "active",
+    _actions: [
+      {
+        name: "activate",
+        type: "icon",
+        iconOrText: "ticket-fill",
+        confirm: {
+          confirmLabel: "conferma",
+          title: "confermi?",
+        },
+      },
+      {
+        name: "activate2",
+        type: "icon",
+        iconOrText: "ticket-fill",
+        confirm: {
+          confirmLabel: "conferma",
+          title: "confermi?",
+        },
+      },
+    ],
+  },
+];
+
 const basicHeaders = [
   {
     label: "title",
@@ -119,6 +206,34 @@ const basicHeaders = [
   },
 ];
 
+const basicHeadersWithActions = [
+  {
+    label: "title",
+    key: "title",
+    search: true,
+  },
+  {
+    label: "description",
+    key: "description",
+  },
+  {
+    label: "nested",
+    key: "testnested.nested",
+  },
+  {
+    label: "data",
+    key: "time",
+    type: "datetime",
+    format: "DD MMMM YYYY",
+  },
+
+  {
+    label: "modifiche",
+    key: "mod",
+    type: "actions",
+    nosort: true,
+  },
+];
 const headersWithMoreSearch = [
   {
     label: "title",
@@ -260,6 +375,7 @@ export default {
 
     pagechange: { action: "pagechangeEvent" },
     tableaction: { action: "tableactionEvent" },
+    tableCustomActionClick: { action: "tableCustomActionClickEvent" },
     cellclick: { action: "cellclickEvent" },
     actiononselected: { action: "actiononselectedEvent" },
     clickonrow: { action: "clickonrowEvent" },
@@ -311,6 +427,7 @@ BasicTableWithDate.args = {
   rows,
   id: "BasicTableWithDate",
 };
+
 export const BasicTableWithActions = Template.bind({});
 BasicTableWithActions.args = {
   headers: headersWithAllSearches,
@@ -325,4 +442,11 @@ BasicTableWithActionsAndSelect.args = {
   actions,
   selectactions: selections,
   id: "BasicTableWithActionsAndSelect",
+};
+export const BasicTableWithActionsAndConfirm = Template.bind({});
+BasicTableWithActionsAndConfirm.args = {
+  headers: basicHeadersWithActions,
+  rows: rowsWithActions,
+  actions,
+  id: "BasicTableWithActionsAndConfirm",
 };
