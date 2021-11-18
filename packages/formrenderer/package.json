@@ -2,7 +2,7 @@
 	"name": "@htmlbricks/formrenderer-component",
 	"displayName": "Svelte formrenderer WebComponent",
 	"description": "Svelte formrenderer WebComponent",
-	"version": "0.1.10",
+	"version": "0.1.11",
 	"main": "release/formrenderer.js",
 	"publishConfig": {
 		"access": "public"

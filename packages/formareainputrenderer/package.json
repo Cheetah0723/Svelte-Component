@@ -2,7 +2,7 @@
 	"name": "@htmlbricks/formrenderer-areainput",
 	"displayName": "Svelte-Bootstrap Text Area Input WebComponent",
 	"description": "Svelte-Bootstrap Text Area Input WebComponent",
-	"version": "0.1.10",
+	"version": "0.1.11",
 	"main": "release/formrendererareainput.js",
 	"publishConfig": {
 		"access": "public"
