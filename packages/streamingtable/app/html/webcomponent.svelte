@@ -431,8 +431,7 @@
 	show={modalConfirm.show}
 	on:modalConfirm={(e) => modalConfirmation(e.detail)}
 	on:modalShow={(d) => dialogShowConfirm(d.detail)}
-	>//
-</bootstrap-dialog-component>
+/>
 <div id="webcomponent">
 	<div class="container-fluid">
 		{#if tableHeaders && tableHeaders.length}
