@@ -53,12 +53,14 @@
 	let modalConfirm: {
 		show: "yes" | "no";
 		itemId: string;
+		action: string;
 	};
 	$: {
 		if (!modalConfirm) {
 			modalConfirm = {
 				show: "no",
 				itemId: null,
+				action: null,
 			};
 		}
 		if (!externalfilter) {
@@ -319,7 +321,7 @@
 		});
 		console.log(action.confirm, modalConfirm);
 		if (action.confirm) {
-			modalConfirm = { show: "yes", itemId: item._id };
+			modalConfirm = { show: "yes", itemId: item._id, action: action.name };
 			// show modal
 		}
 	}
@@ -416,9 +418,10 @@
 			modalConfirm = {
 				show: "no",
 				itemId: null,
+				action: null,
 			};
 	}
-	function modalConfirmation(detail) {
+	function modalConfirmation(detail, action) {
 		dispatch("confirmActionModal", detail);
 	}
 </script>
@@ -429,7 +432,7 @@
 <bootstrap-dialog-component
 	id={modalConfirm.itemId || "confirmationModal"}
 	show={modalConfirm.show}
-	on:modalConfirm={(e) => modalConfirmation(e.detail)}
+	on:modalConfirm={(e) => modalConfirmation(e.detail, modalConfirm.action)}
 	on:modalShow={(d) => dialogShowConfirm(d.detail)}
 />
 <div id="webcomponent">
