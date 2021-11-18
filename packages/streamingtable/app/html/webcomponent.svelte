@@ -409,13 +409,28 @@
 		});
 		console.log(sortedBy, sortedDirection);
 	}
-	function dialogShowConfirm(detail) {}
+	function dialogShowConfirm(detail) {
+		dispatch("showConfirmModal", detail);
+
+		if (!detail.show)
+			modalConfirm = {
+				show: "no",
+				itemId: null,
+			};
+	}
+	function modalConfirmation(detail) {
+		dispatch("confirmActionModal", detail);
+	}
 </script>
 
 <svelte:head>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@latest/font/bootstrap-icons.css" />
 </svelte:head>
-<bootstrap-dialog-component id={modalConfirm.itemId || "confirmationModal"} show={modalConfirm.show} on:modalShow={(d) => dialogShowConfirm(d.detail)}
+<bootstrap-dialog-component
+	id={modalConfirm.itemId || "confirmationModal"}
+	show={modalConfirm.show}
+	on:modalConfirm={(e) => modalConfirmation(e.detail)}
+	on:modalShow={(d) => dialogShowConfirm(d.detail)}
 	>//
 </bootstrap-dialog-component>
 <div id="webcomponent">

@@ -379,6 +379,8 @@ export default {
     cellclick: { action: "cellclickEvent" },
     actiononselected: { action: "actiononselectedEvent" },
     clickonrow: { action: "clickonrowEvent" },
+    confirmActionModal: { action: "confirmActionModalEvent" },
+    showConfirmModal: { action: "showConfirmModal" },
     id: { control: { disable: true } },
   },
 } as Meta;

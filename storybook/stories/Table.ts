@@ -17,6 +17,8 @@ export interface TableProps {
   primarycolor?: string;
   selectactions?: boolean;
   enableselect?: boolean;
+  showConfirmModal?: (d) => void;
+  confirmActionModal?: (d) => void;
   pagechange?: (d) => void;
   tableaction?: (d) => void;
   tableCustomActionClick?: (d) => void;
@@ -47,6 +49,8 @@ export const createTable = ({
   tableaction,
   pagechange,
   clickonrow,
+  showConfirmModal,
+  confirmActionModal,
   tableCustomActionClick,
 }: TableProps) => {
   if (!document.getElementById("streamingtablescript")) {
@@ -80,6 +84,13 @@ export const createTable = ({
 
     c.addEventListener("actiononselected", (i: any) =>
       actiononselected(i.detail)
+    );
+    c.addEventListener("confirmActionModal", (i: any) =>
+      confirmActionModal(i.detail)
+    );
+
+    c.addEventListener("showConfirmModal", (i: any) =>
+      showConfirmModal(i.detail)
     );
   }
 
