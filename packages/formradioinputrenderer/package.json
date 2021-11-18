@@ -2,7 +2,7 @@
 	"name": "@htmlbricks/formrenderer-radioinput",
 	"displayName": "Svelte-Bootstrap Radio Input WebComponent",
 	"description": "Svelte-Bootstrap Radio Input WebComponent",
-	"version": "0.1.11",
+	"version": "0.1.12",
 	"main": "release/formrendererradioinput.js",
 	"publishConfig": {
 		"access": "public"

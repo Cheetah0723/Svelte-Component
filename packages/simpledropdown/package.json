@@ -2,7 +2,7 @@
 	"name": "@htmlbricks/simpledropdown-component",
 	"displayName": "Svelte Navbar WebComponent",
 	"description": "Svelte Navbar WebComponent",
-	"version": "0.1.11",
+	"version": "0.1.12",
 	"main": "release/simpledropdown.js",
 	"publishConfig": {
 		"access": "public"
