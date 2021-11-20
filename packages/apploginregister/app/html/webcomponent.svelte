@@ -259,6 +259,9 @@
 		on:register={(l) => {
 			dispatch("register", l.detail);
 		}}
+		on:recoverOrActivate={(l) => {
+			dispatch("recoverOrActivate", l.detail);
+		}}
 		slot="page"
 	/>
 </bootstraplayout-component>
