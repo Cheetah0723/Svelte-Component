@@ -2,7 +2,7 @@
 	"name": "@htmlbricks/formrenderer-emailinput",
 	"displayName": "Svelte-Bootstrap Text Input WebComponent",
 	"description": "Svelte-Bootstrap Text Input WebComponent",
-	"version": "0.1.19",
+	"version": "0.1.20",
 	"main": "release/formrendereremailinput.js",
 	"publishConfig": {
 		"access": "public"
