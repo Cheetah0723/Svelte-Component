@@ -117,7 +117,9 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</slot>
-				<div class="modal-body"><slot name="body-content">{content || "Woohoo, you're reading this text in a modal!"}</slot></div>
+				<div class="modal-body" style="word-break: break-all;">
+					<slot name="body-content">{content || "Woohoo, you're reading this text in a modal!"}</slot>
+				</div>
 				<slot name="modal-footer" class="modal-footer">
 					<div>
 						<slot name="footer">

@@ -374,13 +374,8 @@
 	function recoverOrActivate() {
 		checkValidity = true;
 
-		if (password && recoverycode) {
-			// TODO: is useful to use fetch here and on register or login!?
-			console.log("unsupported yet");
-		} else if (type === "activate" && activateuri) {
-			console.log("unsupported yet");
-		} else if (recoverycode && checkValidityFn("email") && checkValidityFn("password") && checkValidityFn("passwordRepeated")) {
-			dispatch("recoverOrActivate", { password, recoverycode });
+		if (recoverycode && checkValidityFn("email") && checkValidityFn("password") && checkValidityFn("passwordRepeated")) {
+			dispatch("recoverOrActivate", { password, recoverycode, email });
 		} else {
 			console.error("wrong params", recoverycode, password, passwordRepeated);
 		}
