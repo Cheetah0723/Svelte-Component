@@ -8,6 +8,8 @@
 // scss-docs-start import-stack
 // Configuration
 @import "../../../../bootstrap/functions";
+@import "../../../../bootstrap-override/bootstrap";
+
 @import "../../../../bootstrap/variables";
 @import "../../../../bootstrap/mixins";
 
