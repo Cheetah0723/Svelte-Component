@@ -2,7 +2,7 @@
 	"name": "@htmlbricks/pagebanner-component",
 	"displayName": "Svelte Boostrap Login and Register WebComponent",
 	"description": "Svelte Boostrap Login and Register WebComponent",
-	"version": "0.1.16",
+	"version": "0.1.17",
 	"main": "release/pagebanner.js",
 	"publishConfig": {
 		"access": "public"
