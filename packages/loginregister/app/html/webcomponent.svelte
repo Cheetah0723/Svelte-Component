@@ -48,7 +48,7 @@
 	let email: string;
 	let checkValidity: boolean;
 	let rememberMe: boolean;
-
+	let passwordRepeated: string;
 	let password: string;
 	let getWord;
 	let localDictionary = dictionary["en"];
@@ -90,6 +90,9 @@
 		}
 		if (!password) {
 			password = "";
+		}
+		if (!passwordRepeated) {
+			passwordRepeated = "";
 		}
 		if (location?.href && location.href.split("recoverycode=").length > 1) {
 			recoverycode = location.href.split("recoverycode=")[1].split("&")[0];
@@ -181,10 +184,12 @@
 	// }
 	// console.log(getCookie(cookierequestkeys));
 
-	function checkValidityFn(type: "password" | "email") {
+	function checkValidityFn(type: "password" | "email" | "passwordRepeated") {
 		checkValidity = true;
 		if (type === "email") {
 			if (email.length && email.length > 3 && email.split("@").length === 2 && email.split(".")[email.split(".").length - 1]?.length > 1) return true;
+		} else if (type === "passwordRepeated") {
+			if (password.length && password.length > 3 && passwordRepeated === password) return true;
 		} else if (type === "password") {
 			if (password.length && password.length > 3) return true;
 		}
@@ -364,13 +369,17 @@
 	}
 	//test@tt.com
 	function recoverOrActivate() {
+		checkValidity = true;
+
 		if (password && recoverycode) {
 			// TODO: is useful to use fetch here and on register or login!?
 			console.log("unsupported yet");
 		} else if (type === "activate" && activateuri) {
 			console.log("unsupported yet");
-		} else {
+		} else if (recoverycode && checkValidityFn("password") && checkValidityFn("passwordRepeated")) {
 			dispatch("recoverOrActivate", { password, recoverycode });
+		} else {
+			console.error("wrong params", recoverycode, password, passwordRepeated);
 		}
 	}
 </script>
@@ -455,6 +464,17 @@
 					pattern={passwordpattern ? passwordpattern : ""}
 				/>
 				<label for="floatingPassword">Nuova Password</label>
+			</div>
+			<div class="form-floating">
+				<input
+					type="password"
+					class="form-control {checkValidity ? (checkValidityFn('passwordRepeated') ? 'is-valid' : 'is-invalid') : ''}"
+					placeholder="Ripteti Password"
+					bind:value={passwordRepeated}
+					required
+					pattern={passwordpattern ? passwordpattern : ""}
+				/>
+				<label for="floatingPassword2">Ripeti Password</label>
 			</div>
 		{/if}
 
