@@ -100,6 +100,9 @@
 			if (location?.href && location.href.split("recoverytype=").length > 1) {
 				type = location.href.split("recoverytype=")[1].split("&")[0] as unknown as "activate" | "recover" | "forgetpassword";
 			}
+			if (location?.href && location.href.split("recoveryemail=").length > 1) {
+				email = location.href.split("recoveryemail=")[1].split("&")[0];
+			}
 		} else if (!recoverycode) {
 			recoverycode = "";
 		}
@@ -376,7 +379,7 @@
 			console.log("unsupported yet");
 		} else if (type === "activate" && activateuri) {
 			console.log("unsupported yet");
-		} else if (recoverycode && checkValidityFn("password") && checkValidityFn("passwordRepeated")) {
+		} else if (recoverycode && checkValidityFn("email") && checkValidityFn("password") && checkValidityFn("passwordRepeated")) {
 			dispatch("recoverOrActivate", { password, recoverycode });
 		} else {
 			console.error("wrong params", recoverycode, password, passwordRepeated);
@@ -447,13 +450,33 @@
 		{:else if type === "activate" || type === "recover"}
 			<div class="form-floating">
 				{#if !recoveryCodeExists}
-					<input type="password" class="form-control" placeholder="Password" bind:value={recoverycode} required />
+					<input type="text" class="form-control" placeholder="Codice temporaneo" bind:value={recoverycode} required />
 				{:else}
-					<input type="password" class="form-control" placeholder="Password" bind:value={recoverycode} disabled />
+					<input type="text" class="form-control" placeholder="Codice temporaneo" bind:value={recoverycode} disabled />
 				{/if}
-				<label for="floatingPassword">Codice temporaneo</label>
+				<label for="floatingCode">Codice temporaneo</label>
 			</div>
+			<div class="form-floating">
+				{#if !recoveryCodeExists || !email}
+					<input
+						type="text"
+						class="form-control {checkValidity ? (checkValidityFn('email') ? 'is-valid' : 'is-invalid') : ''}"
+						bind:value={email}
+						placeholder="name@example.com"
+						required
+					/>
+				{:else}
+					<input
+						type="text"
+						class="form-control {checkValidity ? (checkValidityFn('email') ? 'is-valid' : 'is-invalid') : ''}"
+						bind:value={email}
+						placeholder="name@example.com"
+						disabled
+					/>
+				{/if}
 
+				<label for="floatingEmail">Email</label>
+			</div>
 			<div class="form-floating">
 				<input
 					type="password"
