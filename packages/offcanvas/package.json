@@ -2,7 +2,7 @@
 	"name": "@htmlbricks/offcanvas-component",
 	"displayName": "Svelte Boostrap Offcanvas",
 	"description": "Svelte Boostrap Offcanvas",
-	"version": "0.1.20",
+	"version": "0.1.21",
 	"main": "release/offcanvas.js",
 	"publishConfig": {
 		"access": "public"
@@ -67,5 +67,5 @@
 		"html5-webcomponents"
 	],
 	"contributors": [],
-	"gitHead": "ce74abfed66683f1531fcfe60962413bf17c5eea"
+	"gitHead": "6631abf5dc5aa693a6c39b213d761b89a0c9839a"
 }
