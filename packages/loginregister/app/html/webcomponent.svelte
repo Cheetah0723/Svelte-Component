@@ -380,13 +380,27 @@
 			console.error("wrong params", recoverycode, password, passwordRepeated);
 		}
 	}
+	function keyupkboard(k) {
+		if (k.keyCode === 13) {
+			switch (type) {
+				case "login":
+					return login();
+				case "activate":
+				case "forgetpassword":
+				case "recover":
+					return recoverOrActivate();
+				case "register":
+					return register();
+			}
+		}
+	}
 </script>
 
 <svelte:head>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@latest/font/bootstrap-icons.css" />
 </svelte:head>
 <div id="webcomponent" class="text-center">
-	<main class="form-signin">
+	<main class="form-signin" on:keyup={(k) => keyupkboard(k)}>
 		<slot name="header">
 			{#if logouri}
 				<div class="mb-4 text-center">
