@@ -13,14 +13,33 @@
 
 	import { get_current_component } from "svelte/internal";
 	import { createEventDispatcher } from "svelte";
+	import { dictionary } from "../functions/i18n";
 
 	export let id: string;
 	export let allowdecline: "yes" | "no";
+	export let language: string;
+	let localDictionary = dictionary["en"];
+	let getWord: (e: string) => string;
+
 	let isSet: boolean;
 	$: {
 		if (!id) id = "";
 		isSet = localStorage.getItem(localStorageItem) ? true : false;
 		if (allowdecline !== "yes") allowdecline = "no";
+		if (!language || !dictionary[language]) {
+			const autolang = navigator?.languages ? navigator.languages[0]?.split("-")[0]?.toLowerCase() : null;
+			if (autolang && dictionary[autolang]) {
+				language = autolang;
+			} else {
+				language = "en";
+			}
+			localDictionary = dictionary[language];
+		} else {
+			localDictionary = dictionary[language];
+		}
+		getWord = (w) => {
+			return localDictionary[w] || dictionary["en"][w] || "";
+		};
 	}
 	const component = get_current_component();
 	const svelteDispatch = createEventDispatcher();
@@ -38,11 +57,12 @@
 </script>
 
 <div class="alert text-center cookiealert {isSet ? '' : 'show'}" role="alert">
-	<b>Do you like cookies?</b> &#x1F36A; We use cookies to ensure you get the best experience on our website.
-	<a href="https://cookiesandyou.com/" target="_blank">Learn more</a>
-
-	<button type="button" on:click={() => dispatchChoose(true)}> I agree </button>
-	{#if allowdecline === "yes"}<button type="button" on:click={() => dispatchChoose(false)}> I decline </button>{/if}
+	<slot name="text"
+		><b>Do you like cookies?</b> &#x1F36A; We use cookies to ensure you get the best experience on our website.
+		<a href="https://cookiesandyou.com/" target="_blank">{getWord("learnmore")}</a>
+	</slot>
+	<button type="button" on:click={() => dispatchChoose(true)}>{getWord("accept")}</button>
+	{#if allowdecline === "yes"}<button type="button" on:click={() => dispatchChoose(false)}>{getWord("decline")}</button>{/if}
 </div>
 
 <style lang="scss">

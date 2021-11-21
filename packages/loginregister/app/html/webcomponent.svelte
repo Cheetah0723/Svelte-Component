@@ -50,7 +50,7 @@
 	let rememberMe: boolean;
 	let passwordRepeated: string;
 	let password: string;
-	let getWord;
+	let getWord: (e: string) => string;
 	let localDictionary = dictionary["en"];
 	let recoveryCodeExists = false;
 	$: {
