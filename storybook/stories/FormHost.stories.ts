@@ -7,6 +7,7 @@ export default {
   argTypes: {
     id: { control: { disable: true } },
     schema: { control: { type: "object" } },
+    submit: { action: "submitEvent" },
   },
 } as Meta;
 
@@ -57,8 +58,23 @@ const schema1: FormSchema = [
     validationTip: "This field cannot be empty.",
   },
 ];
+
+const preferences = [
+  {
+    type: "text",
+    placeholder: "Inserisci titolo di default",
+    id: "defaultTitle",
+    label: "Titolo di default",
+    value: "titolotest",
+  },
+];
 export const FormHostTemplate = Template.bind({});
 FormHostTemplate.args = {
   id: "BasicFormHost",
   schema: schema1,
+};
+export const FormHostTemplateCompiled = Template.bind({});
+FormHostTemplateCompiled.args = {
+  id: "FormHostTemplateCompiled",
+  schema: preferences,
 };

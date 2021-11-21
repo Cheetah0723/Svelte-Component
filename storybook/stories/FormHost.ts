@@ -3,9 +3,10 @@ import type { FormSchema } from "../../packages/formrenderer/app/types/webcompon
 export interface FormHostProps {
   id: string;
   schema: FormSchema;
+  submit?: (p) => void;
 }
 
-export const createFormHost = ({ id, schema }: FormHostProps) => {
+export const createFormHost = ({ id, schema, submit }: FormHostProps) => {
   if (!document.getElementById("formrendererhostscript")) {
     const script = document.createElement("script");
     script.id = "formrendererhostscript";
@@ -19,6 +20,7 @@ export const createFormHost = ({ id, schema }: FormHostProps) => {
   } else {
     c = document.createElement("formrenderer-host");
     c.id = id;
+    c.addEventListener("submit", (p: any) => submit(p.detail));
   }
 
   if (schema) {

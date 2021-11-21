@@ -76,6 +76,11 @@
 			schema = null;
 		} else if (typeof schema === "string") {
 			schema = JSON.parse(schema as unknown as string);
+			for (const s of schema) {
+				if (s.type !== "row") {
+					values[s.id] = s.value;
+				}
+			}
 		}
 		dependencyMap = schema
 			? groupMultipleBy(
