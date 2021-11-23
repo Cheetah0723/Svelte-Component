@@ -13,17 +13,30 @@
 
 	import { get_current_component } from "svelte/internal";
 	import { createEventDispatcher } from "svelte";
-	import { dictionary } from "../functions/i18n";
+	import { dictionary } from "@app/functions/i18n";
+
+	import type { ICapabilities } from "@app/functions/interfaces";
 
 	export let id: string;
 	export let allowdecline: "yes" | "no";
 	export let language: string;
+	export let capabilities: ICapabilities;
+	export let cookielawuri4more: string;
 	let localDictionary = dictionary["en"];
 	let getWord: (e: string) => string;
 
 	let isSet: boolean;
 	$: {
 		if (!id) id = "";
+		if (!cookielawuri4more) cookielawuri4more = "";
+		if (!capabilities) {
+			capabilities = null;
+		} else {
+			try {
+				capabilities = JSON.parse(capabilities as unknown as string);
+			} catch (err) {}
+		}
+
 		isSet = localStorage.getItem(localStorageItem) ? true : false;
 		if (allowdecline !== "yes") allowdecline = "no";
 		if (!language || !dictionary[language]) {
@@ -56,13 +69,26 @@
 	}
 </script>
 
-<div class="alert text-center cookiealert {isSet ? '' : 'show'}" role="alert">
-	<slot name="text"
-		><b>Do you like cookies?</b> &#x1F36A; We use cookies to ensure you get the best experience on our website.
-		<a href="https://cookiesandyou.com/" target="_blank">{getWord("learnmore")}</a>
-	</slot>
-	<button type="button" on:click={() => dispatchChoose(true)}>{getWord("accept")}</button>
-	{#if allowdecline === "yes"}<button type="button" on:click={() => dispatchChoose(false)}>{getWord("decline")}</button>{/if}
+<div id="cookiealert" class="alert text-center {isSet ? '' : 'show'}" role="alert">
+	<div id="cookielaw_container">
+		<div id="cookielaw_title">
+			<h3>
+				<slot name="title">
+					{getWord("cookieLawTitle")}
+				</slot>
+			</h3>
+			<slot name="text">
+				{getWord("basicCookieLaw")}
+			</slot>
+		</div>
+		<div id="cookielaw_buttons">
+			{#if cookielawuri4more !== "no"}
+				<a href={cookielawuri4more || "https://wikipedia.org/wiki/HTTP_cookie"} target="_blank">{getWord("learnmore")}</a>
+			{/if}
+			{#if allowdecline === "yes"}<button type="button" on:click={() => dispatchChoose(false)}>{getWord("decline")}</button>{/if}
+			<button type="button" on:click={() => dispatchChoose(true)}>{getWord("accept")}</button>
+		</div>
+	</div>
 </div>
 
 <style lang="scss">
