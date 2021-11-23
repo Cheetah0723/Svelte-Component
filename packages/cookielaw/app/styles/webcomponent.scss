@@ -36,11 +36,6 @@
 	transition-delay: 1000ms;
 }
 
-#cookiealert a {
-	text-decoration: underline;
-	color: white;
-}
-
 #cookiealert .acceptcookies {
 	margin-left: 10px;
 	vertical-align: baseline;
@@ -48,8 +43,8 @@
 #cookielaw_container {
 	margin: 5px 10px 5px 10px;
 }
-#cookielaw_title {
-	height: 90px;
+#cookielaw_content {
+	min-height: 90px;
 	line-height: 30px;
 	vertical-align: middle;
 }
@@ -57,7 +52,15 @@
 	text-align: right;
 	line-height: 30px;
 	vertical-align: middle;
+	padding-right: 3vh;
+	margin-bottom: 10px;
 }
 #cookielaw_buttons button {
 	margin-left: 5px;
+	font-size: 1.2em;
+}
+#cookiealert a {
+	text-decoration: underline;
+	color: white;
+	font-size: 1.2em;
 }

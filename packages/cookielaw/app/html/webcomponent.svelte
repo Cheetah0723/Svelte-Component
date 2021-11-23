@@ -71,7 +71,7 @@
 
 <div id="cookiealert" class="alert text-center {isSet ? '' : 'show'}" role="alert">
 	<div id="cookielaw_container">
-		<div id="cookielaw_title">
+		<div id="cookielaw_content">
 			<h3>
 				<slot name="title">
 					{getWord("cookieLawTitle")}
