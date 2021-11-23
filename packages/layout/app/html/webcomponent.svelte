@@ -108,10 +108,16 @@
 	export let cookielaw: string;
 	export let columns: IColumn[];
 	export let onescreen: "yes";
+	export let cookielawuri4more: string;
+	export let cookielawallowdecline: string;
+	export let cookielawlanguage: string;
 
 	let navopen: boolean;
 	$: {
 		if (!id) id = "";
+		if (!cookielawuri4more) cookielawuri4more = "";
+		if (!cookielawallowdecline) cookielawallowdecline = "";
+		if (!cookielawlanguage) cookielawlanguage = "";
 		if (!pagename) pagename = null;
 		if (!cookielaw) {
 			cookielaw = null;
@@ -204,8 +210,8 @@
 	<div style={onescreen ? "flex: 2" : ""} part="page" id="page">
 		<slot name="page">page</slot>
 	</div>
-	{#if cookielaw}
-		<cookielaw-component />
+	{#if cookielaw || cookielawallowdecline || cookielawlanguage || cookielawuri4more}
+		<cookielaw-component language={cookielawlanguage} allowdecline={cookielawallowdecline} {cookielawuri4more} />
 	{/if}
 	<footerbootstrap-component
 		part="footer"
