@@ -1,1 +1,32 @@
 - rimuovere/gestire eventi su footer e contact
+
+
+# componenti mancanti:
+
+## primitivi
+
+- calendario
+- mappa con + marker
+
+## composti
+- form contattaci
+
+## tecnici
+- privacy policy
+- termini del servizio?
+
+
+## impaginazione
+- pagina blog
+- pagina articolo
+
+
+## grafici
+- lineari
+- istogrammi
+- torta
+- indicatore analogico
+
+## mappe
+- percorso
+- selezione area
