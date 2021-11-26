@@ -1,32 +1,40 @@
 - rimuovere/gestire eventi su footer e contact
 
 
-# componenti mancanti:
+# components to do:
 
-## primitivi
+## primary
 
-- calendario
-- mappa con + marker
+- calendar with clickable notes inside cells
+- map with markers
+- notifications
+- cart dropdown
+- shop item
 
-## composti
-- form contattaci
-
-## tecnici
-- privacy policy
-- termini del servizio?
-
-
-## impaginazione
-- pagina blog
-- pagina articolo
+## complex nested components
+- contact form for SPA sites
+- comment box
+- chat
+- better offcanvas/sidebar
+- video editor (cut)
 
 
-## grafici
-- lineari
-- istogrammi
-- torta
-- indicatore analogico
+## legal
+- privacy policy html page by json config
+
+
+## pages
+- blog web page
+- article web page
+- cart
+
+
+## graph
+- linear graph
+- bar graph
+- circular graph
+- gauges
 
 ## mappe
-- percorso
-- selezione area
+- directions
+- area selection
